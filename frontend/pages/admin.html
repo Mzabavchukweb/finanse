@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administracyjny</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .wp-sidebar {
+            position: fixed; left: 0; top: 0; bottom: 0; width: 220px; background: #f8fafc; border-right: 1px solid #e5e7eb; box-shadow: 2px 0 12px #2563eb11; z-index: 200; display: flex; flex-direction: column; padding-top: 2.5rem; transition: left 0.2s; }
+        .wp-sidebar .menu {
+            display: flex; flex-direction: column; gap: 0.5rem; }
+        .wp-sidebar .menu-btn {
+            display: flex; align-items: center; gap: 0.9rem; padding: 0.9rem 1.5rem; border: none; background: none; font-size: 1.08rem; color: #2563eb; font-weight: 600; border-radius: 0.5rem; cursor: pointer; transition: background 0.2s, color 0.2s; }
+        .wp-sidebar .menu-btn.active, .wp-sidebar .menu-btn:hover {
+            background: #e0e7ef; color: #1d4ed8; }
+        .wp-sidebar .menu-btn svg { width: 1.2em; height: 1.2em; }
+        .wp-sidebar .logout-btn { margin-top: auto; background: #ef4444; color: #fff; }
+        .wp-sidebar .logout-btn:hover { background: #b91c1c; }
+        .wp-topbar { margin-left: 220px; height: 64px; background: #fff; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; box-shadow: 0 2px 8px #2563eb11; position: sticky; top: 0; z-index: 100; }
+        .wp-panel-main { margin-left: 220px; padding: 2.5rem 2rem; min-height: 100vh; background: #f8fafc; }
+        .wp-admin-name { color: #2563eb; font-weight: 600; font-size: 1.08rem; }
+        @media (max-width: 900px) {
+            .wp-sidebar { left: -220px; }
+            .wp-sidebar.open { left: 0; }
+            .wp-topbar, .wp-panel-main { margin-left: 0; }
+        }
+        .wp-section { display: none; }
+        .wp-section.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="wp-sidebar" id="sidebar">
+        <div class="menu">
+            <button class="menu-btn active" data-section="dashboard"> <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Dashboard</button>
+            <button class="menu-btn" data-section="categories"> <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg> Kategorie</button>
+            <button class="menu-btn" data-section="products"> <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-1.9.7c.03-.23.05-.46.05-.7a8.5 8.5 0 1 0-8.5 8.5c.24 0 .47-.02.7-.05a8.38 8.38 0 0 1-.7 1.9A10.5 10.5 0 1 1 21 11.5z"/></svg> Produkty</button>
+            <button class="menu-btn" data-section="users"> <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05C15.64 14.1 17 15.28 17 16.5V19h7v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> Użytkownicy</button>
+            <button class="menu-btn logout-btn" id="logoutBtn"><svg viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3zM20 3h-8c-1.1 0-2 .9-2 2v4h2V5h8v14h-8v-4h-2v4c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg> Wyloguj</button>
+        </div>
+    </div>
+    <div class="wp-topbar">
+        <span class="admin-title" style="font-size:1.35rem;font-weight:700;display:flex;align-items:center;gap:1rem;">
+            <svg style="width:2rem;height:2rem;opacity:0.7;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2563eb22"/><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#2563eb"/></svg>
+            Panel Administracyjny
+        </span>
+        <div style="display:flex;align-items:center;gap:1.2rem;">
+            <span id="adminName" class="wp-admin-name"></span>
+            <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#2563eb 60%,#60a5fa 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem;box-shadow:0 2px 8px #2563eb22;cursor:pointer;" title="Profil admina">
+                <span id="adminAvatar">A</span>
+            </div>
+        </div>
+    </div>
+    <div class="wp-panel-main">
+        <div style="height:2rem"></div>
+        <div class="wp-section active" id="dashboard-section">
+            <h2 style="font-size:2rem;display:flex;align-items:center;gap:0.7rem;"><svg style="width:1.5em;height:1.5em;opacity:0.7;" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Witaj w panelu administracyjnym!</h2>
+            <p style="color:#6b7280;font-size:1.15rem;margin-top:0.5rem;">Zarządzaj produktami, kategoriami i użytkownikami w nowoczesnym, lekkim panelu inspirowanym WordPressem i Shopify.</p>
+        </div>
+        <div class="wp-section" id="categories-section">
+            <div class="section-title" style="font-size:1.3rem;display:flex;align-items:center;gap:0.7rem;"><svg style="width:1.3em;height:1.3em;opacity:0.7;" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg> Kategorie</div>
+            <p style="color:#6b7280;margin-bottom:1.2rem;">Twórz, edytuj i usuwaj kategorie produktów. Kategorie pomagają uporządkować Twój katalog.</p>
+            <form id="categoryForm">
+                <div class="form-group">
+                    <label for="catName">Nazwa kategorii</label>
+                    <input type="text" id="catName" required>
+                </div>
+                <div class="form-group">
+                    <label for="catDesc">Opis (opcjonalnie)</label>
+                    <textarea id="catDesc"></textarea>
+                </div>
+                <button type="submit" id="catSaveBtn">Dodaj kategorię</button>
+                <input type="hidden" id="catId">
+            </form>
+            <table id="categoriesTable">
+                <thead><tr><th>Nazwa</th><th>Opis</th><th>Akcje</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="wp-section" id="products-section">
+            <div class="section-title" style="font-size:1.3rem;display:flex;align-items:center;gap:0.7rem;"><svg style="width:1.3em;height:1.3em;opacity:0.7;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-1.9.7c.03-.23.05-.46.05-.7a8.5 8.5 0 1 0-8.5 8.5c.24 0 .47-.02.7-.05a8.38 8.38 0 0 1-.7 1.9A10.5 10.5 0 1 1 21 11.5z"/></svg> Produkty</div>
+            <p style="color:#6b7280;margin-bottom:1.2rem;">Zarządzaj produktami, edytuj je w locie, filtruj i sortuj jak w Shopify.</p>
+            <input type="text" id="productSearch" placeholder="Szukaj produktu..." style="margin-bottom:1.2rem;width:100%;padding:0.7rem 1rem;border-radius:0.5rem;border:1px solid #e5e7eb;font-size:1rem;">
+            <form id="productForm">
+                <div class="flex-row">
+                    <div style="flex:2;">
+                        <div class="form-group">
+                            <label for="prodName">Nazwa produktu</label>
+                            <input type="text" id="prodName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prodDesc">Opis</label>
+                            <textarea id="prodDesc"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="prodCategory">Kategoria</label>
+                            <select id="prodCategory" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="prodPrice">Cena (PLN)</label>
+                            <input type="number" id="prodPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="prodSku">SKU (unikalny kod)</label>
+                            <input type="text" id="prodSku" required>
+                        </div>
+                    </div>
+                    <div style="flex:1;">
+                        <div class="form-group">
+                            <label for="prodImage">Zdjęcie produktu</label>
+                            <input type="file" id="prodImage" accept="image/*">
+                            <img id="prodImagePreview" class="img-thumb" style="display:none; margin-top:0.5rem;"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Ilość (readonly, z CSV)</label>
+                            <input type="number" id="prodStock" class="readonly" readonly>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" id="prodSaveBtn">Dodaj produkt</button>
+                <input type="hidden" id="prodId">
+            </form>
+            <table id="productsTable">
+                <thead>
+                    <tr>
+                        <th>Zdjęcie</th>
+                        <th>Nazwa</th>
+                        <th>Kategoria</th>
+                        <th>Cena</th>
+                        <th>SKU</th>
+                        <th>Ilość</th>
+                        <th>HSN</th>
+                        <th>HZA</th>
+                        <th>SZC</th>
+                        <th>Badge</th>
+                        <th>Ostatnia aktualizacja</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="wp-section" id="users-section">
+            <div class="section-title" style="font-size:1.3rem;display:flex;align-items:center;gap:0.7rem;"><svg style="width:1.3em;height:1.3em;opacity:0.7;" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05C15.64 14.1 17 15.28 17 16.5V19h7v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> Użytkownicy</div>
+            <p style="color:#6b7280;margin-bottom:1.2rem;">Zarządzaj użytkownikami, zatwierdzaj rejestracje, przeglądaj historię działań.</p>
+            <h3>Oczekujący na zatwierdzenie</h3>
+            <table id="pendingUsersTable">
+                <thead><tr><th>Email</th><th>Imię i nazwisko</th><th>Firma</th><th>Akcje</th></tr></thead>
+                <tbody></tbody>
+            </table>
+            <h3>Aktywni użytkownicy</h3>
+            <table id="activeUsersTable">
+                <thead><tr><th>Email</th><th>Imię i nazwisko</th><th>Firma</th><th>Akcje</th></tr></thead>
+                <tbody></tbody>
+            </table>
+            <div id="userLogsModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#0008;z-index:1000;align-items:center;justify-content:center;">
+                <div style="background:#fff;padding:2rem;border-radius:1rem;max-width:600px;width:90vw;max-height:80vh;overflow:auto;position:relative;">
+                    <button onclick="closeUserLogs()" style="position:absolute;top:1rem;right:1rem;font-size:1.5rem;">&times;</button>
+                    <h3>Historia użytkownika</h3>
+                    <div id="userLogsContent"></div>
+                </div>
+            </div>
+        </div>
+        <div style="height:2rem"></div>
+    </div>
+    <div id="toast" class="toast"></div>
+    <div id="loader" class="loader" style="display:none"></div>
+    <div id="editProductModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#0008;z-index:2000;align-items:center;justify-content:center;">
+        <div style="background:#fff;padding:2.5rem 2rem;border-radius:1.2rem;max-width:600px;width:98vw;position:relative;box-shadow:0 8px 32px #2563eb33;">
+            <button id="closeEditModal" style="position:absolute;top:1rem;right:1rem;font-size:1.5rem;background:none;border:none;cursor:pointer;">&times;</button>
+            <h3 style="margin-bottom:1.2rem;color:#2563eb;">Edytuj produkt</h3>
+            <form id="editProductForm">
+                <input type="hidden" id="editProdId">
+                <div class="form-group">
+                    <label for="editProdName">Nazwa produktu</label>
+                    <input type="text" id="editProdName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProdDesc">Opis</label>
+                    <textarea id="editProdDesc"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editProdCategory">Kategoria</label>
+                    <select id="editProdCategory" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="editProdPrice">Cena (PLN)</label>
+                    <input type="number" id="editProdPrice" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="editProdSku">SKU (nieedytowalny)</label>
+                    <input type="text" id="editProdSku" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="editProdStock">Ilość ogółem</label>
+                    <input type="number" id="editProdStock" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Stany magazynowe</label>
+                    <div style="display:flex;gap:1rem;">
+                        <div><label>HSN</label><input type="number" id="editProdHSN" min="0" style="width:60px;"></div>
+                        <div><label>HZA</label><input type="number" id="editProdHZA" min="0" style="width:60px;"></div>
+                        <div><label>SZC</label><input type="number" id="editProdSZC" min="0" style="width:60px;"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editProdBadge">Badge</label>
+                    <select id="editProdBadge">
+                        <option value="">Brak</option>
+                        <option value="isNew">Nowość</option>
+                        <option value="isSale">Promocja</option>
+                        <option value="isBest">Bestseller</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editProdImage">Zdjęcie produktu</label>
+                    <input type="file" id="editProdImage" accept="image/*">
+                    <img id="editProdImagePreview" class="img-thumb" style="display:none; margin-top:0.5rem;max-width:120px;"/>
+                </div>
+                <div class="form-group">
+                    <label>Ostatnia aktualizacja</label>
+                    <input type="text" id="editProdLastUpdate" readonly>
+                </div>
+                <button type="submit" class="btn-primary" style="width:100%;margin-top:1.2rem;">Zapisz zmiany</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/helpers.js"></script>
+    <script>
+const API = '/api';
+let categories = [];
+let products = [];
+let editingCategory = null;
+let editingProduct = null;
+
+// --- Kategorie ---
+async function loadCategories() {
+    const res = await fetch(`${API}/categories/public`);
+    categories = await res.json();
+    renderCategories();
+    renderCategoryOptions();
+}
+function renderCategories() {
+    const tbody = document.querySelector('#categoriesTable tbody');
+    tbody.innerHTML = categories.map(cat => `
+        <tr>
+            <td>${cat.name}</td>
+            <td>${cat.description||''}</td>
+            <td class="actions">
+                <button onclick="editCategory(${cat.id})">Edytuj</button>
+                <button class="danger" onclick="deleteCategory(${cat.id})">Usuń</button>
+            </td>
+        </tr>
+    `).join('');
+}
+function renderCategoryOptions() {
+    const select = document.getElementById('prodCategory');
+    select.innerHTML = categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+}
+document.getElementById('categoryForm').onsubmit = async e => {
+    e.preventDefault();
+    const id = document.getElementById('catId').value;
+    const name = document.getElementById('catName').value;
+    const description = document.getElementById('catDesc').value;
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `${API}/categories/${id}` : `${API}/categories`;
+    await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json', Authorization: getToken() },
+        body: JSON.stringify({ name, description })
+    });
+    document.getElementById('categoryForm').reset();
+    document.getElementById('catId').value = '';
+    loadCategories();
+};
+window.editCategory = id => {
+    const cat = categories.find(c => c.id === id);
+    document.getElementById('catName').value = cat.name;
+    document.getElementById('catDesc').value = cat.description||'';
+    document.getElementById('catId').value = cat.id;
+    document.getElementById('catSaveBtn').textContent = 'Zapisz zmiany';
+};
+window.deleteCategory = async id => {
+    if (!confirm('Na pewno usunąć kategorię?')) return;
+    await fetch(`${API}/categories/${id}`, { method: 'DELETE', headers: { Authorization: getToken() } });
+    loadCategories();
+};
+
+// --- Produkty ---
+async function loadProducts() {
+    try {
+        const res = await fetch(`${API}/products`, { headers: { Authorization: getToken() } });
+        if (!res.ok) {
+            throw new Error('Failed to fetch products');
+        }
+        products = await res.json();
+        renderProducts();
+    } catch (error) {
+        console.error('Error loading products:', error);
+        showToast('Błąd podczas ładowania produktów', 'error');
+    }
+}
+function renderProducts(list = products) {
+    const tbody = document.querySelector('#productsTable tbody');
+    tbody.innerHTML = list.map(prod => `
+        <tr data-id="${prod.id}">
+            <td>${prod.imageUrl ? `<img src="${prod.imageUrl}" class="img-thumb">` : ''}</td>
+            <td class="editable" data-field="name">${prod.name}</td>
+            <td class="editable" data-field="categoryId">${prod.category ? prod.category.name : ''}</td>
+            <td class="editable" data-field="price">${prod.price ? prod.price.toFixed(2) + ' zł' : '0.00 zł'}</td>
+            <td class="editable" data-field="sku">${prod.sku}</td>
+            <td class="editable" data-field="stock">${prod.stock || 0}</td>
+            <td class="editable" data-field="hsn">${prod.hsn || 0}</td>
+            <td class="editable" data-field="hza">${prod.hza || 0}</td>
+            <td class="editable" data-field="szc">${prod.szc || 0}</td>
+            <td class="editable" data-field="badge">${prod.badge || ''}</td>
+            <td class="editable" data-field="lastUpdate">${prod.lastUpdate || ''}</td>
+            <td class="actions">
+                <button onclick="openEditProductModal(${prod.id})">Edytuj</button>
+                <button class="danger" onclick="deleteProduct(${prod.id})">Usuń</button>
+            </td>
+        </tr>
+    `).join('');
+    tbody.querySelectorAll('.editable').forEach(cell => {
+        cell.onclick = function(e) {
+            if (cell.querySelector('input,select')) return;
+            const tr = cell.closest('tr');
+            const id = tr.getAttribute('data-id');
+            const field = cell.getAttribute('data-field');
+            let value = cell.textContent;
+            let input;
+            if (field === 'categoryId') {
+                input = document.createElement('select');
+                categories.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat.id;
+                    opt.textContent = cat.name;
+                    if (cat.name === value) opt.selected = true;
+                    input.appendChild(opt);
+                });
+            } else if (field === 'price' || field === 'stock' || field === 'hsn' || field === 'hza' || field === 'szc') {
+                input = document.createElement('input');
+                input.type = 'number';
+                input.value = value;
+                input.min = 0;
+                input.step = field === 'price' ? '0.01' : field === 'stock' ? '1' : field === 'hsn' ? '0' : field === 'hza' ? '0' : '0';
+            } else if (field === 'badge') {
+                input = document.createElement('select');
+                const options = ['', 'isNew', 'isSale', 'isBest'];
+                options.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt;
+                    option.textContent = opt ? opt.charAt(0).toUpperCase() + opt.slice(1) : 'Brak';
+                    if (opt === value) option.selected = true;
+                    input.appendChild(option);
+                });
+            } else {
+                input = document.createElement('input');
+                input.type = 'text';
+                input.value = value;
+            }
+            input.style.width = '90%';
+            cell.innerHTML = '';
+            cell.appendChild(input);
+            input.focus();
+            input.onblur = input.onkeydown = async function(ev) {
+                if (ev.type === 'keydown' && ev.key !== 'Enter') return;
+                let newValue = input.value;
+                if (field === 'categoryId') newValue = input.value;
+                await updateProductField(id, field, newValue);
+                loadProducts();
+            };
+        };
+    });
+}
+async function updateProductField(id, field, value) {
+    const prod = products.find(p => p.id == id);
+    if (!prod) return;
+    const payload = { [field]: value };
+    await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: getToken() },
+        body: JSON.stringify({ ...prod, ...payload })
+    });
+    showToast('Zmieniono ' + field, 'success');
+}
+document.getElementById('productForm').onsubmit = async e => {
+    e.preventDefault();
+    const id = document.getElementById('prodId').value;
+    const name = document.getElementById('prodName').value;
+    const description = document.getElementById('prodDesc').value;
+    const categoryId = document.getElementById('prodCategory').value;
+    const price = document.getElementById('prodPrice').value;
+    const sku = document.getElementById('prodSku').value;
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `${API}/products/${id}` : `${API}/products`;
+    const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json', Authorization: getToken() },
+        body: JSON.stringify({ name, description, categoryId, price, sku })
+    });
+    const prod = await res.json();
+    // Upload zdjęcia jeśli wybrano
+    const file = document.getElementById('prodImage').files[0];
+    if (file && prod.id) {
+        const formData = new FormData();
+        formData.append('image', file);
+        await fetch(`${API}/products/${prod.id}/image`, {
+            method: 'POST',
+            headers: { Authorization: getToken() },
+            body: formData
+        });
+    }
+    document.getElementById('productForm').reset();
+    document.getElementById('prodId').value = '';
+    document.getElementById('prodImagePreview').style.display = 'none';
+    // USUŃ CACHE po dodaniu produktu
+    localStorage.removeItem('products_cache');
+    loadProducts();
+};
+window.editProduct = id => {
+    const prod = products.find(p => p.id === id);
+    document.getElementById('prodName').value = prod.name;
+    document.getElementById('prodDesc').value = prod.description||'';
+    document.getElementById('prodCategory').value = prod.categoryId;
+    document.getElementById('prodPrice').value = prod.price;
+    document.getElementById('prodSku').value = prod.sku;
+    document.getElementById('prodStock').value = prod.stock;
+    document.getElementById('prodId').value = prod.id;
+    document.getElementById('prodSaveBtn').textContent = 'Zapisz zmiany';
+    if (prod.imageUrl) {
+        document.getElementById('prodImagePreview').src = prod.imageUrl;
+        document.getElementById('prodImagePreview').style.display = 'block';
+    } else {
+        document.getElementById('prodImagePreview').style.display = 'none';
+    }
+};
+window.deleteProduct = async id => {
+    if (!confirm('Na pewno usunąć produkt?')) return;
+    await fetch(`${API}/products/${id}`, { method: 'DELETE', headers: { Authorization: getToken() } });
+    loadProducts();
+};
+document.getElementById('prodImage').onchange = function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('prodImagePreview').src = e.target.result;
+            document.getElementById('prodImagePreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+};
+function getToken() {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (token) {
+        console.log('Token używany do API:', token);
+        return 'Bearer ' + token;
+    }
+    return '';
+}
+
+// --- Użytkownicy ---
+async function loadUsers() {
+    try {
+        // Oczekujący
+        const pendingRes = await fetch('/api/users?status=pending_admin_approval', { headers: { Authorization: getToken() } });
+        let pending = await pendingRes.json();
+        if (!Array.isArray(pending)) {
+            showError('Brak uprawnień lub błąd pobierania użytkowników (oczekujący).');
+            pending = [];
+        }
+        renderUsers(pending, 'pendingUsersTable', true);
+        // Aktywni
+        const activeRes = await fetch('/api/users?status=active', { headers: { Authorization: getToken() } });
+        let active = await activeRes.json();
+        if (!Array.isArray(active)) {
+            showError('Brak uprawnień lub błąd pobierania użytkowników (aktywni).');
+            active = [];
+        }
+        renderUsers(active, 'activeUsersTable', false);
+    } catch (e) {
+        showError('Błąd połączenia z API użytkowników.');
+    }
+}
+function renderUsers(users, tableId, isPending) {
+    const tbody = document.getElementById(tableId).querySelector('tbody');
+    tbody.innerHTML = users.map(u => `
+        <tr>
+            <td>${u.email}</td>
+            <td>${u.firstName||''} ${u.lastName||''}</td>
+            <td>${u.companyName||''}</td>
+            <td class="actions">
+                ${isPending ? `<button onclick="approveUser(${u.id})">Akceptuj</button>` : ''}
+                <button class="danger" onclick="deleteUser(${u.id})">Usuń</button>
+                <button onclick="showUserLogs(${u.id})">Historia</button>
+            </td>
+        </tr>
+    `).join('');
+}
+window.approveUser = async id => {
+    try {
+        const response = await fetch(`/api/pending-users/${id}/accept`, { 
+            method: 'PATCH', 
+            headers: { 
+                'Authorization': getToken(),
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Błąd podczas akceptacji użytkownika');
+        }
+        
+        showToast('Użytkownik został zaakceptowany', 'success');
+        await loadUsers();
+    } catch (error) {
+        console.error('Error approving user:', error);
+        showToast(error.message, 'error');
+    }
+};
+window.deleteUser = async id => {
+    if (!confirm('Na pewno usunąć użytkownika?')) return;
+    await fetch(`/api/users/${id}`, { method: 'DELETE', headers: { Authorization: getToken() } });
+    loadUsers();
+};
+window.rejectUser = async id => {
+    await fetch(`/api/pending-users/${id}/reject`, { method: 'PATCH', headers: { Authorization: getToken() } });
+    loadUsers();
+};
+window.showUserLogs = async id => {
+    const res = await fetch(`/api/users/${id}/logs`, { headers: { Authorization: getToken() } });
+    const logs = await res.json();
+    document.getElementById('userLogsContent').innerHTML = logs.length ? `<ul>${logs.map(l => `<li><b>${l.action}</b> (${l.createdAt}): ${l.details||''}</li>`).join('')}</ul>` : '<p>Brak historii.</p>';
+    document.getElementById('userLogsModal').style.display = 'flex';
+};
+window.closeUserLogs = () => {
+    document.getElementById('userLogsModal').style.display = 'none';
+};
+function showError(msg) {
+    let err = document.getElementById('adminError');
+    if (!err) {
+        err = document.createElement('div');
+        err.id = 'adminError';
+        err.className = 'error';
+        document.querySelector('.wp-panel-main').prepend(err);
+    }
+    err.textContent = msg;
+    err.style.display = 'block';
+}
+
+// Loader
+function showLoader(show) {
+    document.getElementById('loader').style.display = show ? 'block' : 'none';
+}
+// Toast
+function showToast(msg, type='info') {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = 'toast ' + type;
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+}
+// Wyloguj
+const logoutBtn = document.getElementById('logoutBtn');
+if (logoutBtn) {
+    logoutBtn.onclick = function() {
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        window.location.href = '/admin-login.html';
+    };
+}
+// Ustaw nazwę admina
+const adminName = document.getElementById('adminName');
+if (adminName) {
+    const token = (localStorage.getItem('token') || sessionStorage.getItem('token') || '').split('.')[1];
+    if (token) {
+        try {
+            const payload = JSON.parse(atob(token));
+            adminName.textContent = payload.email || '';
+        } catch {}
+    }
+}
+
+// JS do przełączania sekcji
+const menuBtns = document.querySelectorAll('.menu-btn');
+menuBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+        menuBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.wp-section').forEach(sec => sec.classList.remove('active'));
+        const section = this.dataset.section;
+        if (section === 'dashboard') document.getElementById('dashboard-section').classList.add('active');
+        if (section === 'categories') document.getElementById('categories-section').classList.add('active');
+        if (section === 'products') document.getElementById('products-section').classList.add('active');
+        if (section === 'users') document.getElementById('users-section').classList.add('active');
+    });
+    // Tooltipy dla ikon menu
+    btn.addEventListener('mouseenter', function() {
+        if (this.title) {
+            const tip = document.createElement('div');
+            tip.className = 'tooltip';
+            tip.textContent = this.title;
+            tip.style.position = 'fixed';
+            tip.style.left = (this.getBoundingClientRect().right + 10) + 'px';
+            tip.style.top = (this.getBoundingClientRect().top + 10) + 'px';
+            tip.style.background = '#2563eb';
+            tip.style.color = '#fff';
+            tip.style.padding = '0.4em 1em';
+            tip.style.borderRadius = '0.5em';
+            tip.style.boxShadow = '0 2px 8px #2563eb33';
+            tip.style.zIndex = 9999;
+            document.body.appendChild(tip);
+            this._tip = tip;
+        }
+    });
+    btn.addEventListener('mouseleave', function() {
+        if (this._tip) { document.body.removeChild(this._tip); this._tip = null; }
+    });
+});
+
+// Debounce dla wyszukiwania produktów
+let searchTimeout;
+document.getElementById('productSearch').oninput = function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        const val = this.value.toLowerCase();
+        renderProducts(products.filter(p => p.name.toLowerCase().includes(val) || p.sku.toLowerCase().includes(val)));
+    }, 200);
+};
+// Avatar admina w topbarze
+const adminAvatar = document.getElementById('adminAvatar');
+if (adminAvatar && adminName && adminName.textContent) {
+    adminAvatar.textContent = adminName.textContent[0].toUpperCase();
+}
+
+// Inicjalizacja
+loadCategories().then(loadProducts).then(loadUsers);
+
+// 2. EDYCJA INLINE W TABELI PRODUKTÓW
+function renderProducts(list = products) {
+    const tbody = document.querySelector('#productsTable tbody');
+    tbody.innerHTML = list.map(prod => `
+        <tr data-id="${prod.id}">
+            <td>${prod.imageUrl ? `<img src="${prod.imageUrl}" class="img-thumb">` : ''}</td>
+            <td class="editable" data-field="name">${prod.name}</td>
+            <td class="editable" data-field="categoryId">${prod.category ? prod.category.name : ''}</td>
+            <td class="editable" data-field="price">${prod.price ? prod.price.toFixed(2) + ' zł' : '0.00 zł'}</td>
+            <td class="editable" data-field="sku">${prod.sku}</td>
+            <td class="editable" data-field="stock">${prod.stock || 0}</td>
+            <td class="editable" data-field="hsn">${prod.hsn || 0}</td>
+            <td class="editable" data-field="hza">${prod.hza || 0}</td>
+            <td class="editable" data-field="szc">${prod.szc || 0}</td>
+            <td class="editable" data-field="badge">${prod.badge || ''}</td>
+            <td class="editable" data-field="lastUpdate">${prod.lastUpdate || ''}</td>
+            <td class="actions">
+                <button onclick="openEditProductModal(${prod.id})">Edytuj</button>
+                <button class="danger" onclick="deleteProduct(${prod.id})">Usuń</button>
+            </td>
+        </tr>
+    `).join('');
+    tbody.querySelectorAll('.editable').forEach(cell => {
+        cell.onclick = function(e) {
+            if (cell.querySelector('input,select')) return;
+            const tr = cell.closest('tr');
+            const id = tr.getAttribute('data-id');
+            const field = cell.getAttribute('data-field');
+            let value = cell.textContent;
+            let input;
+            if (field === 'categoryId') {
+                input = document.createElement('select');
+                categories.forEach(cat => {
+                    const opt = document.createElement('option');
+                    opt.value = cat.id;
+                    opt.textContent = cat.name;
+                    if (cat.name === value) opt.selected = true;
+                    input.appendChild(opt);
+                });
+            } else if (field === 'price' || field === 'stock' || field === 'hsn' || field === 'hza' || field === 'szc') {
+                input = document.createElement('input');
+                input.type = 'number';
+                input.value = value;
+                input.min = 0;
+                input.step = field === 'price' ? '0.01' : field === 'stock' ? '1' : field === 'hsn' ? '0' : field === 'hza' ? '0' : '0';
+            } else if (field === 'badge') {
+                input = document.createElement('select');
+                const options = ['', 'isNew', 'isSale', 'isBest'];
+                options.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt;
+                    option.textContent = opt ? opt.charAt(0).toUpperCase() + opt.slice(1) : 'Brak';
+                    if (opt === value) option.selected = true;
+                    input.appendChild(option);
+                });
+            } else {
+                input = document.createElement('input');
+                input.type = 'text';
+                input.value = value;
+            }
+            input.style.width = '90%';
+            cell.innerHTML = '';
+            cell.appendChild(input);
+            input.focus();
+            input.onblur = input.onkeydown = async function(ev) {
+                if (ev.type === 'keydown' && ev.key !== 'Enter') return;
+                let newValue = input.value;
+                if (field === 'categoryId') newValue = input.value;
+                await updateProductField(id, field, newValue);
+                loadProducts();
+            };
+        };
+    });
+}
+async function updateProductField(id, field, value) {
+    const prod = products.find(p => p.id == id);
+    if (!prod) return;
+    const payload = { [field]: value };
+    await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', Authorization: getToken() },
+        body: JSON.stringify({ ...prod, ...payload })
+    });
+    showToast('Zmieniono ' + field, 'success');
+}
+// 3. MODAL EDYCJI – otwieranie i obsługa
+window.openEditProductModal = function(id) {
+    const prod = products.find(p => p.id == id);
+    if (!prod) return;
+    
+    // Fill in all fields
+    document.getElementById('editProdId').value = prod.id;
+    document.getElementById('editProdName').value = prod.name;
+    document.getElementById('editProdDesc').value = prod.description || '';
+    document.getElementById('editProdCategory').innerHTML = categories.map(cat => 
+        `<option value="${cat.id}"${cat.id == prod.categoryId ? ' selected' : ''}>${cat.name}</option>`
+    ).join('');
+    document.getElementById('editProdPrice').value = prod.price || 0;
+    document.getElementById('editProdSku').value = prod.sku;
+    document.getElementById('editProdStock').value = prod.stock || 0;
+    document.getElementById('editProdHSN').value = prod.hsn || 0;
+    document.getElementById('editProdHZA').value = prod.hza || 0;
+    document.getElementById('editProdSZC').value = prod.szc || 0;
+    document.getElementById('editProdBadge').value = prod.badge || '';
+    
+    // Display image if exists
+    if (prod.imageUrl) {
+        document.getElementById('editProdImagePreview').src = prod.imageUrl;
+        document.getElementById('editProdImagePreview').style.display = 'block';
+    } else {
+        document.getElementById('editProdImagePreview').style.display = 'none';
+    }
+    
+    // Show last update time
+    document.getElementById('editProdLastUpdate').value = prod.lastUpdate || new Date().toLocaleString();
+    
+    // Show modal
+    document.getElementById('editProductModal').style.display = 'flex';
+};
+document.getElementById('editProductForm').onsubmit = async function(e) {
+    e.preventDefault();
+    document.getElementById('loader').style.display = 'block'; // Pokaż loader
+    const id = document.getElementById('editProdId').value;
+    const formData = {
+        name: document.getElementById('editProdName').value,
+        description: document.getElementById('editProdDesc').value,
+        categoryId: document.getElementById('editProdCategory').value,
+        price: parseFloat(document.getElementById('editProdPrice').value) || 0,
+        sku: document.getElementById('editProdSku').value,
+        stock: parseInt(document.getElementById('editProdStock').value) || 0,
+        hsn: parseInt(document.getElementById('editProdHSN').value) || 0,
+        hza: parseInt(document.getElementById('editProdHZA').value) || 0,
+        szc: parseInt(document.getElementById('editProdSZC').value) || 0,
+        badge: document.getElementById('editProdBadge').value,
+        lastUpdate: new Date().toLocaleString()
+    };
+    try {
+        const response = await fetch(`${API}/products/${id}`, {
+            method: 'PUT',
+            headers: { 
+                'Content-Type': 'application/json', 
+                'Authorization': getToken() 
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to update product');
+        }
+        
+        // Upload image if selected
+        const file = document.getElementById('editProdImage').files[0];
+        if (file) {
+            const imageFormData = new FormData();
+            imageFormData.append('image', file);
+            await fetch(`${API}/products/${id}/image`, {
+                method: 'POST',
+                headers: { 'Authorization': getToken() },
+                body: imageFormData
+            });
+        }
+        
+        document.getElementById('editProductModal').style.display = 'none';
+        localStorage.removeItem('products_cache');
+        loadProducts();
+        showToast('Produkt zaktualizowany!', 'success');
+    } catch (error) {
+        console.error('Error updating product:', error);
+        showToast('Błąd podczas aktualizacji produktu', 'error');
+    } finally {
+        document.getElementById('loader').style.display = 'none'; // Ukryj loader
+    }
+};
+    </script>
+</body>
+</html> 

@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Sprawdzenie formatowania kodu
+npm run lint
+
+# Sprawdzenie testów
+npm run test
+
+# Sprawdzenie bezpieczeństwa
+npm run security-check 

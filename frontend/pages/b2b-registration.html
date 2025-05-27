@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja B2B - Cartechstore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="csrf-token" content="">
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdNpkErAAAAAPNNR3H_ynCi3PTRNPWtp67j9Svg"></script>
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: var(--white);
+            padding: 1rem 0;
+            box-shadow: var(--shadow-sm);
+        }
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .register-container {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 540px;
+            position: relative;
+        }
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .register-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .register-header p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: var(--background-color);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .form-group .error {
+            color: #DC2626;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .form-group input.error {
+            border-color: #DC2626;
+        }
+        .form-group input.error:focus {
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+        .register-button {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .register-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        .register-button:active {
+            transform: translateY(0);
+        }
+        .register-button i {
+            transition: transform 0.3s ease;
+        }
+        .register-button:hover i {
+            transform: translateX(3px);
+        }
+        .register-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .register-footer p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+        .register-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .register-footer a:hover {
+            color: var(--primary-dark);
+        }
+        .status-message {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+        .status-message.success {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+        .status-message.error {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+        }
+        .breadcrumbs {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            background: var(--background-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            overflow-x: auto;
+        }
+        .breadcrumbs ol {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .breadcrumbs a:hover {
+            color: var(--primary-dark);
+        }
+        .breadcrumbs i {
+            font-size: 1rem;
+        }
+        .breadcrumbs span {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        @media (max-width: 640px) {
+            .register-container { padding: 1.2rem; }
+            .register-header h1 { font-size: 1.3rem; }
+            .breadcrumbs {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="/" class="logo">Cartechstore</a>
+        </div>
+    </header>
+    <main class="main-content">
+        <div class="register-container">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="/" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
+                    <li><span>&gt;</span></li>
+                    <li><span>Rejestracja B2B</span></li>
+                </ol>
+            </nav>
+            <div class="register-header">
+                <h1>Rejestracja B2B</h1>
+                <p>Załóż konto firmowe, aby uzyskać dostęp do cen hurtowych i panelu B2B</p>
+            </div>
+            <div class="status-message success" id="successMessage" style="display: none;"></div>
+            <div class="status-message error" id="errorMessage" style="display: none;"></div>
+            <form id="registrationForm" autocomplete="off" spellcheck="false" onsubmit="return handleRegister(event)">
+                <div class="form-group">
+                    <label for="companyName">Nazwa firmy</label>
+                    <input type="text" id="companyName" name="companyName" required autocomplete="organization" placeholder="Nazwa firmy">
+                    <div class="error" id="companyNameError">Podaj nazwę firmy</div>
+                </div>
+                <div class="form-group">
+                    <label for="nip">NIP</label>
+                    <input type="text" id="nip" name="nip" required pattern="[0-9]{10}" autocomplete="off" placeholder="NIP (10 cyfr)">
+                    <div class="error" id="nipError">NIP musi składać się z 10 cyfr</div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email firmowy</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" placeholder="Email firmowy">
+                    <div class="error" id="emailError">Nieprawidłowy adres email</div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefon</label>
+                    <input type="text" id="phone" name="phone" required autocomplete="tel" placeholder="Telefon">
+                    <div class="error" id="phoneError">Nieprawidłowy numer telefonu</div>
+                </div>
+                <div class="form-group">
+                    <label for="firstName">Imię</label>
+                    <input type="text" id="firstName" name="firstName" required autocomplete="given-name" placeholder="Imię">
+                    <div class="error" id="firstNameError">Podaj imię</div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Nazwisko</label>
+                    <input type="text" id="lastName" name="lastName" required autocomplete="family-name" placeholder="Nazwisko">
+                    <div class="error" id="lastNameError">Podaj nazwisko</div>
+                </div>
+                <div class="form-group">
+                    <label for="street">Ulica</label>
+                    <input type="text" id="street" name="street" required autocomplete="address-line1" placeholder="Ulica">
+                    <div class="error" id="streetError">Podaj ulicę</div>
+                </div>
+                <div class="form-group">
+                    <label for="postalCode">Kod pocztowy</label>
+                    <input type="text" id="postalCode" name="postalCode" required autocomplete="postal-code" placeholder="Kod pocztowy (XX-XXX)">
+                    <div class="error" id="postalCodeError">Nieprawidłowy kod pocztowy</div>
+                </div>
+                <div class="form-group">
+                    <label for="city">Miasto</label>
+                    <input type="text" id="city" name="city" required autocomplete="address-level2" placeholder="Miasto">
+                    <div class="error" id="cityError">Podaj miasto</div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Hasło</label>
+                    <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password" placeholder="Hasło (min. 8 znaków, duża/mała litera, cyfra, znak specjalny)">
+                    <div class="error" id="passwordError">Hasło musi mieć min. 8 znaków, dużą i małą literę, cyfrę oraz znak specjalny.</div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Potwierdź hasło</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8" autocomplete="new-password" placeholder="Potwierdź hasło">
+                    <div class="error" id="confirmPasswordError">Hasła nie są identyczne</div>
+                </div>
+                <button type="submit" class="register-button" id="registerBtn">
+                    Zarejestruj się
+                    <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+            <div class="register-footer">
+                <p>Masz już konto? <a href="/login.html">Zaloguj się</a></p>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Pobierz token CSRF i ustaw w meta tagu
+        fetch('/api/auth/csrf-token', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => {
+                document.querySelector('meta[name="csrf-token"]').setAttribute('content', data.csrfToken);
+            });
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+            const companyName = document.getElementById('companyName').value.trim();
+            const nip = document.getElementById('nip').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const street = document.getElementById('street').value.trim();
+            const postalCode = document.getElementById('postalCode').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            let isValid = true;
+            if (!companyName) { document.getElementById('companyNameError').style.display = 'block'; document.getElementById('companyName').classList.add('error'); isValid = false; }
+            if (!/^[0-9]{10}$/.test(nip)) { document.getElementById('nipError').style.display = 'block'; document.getElementById('nip').classList.add('error'); isValid = false; }
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { document.getElementById('emailError').style.display = 'block'; document.getElementById('email').classList.add('error'); isValid = false; }
+            if (!/^\+?[0-9\s-]{9,}$/.test(phone)) { document.getElementById('phoneError').style.display = 'block'; document.getElementById('phone').classList.add('error'); isValid = false; }
+            if (!firstName) { document.getElementById('firstNameError').style.display = 'block'; document.getElementById('firstName').classList.add('error'); isValid = false; }
+            if (!lastName) { document.getElementById('lastNameError').style.display = 'block'; document.getElementById('lastName').classList.add('error'); isValid = false; }
+            if (!street) { document.getElementById('streetError').style.display = 'block'; document.getElementById('street').classList.add('error'); isValid = false; }
+            if (!/^\d{2}-\d{3}$/.test(postalCode)) { document.getElementById('postalCodeError').style.display = 'block'; document.getElementById('postalCode').classList.add('error'); isValid = false; }
+            if (!city) { document.getElementById('cityError').style.display = 'block'; document.getElementById('city').classList.add('error'); isValid = false; }
+            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) { document.getElementById('passwordError').style.display = 'block'; document.getElementById('password').classList.add('error'); isValid = false; }
+            if (password !== confirmPassword) { document.getElementById('confirmPasswordError').style.display = 'block'; document.getElementById('confirmPassword').classList.add('error'); isValid = false; }
+            if (!isValid) {
+                document.getElementById('errorMessage').textContent = 'Popraw błędy w formularzu.';
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+                return false;
+            }
+            document.getElementById('registerBtn').disabled = true;
+            document.getElementById('registerBtn').innerHTML = 'Rejestracja... <i class="fas fa-spinner fa-spin"></i>';
+            try {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+                // --- reCAPTCHA ---
+                const recaptchaToken = await grecaptcha.execute('6LdNpkErAAAAAPNNR3H_ynCi3PTRNPWtp67j9Svg', {action: 'register'});
+                // ---
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        companyName, nip, email, phone, password, firstName, lastName, companyCountry: 'PL', address: { street, postalCode, city },
+                        recaptchaToken
+                    })
+                });
+                const data = await response.json();
+                document.getElementById('registerBtn').disabled = false;
+                document.getElementById('registerBtn').innerHTML = 'Zarejestruj się <i class="fas fa-arrow-right"></i>';
+                if (data.success) {
+                    document.getElementById('successMessage').textContent = 'Rejestracja przebiegła pomyślnie! Sprawdź email i kliknij w link aktywacyjny.';
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('errorMessage').style.display = 'none';
+                    document.getElementById('registrationForm').reset();
+                    setTimeout(() => { window.location.href = '/login.html?registered=1'; }, 2000);
+                } else {
+                    document.getElementById('errorMessage').textContent = data.message || 'Wystąpił błąd podczas rejestracji';
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.getElementById('successMessage').style.display = 'none';
+                }
+            } catch (error) {
+                document.getElementById('registerBtn').disabled = false;
+                document.getElementById('registerBtn').innerHTML = 'Zarejestruj się <i class="fas fa-arrow-right"></i>';
+                document.getElementById('errorMessage').textContent = 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.';
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('successMessage').style.display = 'none';
+            }
+            return false;
+        }
+    </script>
+</body>
+</html> 

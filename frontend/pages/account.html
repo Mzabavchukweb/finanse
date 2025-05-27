@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel klienta - Cartechstore</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .account-page {
+            padding: 2rem;
+            background: var(--background-color);
+            min-height: 100vh;
+        }
+
+        .account-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        /* Sidebar */
+        .account-sidebar {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .account-info {
+            text-align: center;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .account-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 0 0 4px #2563eb33, 0 0 16px 2px #2563eb55;
+            transition: box-shadow 0.4s;
+        }
+
+        .account-avatar:hover {
+            box-shadow: 0 0 0 8px #2563eb55, 0 0 32px 8px #2563eb99;
+        }
+
+        .account-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .account-company {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .account-email {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .account-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+
+        .menu-item.active {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .menu-item i {
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .account-content {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .content-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .content-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            animation: pulseBtn 2s infinite;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-light);
+            color: var(--white);
+        }
+
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--background-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s;
+            box-shadow: 0 2px 12px 0 rgba(37,99,235,0.07);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 0 8px 32px 0 rgba(37,99,235,0.13);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Recent Orders */
+        .orders-section {
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .orders-table th {
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .orders-table td {
+            color: var(--text-color);
+        }
+
+        .order-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-processing {
+            background: var(--primary-light);
+            color: var(--primary-dark);
+        }
+
+        .status-completed {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .view-order {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .view-order:hover {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 1024px) {
+            .account-container {
+                grid-template-columns: 1fr;
+            }
+
+            .account-sidebar {
+                position: static;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .orders-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        /* Animacje i glassmorphism */
+        .fade-in { animation: fadeIn 0.8s cubic-bezier(.4,0,.2,1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: none; } }
+        .slide-in-left { animation: slideInLeft 0.7s cubic-bezier(.4,0,.2,1); }
+        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-60px);} to { opacity: 1; transform: none; } }
+        .glass {
+            background: rgba(255,255,255,0.7);
+            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18);
+            backdrop-filter: blur(8px);
+            border-radius: 1.2rem;
+        }
+        .action-btn.btn-primary {
+            animation: pulseBtn 2s infinite;
+        }
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 #2563eb44; }
+            70% { box-shadow: 0 0 0 10px #2563eb11; }
+            100% { box-shadow: 0 0 0 0 #2563eb44; }
+        }
+        .orders-table tr { transition: box-shadow 0.3s, transform 0.3s; }
+        .orders-table tr:hover { box-shadow: 0 4px 16px #2563eb22; transform: scale(1.01); }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body>
+    <div class="account-page fade-in">
+        <div class="account-container">
+            <!-- Sidebar -->
+            <div class="account-sidebar glass slide-in-left">
+                <div class="account-info">
+                    <div class="account-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="account-name" id="userFullName">Ładowanie...</div>
+                    <div class="account-company" id="userCompany">Ładowanie...</div>
+                    <div class="account-email" id="userEmail" style="font-size:0.9rem;color:#888;"></div>
+                </div>
+
+                <nav class="account-menu">
+                    <a href="index.html" class="menu-item">
+                        <i class="fas fa-home"></i>
+                        Strona główna
+                    </a>
+                    <a href="catalog.html" class="menu-item">
+                        <i class="fas fa-th-large"></i>
+                        Katalog
+                    </a>
+                    <a href="#" class="menu-item active">
+                        <i class="fas fa-chart-line"></i>
+                        Panel główny
+                    </a>
+                    <a href="#orders" class="menu-item">
+                        <i class="fas fa-shopping-cart"></i>
+                        Zamówienia
+                    </a>
+                    <a href="#" class="menu-item" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Wyloguj się
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="account-content glass fade-in">
+                <div class="content-header">
+                    <h1 class="content-title" id="welcomeTitle">Panel główny</h1>
+                    <div class="content-actions">
+                        <a href="catalog.html" class="action-btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Nowe zamówienie
+                        </a>
+                    </div>
+                </div>
+
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Statystyki użytkownika -->
+                </div>
+
+                <div class="orders-section" id="orders">
+                    <h2 class="section-title">Ostatnie zamówienia</h2>
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Numer zamówienia</th>
+                                <th>Data</th>
+                                <th>Wartość</th>
+                                <th>Status</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <!-- Zamówienia użytkownika lub komunikat o braku -->
+                        </tbody>
+                    </table>
+                    <div id="noOrdersMsg" style="display:none; text-align:center; color:#888; margin-top:1rem;">Nie masz jeszcze żadnych zamówień.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/scripts.js"></script>
+    <script src="js/account.js"></script>
+    <script src="js/helpers.js"></script>
+    <script>
+    // Animowany licznik statystyk
+    function animateCount(el, to) {
+        let start = 0;
+        const duration = 900;
+        const step = Math.ceil(to / 30);
+        function update() {
+            start += step;
+            if (start >= to) { el.textContent = to; return; }
+            el.textContent = start;
+            requestAnimationFrame(update);
+        }
+        update();
+    }
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Pobierz dane użytkownika z localStorage/tokenu
+            const token = localStorage.getItem('token');
+        let user = null;
+        try {
+            const res = await fetch('/api/auth/me', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (res.ok) {
+                user = await res.json();
+                document.getElementById('userFullName').textContent = user.firstName || user.companyName || user.email;
+                document.getElementById('userCompany').textContent = user.companyName || '';
+                document.getElementById('userEmail').textContent = user.email || '';
+                document.getElementById('welcomeTitle').textContent = `Witaj, ${user.firstName || user.companyName || user.email}!`;
+            }
+        } catch (e) {}
+        // Wyloguj się
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '/login.html';
+            });
+        }
+        // Pobierz zamówienia użytkownika
+        let orders = [];
+        try {
+            const res = await fetch('/api/orders/my', {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (res.ok) {
+                orders = await res.json();
+            }
+        } catch (e) {}
+        // Statystyki
+        const statsGrid = document.getElementById('statsGrid');
+        const activeCount = orders.filter(o => o.status === 'processing').length;
+        const completedCount = orders.filter(o => o.status === 'completed').length;
+        statsGrid.innerHTML = `
+            <div class="stat-card">
+                <i class="fas fa-shopping-cart stat-icon"></i>
+                <div class="stat-value" id="activeCount">0</div>
+                <div class="stat-label">Aktywne zamówienia</div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-truck stat-icon"></i>
+                <div class="stat-value" id="completedCount">0</div>
+                <div class="stat-label">Zrealizowane zamówienia</div>
+            </div>
+        `;
+        animateCount(document.getElementById('activeCount'), activeCount);
+        animateCount(document.getElementById('completedCount'), completedCount);
+        // Zamówienia
+        const ordersTableBody = document.getElementById('ordersTableBody');
+        const noOrdersMsg = document.getElementById('noOrdersMsg');
+        if (!orders || orders.length === 0) {
+            noOrdersMsg.style.display = 'block';
+            ordersTableBody.style.display = 'none';
+        } else {
+            noOrdersMsg.style.display = 'none';
+            ordersTableBody.style.display = '';
+            ordersTableBody.innerHTML = orders.slice(0,5).map(order => `
+                <tr>
+                    <td>#${order.number}</td>
+                    <td>${order.date}</td>
+                    <td>${order.value} zł</td>
+                    <td>
+                        <span class="order-status ${order.status === 'completed' ? 'status-completed' : 'status-processing'}">
+                            <i class="fas ${order.status === 'completed' ? 'fa-check' : 'fa-clock'}"></i>
+                            ${order.status === 'completed' ? 'Zrealizowane' : 'W trakcie realizacji'}
+                        </span>
+                    </td>
+                    <td><a href="order.html?id=${order.id}" class="view-order">Zobacz</a></td>
+                </tr>
+            `).join('');
+        }
+        });
+    </script>
+</body>
+</html> 
