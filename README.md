@@ -1,5 +1,44 @@
 # NazwaAplikacji – szybki start
 
+## Jak uruchomić projekt lokalnie
+
+1. Sklonuj repozytorium:
+```bash
+   git clone https://github.com/Mzabavchukweb/b2b-ecom.git
+   cd b2b-ecom
+```
+2. Skopiuj plik konfiguracyjny środowiska:
+```bash
+   cp env.example .env
+```
+3. Zainstaluj zależności w głównym katalogu, backendzie i frontendzie:
+```bash
+   npm install
+   cd backend && npm install
+   cd ../frontend && npm install
+   cd ..
+```
+4. (Opcjonalnie) Uruchom migracje bazy danych w backendzie:
+```bash
+   cd backend
+   npm run db:migrate
+   cd ..
+```
+5. Uruchom backend i frontend (w osobnych terminalach):
+```bash
+   cd backend && npm run dev
+   # w nowym terminalu:
+   cd frontend && npm run dev
+```
+
+## Uwaga
+- Pliki .env, bazy danych (.sqlite), katalogi logs/ i node_modules/ nie są przechowywane w repozytorium – musisz je utworzyć lokalnie.
+- Przykładową konfigurację środowiska znajdziesz w pliku env.example.
+- Jeśli korzystasz z docker-compose, możesz uruchomić całość poleceniem:
+```bash
+   docker-compose up --build
+```
+
 ## Minimalna instalacja
 
 1. Sklonuj repo:
@@ -55,4 +94,4 @@ node -e "const sqlite3 = require('sqlite3').verbose(); const db = new sqlite3.Da
 - Jeśli chcesz jeszcze prostszy panel użytkownika – usuń niepotrzebne sekcje w `account.html`.
 
 ---
-**Zero marketingu. Tylko konkret.** 
+**Zero marketingu. Tylko konkret.**
