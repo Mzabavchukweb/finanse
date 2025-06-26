@@ -30,7 +30,15 @@ module.exports = (sequelize) => {
         },
         totalAmount: {
             type: DataTypes.DECIMAL(10, 2),
-            allowNull: false
+            allowNull: false,
+            validate: {
+                min: 0
+            }
+        },
+        orderNumber: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true
         },
         currency: {
             type: DataTypes.STRING,
@@ -38,7 +46,7 @@ module.exports = (sequelize) => {
             defaultValue: 'PLN'
         },
         status: {
-            type: DataTypes.ENUM('pending', 'processing', 'completed', 'cancelled'),
+            type: DataTypes.ENUM('pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'),
             defaultValue: 'pending',
             allowNull: false
         },
@@ -87,12 +95,112 @@ module.exports = (sequelize) => {
         actualDeliveryDate: {
             type: DataTypes.DATE,
             allowNull: true
+        },
+        formattedCreatedAt: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                const date = this.getDataValue('createdAt');
+                if (!date) return '';
+                return new Date(date).toLocaleDateString('en-GB');
+            }
         }
     }, {
         sequelize,
         modelName: 'Order',
-        timestamps: true
+        timestamps: true,
+        indexes: [
+            // Index for user's orders lookup
+            {
+                fields: ['userId']
+            },
+            // Index for order status filtering
+            {
+                fields: ['status']
+            },
+            // Index for payment status filtering
+            {
+                fields: ['paymentStatus']
+            },
+            // Index for order number lookup
+            {
+                fields: ['orderNumber']
+            },
+            // Index for date-based queries
+            {
+                fields: ['createdAt']
+            },
+            // Composite index for user's orders by status
+            {
+                fields: ['userId', 'status']
+            },
+            // Composite index for admin order management
+            {
+                fields: ['status', 'paymentStatus']
+            },
+            // Composite index for user's recent orders
+            {
+                fields: ['userId', 'createdAt']
+            },
+            // Composite index for payment processing
+            {
+                fields: ['paymentStatus', 'createdAt']
+            },
+            // Index for analytics and reporting
+            {
+                fields: ['totalAmount']
+            },
+            // Composite index for order fulfillment
+            {
+                fields: ['status', 'createdAt']
+            }
+        ],
+        hooks: {
+            beforeCreate: async (order) => {
+                if (!order.orderNumber) {
+                    const timestamp = Date.now().toString().slice(-6);
+                    const random = Math.random().toString(36).substring(2, 5).toUpperCase();
+                    order.orderNumber = `ORD-${timestamp}-${random}`;
+                }
+            }
+        }
     });
+
+    // Instance methods
+    Order.prototype.canTransitionTo = function (newStatus) {
+        const transitions = {
+            'pending': ['confirmed', 'cancelled'],
+            'confirmed': ['processing', 'shipped', 'cancelled'],
+            'processing': ['shipped', 'cancelled'],
+            'shipped': ['delivered'],
+            'delivered': [],
+            'cancelled': []
+        };
+
+        return transitions[this.status]?.includes(newStatus) || false;
+    };
+
+    Order.prototype.updateStatus = async function (newStatus) {
+        if (!this.canTransitionTo(newStatus)) {
+            throw new Error(`Cannot transition from ${this.status} to ${newStatus}`);
+        }
+
+        this.status = newStatus;
+        await this.save();
+        return this;
+    };
+
+    Order.prototype.calculateTotal = async function () {
+        const { OrderItem } = require('./index');
+        const items = await OrderItem.findAll({
+            where: { orderId: this.id }
+        });
+
+        const total = items.reduce((sum, item) => {
+            return sum + (parseFloat(item.price) * item.quantity);
+        }, 0);
+
+        return total;
+    };
 
     return Order;
 };

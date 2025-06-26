@@ -1,3 +1,5 @@
+window.loggedIn = !!localStorage.getItem('authToken');
+
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const emailInput = document.getElementById('email');
@@ -30,29 +32,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+            // Disable form during submission
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logowanie...';
+
             try {
-                // Here you would typically make an API call to your backend
-                // For now, we'll simulate a login check
-                const response = await simulateLogin(emailInput.value, passwordInput.value);
+                // Call real backend API
+                const response = await fetch('http://localhost:3005/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: emailInput.value,
+                        password: passwordInput.value
+                    })
+                });
+
+                const result = await response.json();
                 
-                if (response.success) {
-                    // Store user data in localStorage
-                    localStorage.setItem('user', JSON.stringify(response.user));
-                    localStorage.setItem('isLoggedIn', 'true');
+                if (response.ok && result.success) {
+                    // Store auth token
+                    if (result.token) {
+                        localStorage.setItem('token', result.token);
+                    }
+                    
+                    // Store user data
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                    window.loggedIn = true;
                     
                     // Show success message
                     showSuccess('Logowanie udane! Przekierowywanie...');
                     
                     // Redirect to appropriate page
                     setTimeout(() => {
-                        window.location.href = response.user.isAdmin ? 'admin-panel.html' : 'index.html';
+                        if (result.user.role === 'admin') {
+                            window.location.href = '/pages/admin.html';
+                        } else {
+                            window.location.href = '/pages/account.html';
+                        }
                     }, 1500);
                 } else {
-                    showError(response.message || 'Nieprawidłowy email lub hasło.');
+                    showError(result.message || 'Nieprawidłowy email lub hasło.');
                 }
             } catch (error) {
                 showError('Wystąpił błąd podczas logowania. Spróbuj ponownie później.');
                 console.error('Login error:', error);
+            } finally {
+                // Re-enable form
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
             }
         });
     }
@@ -68,36 +100,5 @@ document.addEventListener('DOMContentLoaded', function() {
         statusMessage.textContent = message;
         statusMessage.className = 'status-message success';
         statusMessage.style.display = 'block';
-    }
-
-    // Simulate login API call
-    async function simulateLogin(email, password) {
-        // This is a mock function - replace with actual API call
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Mock user data - replace with actual user verification
-                const users = {
-                    'admin@example.com': { password: 'admin123', isAdmin: true },
-                    'client@example.com': { password: 'client123', isAdmin: false }
-                };
-
-                const user = users[email];
-                
-                if (user && user.password === password) {
-                    resolve({
-                        success: true,
-                        user: {
-                            email: email,
-                            isAdmin: user.isAdmin
-                        }
-                    });
-                } else {
-                    resolve({
-                        success: false,
-                        message: 'Nieprawidłowy email lub hasło.'
-                    });
-                }
-            }, 1000);
-        });
     }
 }); 

@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Sprawdzanie czy firma już istnieje
     const checkCompanyExists = async (companyName, nip) => {
         try {
-            const response = await fetch('/api/auth/check-company', {
+            const response = await fetch('http://localhost:3005/api/auth/check-company', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                const response = await fetch('/api/auth/register', {
+                const response = await fetch('http://localhost:3005/api/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

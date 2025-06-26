@@ -4,27 +4,715 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zwroty i reklamacje - Cartechstore</title>
-    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/cookies-banner.css">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --primary-gradient: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .top-bar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .top-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .top-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .top-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-action-button {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: background-color 0.2s;
+        }
+
+        .header-action-button:hover {
+            background-color: var(--background-color);
+        }
+
+        /* Navigation */
+        .main-nav {
+            background: var(--white);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        .nav-list a {
+            display: block;
+            padding: 1rem 0;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-list a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .nav-list a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-list a:hover::before {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .breadcrumbs ol {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-dark);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+
+        .content-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .content-section h3 {
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+            font-size: 1.25rem;
+        }
+
+        .content-section p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .content-section ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: var(--white);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--white);
+            color: var(--text-color);
+            padding: 6rem 0 2rem;
+            position: relative;
+            border-top: 5px solid var(--primary-color);
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--primary-light));
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-section a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            font-weight: 500;
+            transform: translateX(5px);
+        }
+
+        .footer-section a:hover::before {
+            width: 100%;
+        }
+
+        .footer-section p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer .newsletter-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            background: var(--white);
+            border-radius: var(--radius);
+            color: var(--text-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer .newsletter-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .footer .newsletter-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            border-radius: var(--radius);
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer .newsletter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        }
+
+        .copyright {
+            max-width: 1280px;
+            margin: 3rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+            }
+            .logo {
+                order: 1;
+                font-size: 1.2rem;
+                margin-bottom: 0.3rem;
+            }
+            .search-bar {
+                order: 2;
+                width: 100%;
+                max-width: none;
+                margin-bottom: 0.2rem;
+            }
+            .header-actions {
+                display: none;
+            }
+            .main-nav {
+                display: none;
+            }
+            .top-bar {
+                display: none !important;
+            }
+            .copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Top Bar & Header & Nav identyczne jak w index.html -->
-    <!-- ... (skopiowane z index.html) ... -->
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 123 456 789</span>
+                <span>📧 kontakt@autopartsb2b.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 16:00</span>
+            </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <button class="header-action-button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
     <main class="main-content">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <ol>
-                <li><a href="/" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
+                <li><a href="index.html" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
                 <li><span>&gt;</span></li>
                 <li><span>Zwroty i reklamacje</span></li>
             </ol>
         </nav>
+        
         <div class="container">
-            <h1>Zwroty i reklamacje</h1>
-            <p>Dowiedz się, jak zwrócić produkt lub złożyć reklamację w Cartechstore.</p>
+            <div class="page-header">
+                <h1><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</h1>
+                <p>Wszystko co musisz wiedzieć o zwrotach i reklamacjach w Cartechstore</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Prawo do zwrotu</h2>
+                <p>Zgodnie z obowiązującymi przepisami prawa, masz prawo do zwrotu zakupionych produktów w terminie <strong>14 dni</strong> od dnia otrzymania przesyłki, bez podania przyczyny.</p>
+                
+                <h3>Warunki zwrotu:</h3>
+                <ul>
+                    <li>Produkt musi być w stanie nienaruszonym</li>
+                    <li>Oryginalne opakowanie i wszystkie akcesoria</li>
+                    <li>Brak śladów użytkowania</li>
+                    <li>Dołączony dowód zakupu</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h3><i class="fas fa-info-circle"></i> Ważne!</h3>
+                    <p>Zwrot części samochodowych jest możliwy tylko w przypadku produktów nieużywanych i w oryginalnym opakowaniu. Części zamontowane w pojeździe nie podlegają zwrotowi.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Procedura zwrotu</h2>
+                <h3>Krok 1: Zgłoszenie zwrotu</h3>
+                <p>Skontaktuj się z naszym działem obsługi klienta:</p>
+                <ul>
+                    <li>📞 Telefon: +48 123 456 789</li>
+                    <li>📧 Email: zwroty@cartechstore.pl</li>
+                    <li>🕒 Godziny pracy: Pon-Pt 8:00-16:00</li>
+                </ul>
+
+                <h3>Krok 2: Przygotowanie przesyłki</h3>
+                <p>Zapakuj produkt w oryginalne opakowanie wraz z:</p>
+                <ul>
+                    <li>Wypełnionym formularzem zwrotu</li>
+                    <li>Kopią faktury lub paragonu</li>
+                    <li>Wszystkimi akcesoriami</li>
+                </ul>
+
+                <h3>Krok 3: Wysyłka</h3>
+                <p>Wyślij paczkę na adres:</p>
+                <p><strong>Cartechstore - Zwroty<br>
+                ul. Stanisława Dubois 12/19<br>
+                71-610 Szczecin</strong></p>
+            </div>
+
+            <div class="content-section">
+                <h2>Reklamacje</h2>
+                <p>Wszystkie sprzedawane przez nas produkty objęte są <strong>gwarancją producenta</strong>. W przypadku wad produktu, możesz złożyć reklamację.</p>
+
+                <h3>Podstawy reklamacji:</h3>
+                <ul>
+                    <li>Wada fabryczna produktu</li>
+                    <li>Niezgodność z opisem</li>
+                    <li>Uszkodzenie podczas transportu</li>
+                    <li>Nieprawidłowe działanie w okresie gwarancji</li>
+                </ul>
+
+                <h3>Terminy rozpatrzenia:</h3>
+                <ul>
+                    <li>Reklamacja zostanie rozpatrzona w ciągu <strong>14 dni roboczych</strong></li>
+                    <li>W skomplikowanych przypadkach - do 30 dni</li>
+                    <li>O wyniku reklamacji poinformujemy telefonicznie lub emailem</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Zwrot kosztów</h2>
+                <p>Zwrot środków następuje w terminie <strong>14 dni</strong> od przyjęcia zwrotu:</p>
+                <ul>
+                    <li>Na ten sam rachunek, z którego dokonano płatności</li>
+                    <li>Koszty wysyłki zwrotnej pokrywa klient (chyba że zwrot wynika z naszej winy)</li>
+                    <li>W przypadku reklamacji - zwracamy pełną kwotę wraz z kosztami dostawy</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <h3><i class="fas fa-shield-alt"></i> Gwarancja jakości</h3>
+                    <p>Dbamy o najwyższą jakość naszych produktów. Jeśli masz jakiekolwiek wątpliwości, skontaktuj się z nami - znajdziemy najlepsze rozwiązanie!</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Kontakt w sprawie zwrotów i reklamacji</h2>
+                <p><strong>Dział Obsługi Klienta</strong></p>
+                <ul>
+                    <li>📞 Telefon: +48 123 456 789</li>
+                    <li>📧 Email: reklamacje@cartechstore.pl</li>
+                    <li>📧 Email zwroty: zwroty@cartechstore.pl</li>
+                    <li>🕒 Godziny pracy: Poniedziałek - Piątek 8:00 - 16:00</li>
+                    <li>📍 Adres: ul. Stanisława Dubois 12/19, 71-610 Szczecin</li>
+                </ul>
+            </div>
         </div>
     </main>
-    <!-- Footer identyczny jak w index.html -->
-    <!-- ... (skopiowane z index.html) ... -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Stanisława Dubois 12/19, 71-610 Szczecin</a></li>
+                    <li><a href="tel:+48123456789"><i class="fas fa-phone-alt"></i> +48 123 456 789</a></li>
+                    <li><a href="mailto:kontakt@autopartsb2b.pl"><i class="fas fa-envelope"></i> kontakt@autopartsb2b.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 16:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 JB AUTOTECH JAKUB BRONOWICKI. Wszelkie prawa zastrzeżone.</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/visibility.js"></script>
+    <script src="/js/cookies-banner.js"></script>
 </body>
 </html> 

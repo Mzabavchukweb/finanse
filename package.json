@@ -7,8 +7,15 @@
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "test": "jest",
+    "test:unit": "jest __tests__/unit",
+    "test:integration": "jest __tests__/integration",
+    "test:security": "jest __tests__/security",
+    "test:performance": "jest __tests__/performance",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

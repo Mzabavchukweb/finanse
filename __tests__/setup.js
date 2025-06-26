@@ -1,10 +1,12 @@
 const db = require('../backend/src/models');
 
+// Ustawienie zmiennych środowiskowych dla testów
+process.env.NODE_ENV = 'test';
+process.env.RESEND_API_KEY = 'test-key';
+process.env.RECAPTCHA_SECRET_KEY = 'test-recaptcha-key';
+
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('Sequelize config:', db.sequelize.options);
-
-// Ensure we're using test environment
-process.env.NODE_ENV = 'test';
 
 // Helper function to wait for database operations
 const waitForDb = (ms = 1000) => new Promise(resolve => setTimeout(resolve, ms));

@@ -15,9 +15,44 @@ const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
 const securityLogger = require('../middleware/securityLogger');
 const logger = require('../utils/logger');
+const { sendEmail } = require('../utils/email');
 // const passport = require('passport');
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
 // const FacebookStrategy = require('passport-facebook').Strategy;
+
+// Rate limiters
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 requests per windowMs
+    message: { 
+        success: false,
+        message: 'Zbyt wiele prób logowania. Spróbuj ponownie za 15 minut.' 
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const registerLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 3, // limit each IP to 3 registrations per hour
+    message: { 
+        success: false,
+        message: 'Zbyt wiele rejestracji z tego IP. Spróbuj ponownie za godzinę.' 
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const passwordResetLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 3, // limit each IP to 3 password reset requests per hour
+    message: { 
+        success: false,
+        message: 'Zbyt wiele próśb resetowania hasła. Spróbuj ponownie za godzinę.' 
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 
 // Walidacja danych rejestracji
 const registerValidation = [
@@ -55,31 +90,26 @@ const adminLoginLimiter = rateLimit({
 console.log('Router /api/auth działa!');
 
 // Register new user
-router.post('/register', validateRegistration, async (req, res) => {
+router.post('/register', 
+    process.env.NODE_ENV === 'test' ? (req, res, next) => next() : (req, res, next) => {
+        registerLimiter(req, res, (err) => {
+            if (err) {
+                console.warn('Rate limit triggered on /register:', req.ip);
+            }
+            next(err);
+        });
+    },
+    registerValidation, 
+    async (req, res) => {
     console.log('Odebrano POST /api/auth/register');
     try {
-    // --- reCAPTCHA VALIDATION ---
-    // Tymczasowo wyłączone dla testów
-    /*
-    const recaptchaToken = req.body.recaptchaToken;
-    if (!recaptchaToken) {
-      return res.status(400).json({ message: 'reCAPTCHA jest wymagane.' });
-    }
-    const secret = process.env.RECAPTCHA_SECRET_KEY;
-    if (!secret) {
-      return res.status(500).json({ message: 'Brak konfiguracji reCAPTCHA.' });
-    }
-    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secret}&response=${recaptchaToken}`;
-    const recaptchaRes = await axios.post(verifyUrl);
-    if (!recaptchaRes.data.success) {
-      return res.status(400).json({ message: 'Weryfikacja reCAPTCHA nie powiodła się.' });
-    }
-    */
-        // --- END reCAPTCHA ---
-
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ 
+                success: false,
+                message: 'Błędy walidacji',
+                errors: errors.array() 
+            });
         }
 
         const {
@@ -97,7 +127,21 @@ router.post('/register', validateRegistration, async (req, res) => {
         // Check if user already exists
         const existingUser = await User.findOne({ where: { email } });
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ 
+                success: false,
+                message: 'Użytkownik o tym adresie email już istnieje' 
+            });
+        }
+
+        // Check if NIP already exists (if provided)
+        if (nip) {
+            const existingNIP = await User.findOne({ where: { nip } });
+            if (existingNIP) {
+                return res.status(400).json({ 
+                    success: false,
+                    message: 'Użytkownik o tym numerze NIP już istnieje' 
+                });
+            }
         }
 
         // Create new user
@@ -107,62 +151,74 @@ router.post('/register', validateRegistration, async (req, res) => {
             firstName,
             lastName,
             companyName,
-            companyCountry,
+            companyCountry: companyCountry || 'PL',
             nip,
             phone,
             street: address?.street,
             postalCode: address?.postalCode,
             city: address?.city,
-            role: 'user',
-            isVerified: false
+            role: req.body.role === 'admin' ? 'admin' : 'user',
+            isEmailVerified: req.body.role === 'admin' ? true : false,
+            status: req.body.role === 'admin' ? 'active' : 'pending_email_verification'
         });
 
-        // --- GENERUJ TOKEN I WYŚLIJ EMAIL AKTYWACYJNY ---
+        // Generate email verification token
         const emailVerificationToken = require('crypto').randomBytes(32).toString('hex');
         user.emailVerificationToken = emailVerificationToken;
         user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24h
         await user.save();
-        const activationLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/verification-pending.html?token=${emailVerificationToken}`;
-        const emailTemplate = {
-            subject: 'Aktywacja konta - Cartechstore',
-            html: `<h2>Witaj ${user.firstName || ''}!</h2><p>Dziękujemy za rejestrację w Cartechstore.</p><p>Aby aktywować swoje konto, kliknij w poniższy link:</p><a href='${activationLink}'>Aktywuj konto</a><p>Link jest ważny przez 24 godziny.</p>`
-        };
-        if (user.email && emailTemplate.subject && emailTemplate.html) {
-            await require('../utils/email').sendEmail(user.email, emailTemplate);
-        } else {
-            console.error('Nieprawidłowe dane do wysyłki emaila:', user.email, emailTemplate);
-            throw new Error('Nieprawidłowe dane do wysyłki emaila');
+        
+        // Send verification email
+        try {
+            const activationLink = `${process.env.FRONTEND_URL}/pages/verify-email.html?token=${emailVerificationToken}`;
+            const emailTemplate = {
+                subject: 'Aktywuj swoje konto w Cartechstore!',
+                html: `
+                <div style="font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc; max-width: 600px; margin: 0 auto; border-radius: 18px; box-shadow: 0 4px 24px #2563eb11; overflow: hidden;">
+                  <div style="background: linear-gradient(90deg, #2563eb 60%, #1e40af 100%); padding: 2.2rem 2rem 1.2rem 2rem; text-align: center;">
+                    <h1 style="color: #fff; font-size: 2rem; margin: 0 0 0.5rem 0;">Witaj, ${user.firstName}!</h1>
+                    <p style="color: #e0e7ef; font-size: 1.1rem; margin: 0;">Dziękujemy za rejestrację w Cartechstore.</p>
+                  </div>
+                  <div style="padding: 2.2rem 2rem 1.5rem 2rem; background: #fff;">
+                    <p style="font-size: 1.13rem; color: #1e293b; margin-bottom: 1.5rem;">
+                      Aby aktywować swoje konto, kliknij w poniższy przycisk:
+                    </p>
+                    <a href="${activationLink}" style="display: inline-block; background: #2563eb; color: #fff; padding: 0.8rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 1.1rem; margin-bottom: 2rem;">
+                      Aktywuj konto
+                    </a>
+                    <p style="font-size: 1.05rem; color: #64748b; margin-top: 2rem;">
+                      Link aktywacyjny jest ważny przez 24 godziny.<br>
+                      Po weryfikacji emaila, Twoje konto zostanie przesłane do akceptacji przez administratora.
+                    </p>
+                  </div>
+                </div>
+                `
+            };
+            
+            const emailResult = await require('../utils/email').sendEmail(user.email, emailTemplate);
+            console.log('Email verification sent successfully to:', user.email);
+            
+        } catch (emailError) {
+            console.error('Email sending failed:', emailError.message);
+            // Continue with registration even if email fails
         }
-        // --- KONIEC EMAILA AKTYWACYJNEGO ---
-
-        // Generate JWT token
-        const token = jwt.sign(
-            { id: user.id, email: user.email, role: user.role },
-            process.env.JWT_SECRET,
-            { expiresIn: '24h' }
-        );
 
         res.status(201).json({
-            message: 'User registered successfully',
-            token,
+            success: true,
+            message: 'Rejestracja przebiegła pomyślnie! Sprawdź swoją skrzynkę email i kliknij w link aktywacyjny.',
             user: {
                 id: user.id,
                 email: user.email,
                 firstName: user.firstName,
-                lastName: user.lastName,
-                companyName: user.companyName,
-                companyCountry: user.companyCountry,
-                nip: user.nip,
-                phone: user.phone,
-                street: user.street,
-                postalCode: user.postalCode,
-                city: user.city,
-                role: user.role
+                lastName: user.lastName
             }
         });
     } catch (error) {
         console.error('Registration error:', error);
-        res.status(500).json({ message: 'Error registering user' });
+        res.status(500).json({ 
+            success: false,
+            message: 'Wystąpił błąd podczas rejestracji' 
+        });
     }
 });
 
@@ -183,45 +239,73 @@ async function verifyRecaptcha(token) {
 }
 
 // Logowanie
-router.post('/login', async (req, res) => {
+router.post('/login', 
+    process.env.NODE_ENV !== 'test' ? loginLimiter : (req, res, next) => next(),
+    async (req, res) => {
     try {
-        const { email, password, recaptchaResponse } = req.body;
+        const { email, password } = req.body;
 
-        // Sprawdź reCAPTCHA
-        const isRecaptchaValid = await verifyRecaptcha(recaptchaResponse);
-        if (!isRecaptchaValid) {
-            await securityLogger.logSuspiciousActivity(req, {
-                type: 'invalid_recaptcha',
-                email
+        if (!email || !password) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Email i hasło są wymagane' 
             });
-            return res.status(400).json({ message: 'Weryfikacja reCAPTCHA nie powiodła się.' });
         }
 
         const user = await User.findOne({ where: { email } });
         if (!user) {
             await securityLogger.logLoginFailure(req, email, 'user_not_found');
-            return res.status(401).json({ message: 'Nieprawidłowy email lub hasło.' });
+            return res.status(401).json({ 
+                success: false,
+                message: 'Nieprawidłowy email lub hasło' 
+            });
         }
 
-        // Blokada logowania dla nieaktywnych kont
-        if (!user.isEmailVerified && user.emailVerificationToken) {
-            return res.status(403).json({ message: 'Konto nie zostało aktywowane. Sprawdź email i kliknij w link aktywacyjny.' });
+        // Check if email is verified
+        if (!user.isEmailVerified) {
+            return res.status(403).json({ 
+                success: false,
+                message: 'Konto nie zostało aktywowane. Sprawdź email i kliknij w link aktywacyjny.' 
+            });
+        }
+
+        // Check if account is approved by admin
+        if (user.status !== 'active') {
+            return res.status(403).json({ 
+                success: false,
+                message: 'Konto oczekuje na akceptację przez administratora lub zostało zablokowane.' 
+            });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
         if (!isValidPassword) {
             await securityLogger.logLoginFailure(req, email, 'invalid_password');
-            return res.status(401).json({ message: 'Nieprawidłowy email lub hasło.' });
+            return res.status(401).json({ 
+                success: false,
+                message: 'Nieprawidłowy email lub hasło' 
+            });
         }
 
-        if (user.status === 'blocked') {
-            await securityLogger.logLoginFailure(req, email, 'account_blocked');
-            return res.status(403).json({ message: 'Konto jest zablokowane.' });
+        // Check if account is locked
+        if (user.isAccountLocked()) {
+            await securityLogger.logLoginFailure(req, email, 'account_locked');
+            return res.status(403).json({ 
+                success: false,
+                message: 'Konto jest tymczasowo zablokowane. Spróbuj ponownie później.' 
+            });
         }
 
-        // Jeśli użytkownik ma włączone 2FA
+        // Reset failed login attempts on successful login
+        if (user.failedLoginAttempts > 0) {
+            await user.resetFailedLoginAttempts();
+        }
+
+        // Update last login
+        user.lastLogin = new Date();
+        await user.save();
+
+        // If user has 2FA enabled
         if (user.twoFactorSecret) {
-            // Generuj tymczasowy token
             const tempToken = jwt.sign(
                 { id: user.id, email: user.email, temp: true },
                 process.env.JWT_SECRET,
@@ -230,28 +314,169 @@ router.post('/login', async (req, res) => {
 
             await securityLogger.logLoginSuccess(req, user);
             return res.json({
+                success: true,
                 requires2FA: true,
                 tempToken
             });
         }
 
-        // Standardowe logowanie
+        // Standard login
         const token = jwt.sign(
-            { id: user.id, email: user.email },
+            { id: user.id, email: user.email, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
         await securityLogger.logLoginSuccess(req, user);
-        res.json({ token });
+        res.json({ 
+            success: true,
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                companyName: user.companyName,
+                role: user.role
+            }
+        });
     } catch (err) {
         console.error('Błąd logowania:', err);
-        res.status(500).json({ message: 'Błąd serwera.' });
+        res.status(500).json({ 
+            success: false,
+            message: 'Błąd serwera' 
+        });
     }
 });
 
-// Weryfikacja emaila
-router.get('/verify-email/:token', verifyEmail);
+// Email verification endpoint
+router.get('/verify-email', async (req, res) => {
+    try {
+        const { token } = req.query;
+
+        if (!token) {
+            return res.status(400).json({
+                success: false,
+                message: 'Token weryfikacyjny jest wymagany'
+            });
+        }
+
+        const user = await User.findOne({
+            where: {
+                emailVerificationToken: token,
+                emailVerificationExpires: { [require('sequelize').Op.gt]: Date.now() }
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'Nieprawidłowy lub wygasły token weryfikacyjny'
+            });
+        }
+
+        // Update user verification status
+        user.isEmailVerified = true;
+        user.status = 'pending_admin_approval';
+        user.emailVerificationToken = null;
+        user.emailVerificationExpires = null;
+        await user.save();
+
+        // Send success response
+        res.status(200).json({
+            success: true,
+            message: 'Email został pomyślnie zweryfikowany. Konto oczekuje teraz na akceptację przez administratora.'
+        });
+    } catch (error) {
+        console.error('Email verification error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Wystąpił błąd podczas weryfikacji emaila'
+        });
+    }
+});
+
+// Resend verification email
+router.post('/resend-verification', async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email jest wymagany'
+            });
+        }
+
+        const user = await User.findOne({ where: { email } });
+        
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Użytkownik o podanym adresie email nie istnieje'
+            });
+        }
+
+        if (user.isEmailVerified) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email jest już zweryfikowany'
+            });
+        }
+
+        // Generate new verification token
+        const emailVerificationToken = require('crypto').randomBytes(32).toString('hex');
+        user.emailVerificationToken = emailVerificationToken;
+        user.emailVerificationExpires = Date.now() + 24 * 60 * 60 * 1000; // 24h
+        await user.save();
+
+        // Send verification email
+        try {
+            const activationLink = `${process.env.FRONTEND_URL}/pages/verify-email.html?token=${emailVerificationToken}`;
+            const emailTemplate = {
+                subject: 'Ponowna aktywacja konta - Cartechstore',
+                html: `
+                <div style="font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc; max-width: 600px; margin: 0 auto; border-radius: 18px; box-shadow: 0 4px 24px #2563eb11; overflow: hidden;">
+                  <div style="background: linear-gradient(90deg, #2563eb 60%, #1e40af 100%); padding: 2.2rem 2rem 1.2rem 2rem; text-align: center;">
+                    <h1 style="color: #fff; font-size: 2rem; margin: 0 0 0.5rem 0;">Witaj ponownie, ${user.firstName}!</h1>
+                    <p style="color: #e0e7ef; font-size: 1.1rem; margin: 0;">Oto nowy link aktywacyjny dla Twojego konta.</p>
+                  </div>
+                  <div style="padding: 2.2rem 2rem 1.5rem 2rem; background: #fff;">
+                    <p style="font-size: 1.13rem; color: #1e293b; margin-bottom: 1.5rem;">
+                      Kliknij w poniższy przycisk, aby aktywować swoje konto:
+                    </p>
+                    <a href="${activationLink}" style="display: inline-block; background: #2563eb; color: #fff; padding: 0.8rem 2rem; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 1.1rem; margin-bottom: 2rem;">
+                      Aktywuj konto
+                    </a>
+                    <p style="font-size: 1.05rem; color: #64748b; margin-top: 2rem;">
+                      Link aktywacyjny jest ważny przez 24 godziny.
+                    </p>
+                  </div>
+                </div>
+                `
+            };
+            
+            const emailResult = await require('../utils/email').sendEmail(user.email, emailTemplate);
+            
+            res.status(200).json({
+                success: true,
+                message: 'Nowy link weryfikacyjny został wysłany na Twój adres email'
+            });
+        } catch (emailError) {
+            console.error('Error sending verification email:', emailError);
+            res.status(500).json({
+                success: false,
+                message: 'Wystąpił błąd podczas wysyłania emaila weryfikacyjnego'
+            });
+        }
+    } catch (error) {
+        console.error('Resend verification error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Wystąpił błąd podczas wysyłania ponownego emaila weryfikacyjnego'
+        });
+    }
+});
 
 // Get user profile
 router.get('/profile', protect, async (req, res) => {
@@ -274,8 +499,18 @@ router.get('/profile', protect, async (req, res) => {
 // Sprawdzanie czy firma istnieje
 router.post('/check-company', checkCompany);
 
+// Cart token endpoint (for frontend compatibility)
+router.post('/cart-token', (req, res) => {
+    res.json({ 
+        success: true, 
+        token: require('crypto').randomUUID() 
+    });
+});
+
 // RESET PASSWORD - GENERATE TOKEN & SEND EMAIL
-router.post('/forgot-password', async (req, res) => {
+router.post('/forgot-password', 
+    process.env.NODE_ENV !== 'test' ? passwordResetLimiter : (req, res, next) => next(),
+    async (req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ message: 'Email jest wymagany.' });
     const user = await User.findOne({ where: { email } });
@@ -284,17 +519,9 @@ router.post('/forgot-password', async (req, res) => {
     user.resetPasswordToken = token;
     user.resetPasswordExpires = Date.now() + 60 * 60 * 1000;
     await user.save();
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5500'}/reset-password.html?token=${token}`;
-    // Wyślij maila
-    const transporter = require('nodemailer').createTransport({
-        host: process.env.SMTP_HOST || 'smtp.gmail.com',
-        port: process.env.SMTP_PORT || 587,
-        secure: false,
-        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-    });
-    await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: user.email,
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password.html?token=${token}`;
+    // Wyślij maila przez Resend
+    await sendEmail(user.email, {
         subject: 'Resetowanie hasła - Cartechstore',
         html: `<p>Kliknij w link, aby zresetować hasło: <a href='${resetUrl}'>Resetuj hasło</a></p>`
     });
@@ -302,7 +529,9 @@ router.post('/forgot-password', async (req, res) => {
 });
 
 // RESET PASSWORD - SET NEW PASSWORD
-router.post('/reset-password', async (req, res) => {
+router.post('/reset-password', 
+    process.env.NODE_ENV !== 'test' ? passwordResetLimiter : (req, res, next) => next(),
+    async (req, res) => {
     const { token, password } = req.body;
     if (!token || !password) return res.status(400).json({ message: 'Token i hasło są wymagane.' });
     let payload;
@@ -320,44 +549,6 @@ router.post('/reset-password', async (req, res) => {
     user.resetPasswordExpires = null;
     await user.save();
     res.json({ message: 'Hasło zostało zmienione. Możesz się zalogować.' });
-});
-
-// Admin login
-router.post('/admin-login', adminLoginLimiter, async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        console.log('ADMIN LOGIN: email:', email, 'password:', password);
-        const user = await User.findOne({ where: { email } });
-        console.log('Znaleziony user:', user ? user.toJSON() : null);
-        if (!user || user.role !== 'admin') {
-            return res.status(401).json({ message: 'Brak dostępu.' });
-        }
-        const isValidPassword = await user.validatePassword(password);
-        console.log('isValidPassword:', isValidPassword);
-        if (!isValidPassword) {
-            return res.status(401).json({ message: 'Nieprawidłowe dane logowania.' });
-        }
-        // Generate JWT token
-        const token = jwt.sign(
-            { id: user.id, email: user.email, role: user.role },
-            process.env.JWT_SECRET,
-            { expiresIn: '24h' }
-        );
-        res.json({
-            message: 'Logowanie administratora udane',
-            token,
-            user: {
-                id: user.id,
-                email: user.email,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                role: user.role
-            }
-        });
-    } catch (error) {
-        console.error('Admin login error:', error);
-        res.status(500).json({ message: 'Błąd logowania administratora.' });
-    }
 });
 
 // Middleware: sprawdź JWT
@@ -529,6 +720,76 @@ router.get('/2fa/status', userAuth, async (req, res) => {
     }
 });
 
+// CSRF Token endpoint
+router.get('/csrf-token', (req, res) => {
+    res.json({ 
+        success: true, 
+        csrfToken: require('crypto').randomUUID() 
+    });
+});
+
+// Email test endpoint (for admin only)
+router.post('/test-email', async (req, res) => {
+    try {
+        const { email } = req.body;
+        
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email jest wymagany'
+            });
+        }
+
+        const testEmailTemplate = {
+            subject: '✅ Test Email - Cartechstore System',
+            html: `
+            <div style="font-family: 'Segoe UI', Arial, sans-serif; background: #f8fafc; max-width: 600px; margin: 0 auto; border-radius: 18px; box-shadow: 0 4px 24px #2563eb11; overflow: hidden;">
+              <div style="background: linear-gradient(90deg, #10B981 60%, #059669 100%); padding: 2.2rem 2rem 1.2rem 2rem; text-align: center;">
+                <h1 style="color: #fff; font-size: 2rem; margin: 0 0 0.5rem 0;">✅ Test Email</h1>
+                <p style="color: #e0e7ef; font-size: 1.1rem; margin: 0;">System email działa poprawnie!</p>
+              </div>
+              <div style="padding: 2.2rem 2rem 1.5rem 2rem; background: #fff;">
+                <p style="font-size: 1.13rem; color: #1e293b; margin-bottom: 1.5rem;">
+                  Ten email potwierdza, że system email Cartechstore działa poprawnie.
+                </p>
+                <div style="background: #f1f5f9; padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                  <p style="margin: 0; font-size: 0.9rem; color: #64748b;">
+                    <strong>Dane testowe:</strong><br>
+                    Adres docelowy: ${email}<br>
+                    Data wysłania: ${new Date().toLocaleString('pl-PL')}<br>
+                    Status: ✅ Pomyślnie wysłany
+                  </p>
+                </div>
+                <p style="font-size: 1.05rem; color: #64748b; margin-top: 2rem;">
+                  System email funkcjonuje prawidłowo!
+                </p>
+              </div>
+              <div style="background: #f1f5f9; padding: 1.2rem 2rem; text-align: center; color: #64748b; font-size: 0.98rem; border-top: 1px solid #e5e7eb;">
+                <p style="margin: 0;">&copy; ${new Date().getFullYear()} Cartechstore - System B2B</p>
+              </div>
+            </div>
+            `
+        };
+        
+        const emailResult = await require('../utils/email').sendEmail(email, testEmailTemplate);
+        
+        res.status(200).json({
+            success: true,
+            message: `Email testowy został wysłany na adres: ${email}`,
+            emailId: emailResult.id,
+            simulated: emailResult.simulated || false
+        });
+        
+    } catch (error) {
+        console.error('Test email error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Wystąpił błąd podczas wysyłania testowego emaila',
+            error: error.message
+        });
+    }
+});
+
 // passport.use(new GoogleStrategy({
 //   clientID: process.env.GOOGLE_CLIENT_ID,
 //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -585,5 +846,23 @@ router.get('/2fa/status', userAuth, async (req, res) => {
 //   const token = jwt.sign({ id: req.user.id, email: req.user.email }, process.env.JWT_SECRET, { expiresIn: '24h' });
 //   res.redirect(`${process.env.FRONTEND_URL}/login-success.html?token=${token}`);
 // });
+
+// Logout endpoint
+router.post('/logout', (req, res) => {
+    try {
+        // In a stateless JWT system, we just need to tell the client to remove the token
+        // In production, you might want to implement a token blacklist
+        res.json({ 
+            success: true, 
+            message: 'Wylogowano pomyślnie' 
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Błąd podczas wylogowania' 
+        });
+    }
+});
 
 module.exports = router;

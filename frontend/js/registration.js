@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             try {
                 // Send registration request to backend
-                const response = await fetch('/api/auth/register', {
+                const response = await fetch('http://localhost:3005/api/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

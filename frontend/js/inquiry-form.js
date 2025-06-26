@@ -37,7 +37,7 @@ function createInquiryForm(productId, productName) {
                 return;
             }
 
-            const response = await fetch('/api/inquiries', {
+            const response = await fetch('http://localhost:3005/api/inquiries', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

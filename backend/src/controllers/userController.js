@@ -6,6 +6,7 @@ const axios = require('axios');
 const { validationResult } = require('express-validator');
 const UserLog = require('../models/UserLog');
 const PendingUser = require('../models/PendingUser');
+const { sendEmail } = require('../utils/email');
 
 // Konfiguracja transporter dla nodemailer
 const transporter = nodemailer.createTransport({
@@ -120,9 +121,7 @@ exports.register = async (req, res) => {
 
         // Wysłanie maila weryfikacyjnego do użytkownika
         const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
+        await sendEmail(email, {
             subject: 'Weryfikacja adresu email',
             html: `
                 <h1>Witaj ${firstName}!</h1>
@@ -134,9 +133,7 @@ exports.register = async (req, res) => {
         });
 
         // Wysłanie maila do admina o nowym użytkowniku
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: process.env.ADMIN_EMAIL,
+        await sendEmail(process.env.ADMIN_EMAIL, {
             subject: 'Nowy użytkownik zarejestrowany',
             html: `
                 <h1>Nowy użytkownik zarejestrowany</h1>
@@ -280,9 +277,7 @@ exports.resendVerificationEmail = async (req, res) => {
 
         // Wysłanie maila weryfikacyjnego
         const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: email,
+        await sendEmail(email, {
             subject: 'Weryfikacja adresu email',
             html: `
                 <h1>Witaj ${user.firstName}!</h1>
@@ -335,9 +330,7 @@ exports.acceptPendingUser = async (req, res) => {
         await pendingUser.destroy();
 
         // Wyślij mail o akceptacji
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: newUser.email,
+        await sendEmail(newUser.email, {
             subject: 'Twoje konto zostało zatwierdzone',
             html: `
                 <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f8fafc; border-radius: 18px; box-shadow: 0 4px 24px #2563eb11; padding: 0; overflow: hidden;">
@@ -380,9 +373,7 @@ exports.rejectPendingUser = async (req, res) => {
         pendingUser.status = 'rejected';
         await pendingUser.save();
         // Wyślij mail o odrzuceniu
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: pendingUser.email,
+        await sendEmail(pendingUser.email, {
             subject: 'Twoje zgłoszenie zostało odrzucone',
             html: `<div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f8fafc; border-radius: 18px; box-shadow: 0 4px 24px #2563eb11; padding: 0; overflow: hidden;">
               <div style="background: linear-gradient(90deg, #ef4444 60%, #f59e0b 100%); padding: 2.2rem 2rem 1.2rem 2rem; text-align: center;">

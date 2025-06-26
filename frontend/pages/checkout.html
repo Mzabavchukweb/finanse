@@ -3,27 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zamówienie - Cartechstore</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Finalizacja zamówienia - Cartechstore</title>
+    
+    <!-- Cache control -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- Preload Stripe for faster payment processing -->
+    <link rel="preload" href="https://js.stripe.com/v3/" as="script">
+    
+    <!-- Critical CSS inline -->
     <style>
-        .checkout-page {
-            padding: 2rem;
-            background: var(--background-color);
-            min-height: 100vh;
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#1e293b;background:#f8fafc}
+        .header{position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px);background:rgba(255,255,255,0.7)}
+        .main-content{padding:2rem 0;min-height:60vh;background:#f8fafc}
+        .container{max-width:1200px;margin:0 auto;padding:0 1rem}
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+    
+    <!-- Preload success page for faster redirect -->
+    <link rel="prefetch" href="order-success.html">
+    
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --background-color: #f8fafc;
+            --radius: 12px;
+            --shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+            --shadow-lg: 0 8px 32px rgba(37, 99, 235, 0.12);
         }
 
-        .checkout-container {
+        .main-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+            background: var(--background-color);
+        }
+
+        .container {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
+            padding: 0 1rem;
         }
 
-        /* Order Form */
-        .order-form {
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .checkout-section {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .checkout-form {
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
@@ -34,267 +100,963 @@
             margin-bottom: 2rem;
         }
 
-        .form-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+        .form-section h3 {
+            margin-bottom: 1rem;
             color: var(--text-color);
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
         }
 
         .form-group {
             margin-bottom: 1rem;
         }
 
-        .form-group.full-width {
-            grid-column: 1 / -1;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
 
-        .form-label {
+        .form-group label {
             display: block;
-            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
             font-weight: 500;
             color: var(--text-color);
-            margin-bottom: 0.5rem;
         }
 
-        .form-input,
-        .form-select,
-        .form-textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border-color);
             border-radius: var(--radius);
-            font-size: 1rem;
-            color: var(--text-color);
-            transition: border-color 0.3s ease;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
         }
 
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .form-textarea {
-            min-height: 100px;
-            resize: vertical;
+        .checkbox-group {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
         }
 
-        .form-radio-group {
+        .checkbox-item {
             display: flex;
-            gap: 1rem;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
         }
 
-        .form-radio {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .checkbox-item:last-child {
+            margin-bottom: 0;
         }
 
-        .form-radio input[type="radio"] {
-            width: 1.1rem;
-            height: 1.1rem;
-            cursor: pointer;
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-top: 0.25rem;
         }
 
-        .form-radio label {
+        .checkbox-item label {
             font-size: 0.9rem;
-            color: var(--text-color);
-            cursor: pointer;
+            line-height: 1.4;
+            margin-bottom: 0;
         }
 
-        /* Order Summary */
+        .checkbox-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .checkbox-item a:hover {
+            text-decoration: underline;
+        }
+
         .order-summary {
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 2rem;
-            height: fit-content;
             position: sticky;
             top: 2rem;
         }
 
-        .summary-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+        .order-summary h3 {
             margin-bottom: 1.5rem;
             color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .summary-items {
-            margin-bottom: 1.5rem;
-        }
-
-        .summary-item {
+        .order-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-color);
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .summary-total {
-            font-size: 1.25rem;
-            font-weight: 700;
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .item-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .item-price {
+            font-weight: 600;
             color: var(--primary-color);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .summary-row.total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            border-bottom: none;
             margin-top: 1rem;
             padding-top: 1rem;
-            border-top: 1px solid var(--border-color);
+            border-top: 2px solid var(--primary-color);
         }
 
-        .submit-order {
-            width: 100%;
-            padding: 1rem;
-            background: var(--primary-color);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .payment-section {
             margin-top: 2rem;
         }
 
-        .submit-order:hover {
+        #payment-element {
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            width: 100%;
+        }
+
+        .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
         }
 
-        @media (max-width: 1024px) {
-            .checkout-container {
+        .btn-primary:disabled {
+            background: var(--gray-300);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: var(--radius);
+            display: none;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .spinner {
+            border: 3px solid var(--gray-200);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: none;
+            font-weight: 500;
+        }
+
+        .toast.success {
+            background: var(--success-color);
+        }
+
+        .toast.error {
+            background: var(--danger-color);
+        }
+
+        @media (max-width: 768px) {
+            .checkout-section {
                 grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
             .order-summary {
                 position: static;
             }
-        }
 
-        @media (max-width: 768px) {
-            .form-grid {
+            .form-row {
                 grid-template-columns: 1fr;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .checkout-form {
+                padding: 1.5rem;
+            }
+            
+            .order-summary {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .checkout-form {
+                padding: 1rem;
+            }
+            
+            .order-summary {
+                padding: 1rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="checkout-page">
-        <div class="checkout-container">
-            <div class="checkout-header">
-                <h1>Zapytanie ofertowe</h1>
-                <p class="checkout-subtitle">Prosimy o uzupełnienie danych niezbędnych do przygotowania oferty</p>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 91 123 45 67</span>
+                <span>📧 biuro@cartechstore.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 17:00</span>
             </div>
-
-            <div class="checkout-grid">
-                <div class="checkout-form">
-                    <div class="form-section">
-                        <h2>Dane do faktury</h2>
-                        <div class="form-group">
-                            <label>Nazwa firmy</label>
-                            <input type="text" value="Auto Serwis Sp. z o.o." readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>NIP</label>
-                            <input type="text" value="1234567890" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Imię i nazwisko</label>
-                            <input type="text" value="Jan Kowalski" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" value="jan.kowalski@autoserwis.pl" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Telefon</label>
-                            <input type="tel" value="+48 123 456 789" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h2>Adres dostawy</h2>
-                        <div class="form-group">
-                            <label>Ulica</label>
-                            <input type="text" value="Przykładowa 123" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Kod pocztowy</label>
-                            <input type="text" value="00-000" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Miasto</label>
-                            <input type="text" value="Warszawa" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label>Kraj</label>
-                            <input type="text" value="Polska" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <h2>Preferencje realizacji</h2>
-                        <div class="form-group">
-                            <label>Preferowany termin realizacji</label>
-                            <input type="date" min="2024-03-21">
-                        </div>
-                        <div class="form-group">
-                            <label>Preferowany sposób dostawy</label>
-                            <select>
-                                <option value="standard">Dostawa standardowa (2-3 dni)</option>
-                                <option value="express">Dostawa ekspresowa (1 dzień)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Dodatkowe uwagi</label>
-                            <textarea placeholder="Dodaj uwagi dotyczące zapytania, preferencje dotyczące realizacji, itp."></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="order-summary">
-                    <h2>Podsumowanie zapytania</h2>
-                    <div class="summary-items">
-                        <!-- Items list -->
-                    </div>
-                    <div class="summary-totals">
-                        <div class="summary-row">
-                            <span>Szacunkowa wartość produktów:</span>
-                            <span>319,96 zł</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Proponowany rabat B2B:</span>
-                            <span>-31,99 zł</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Szacunkowy koszt dostawy:</span>
-                            <span>0,00 zł</span>
-                        </div>
-                        <div class="summary-row summary-total">
-                            <span>Szacunkowa kwota:</span>
-                            <span>287,97 zł</span>
-                        </div>
-                    </div>
-                    <div class="summary-note">
-                        <p><i class="fas fa-info-circle"></i> Ostateczna cena zostanie potwierdzona po weryfikacji dostępności produktów i warunków dostawy.</p>
-                    </div>
-                    <button type="submit" class="submit-order-btn">Wyślij zapytanie</button>
-                </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
             </div>
         </div>
     </div>
-    <script src="js/scripts.js"></script>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <a href="account.html" class="header-action-button" title="Konto">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="wishlist.html" class="header-action-button wishlist-header-btn" title="Lista życzeń">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="wishlist-count" id="headerWishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="header-action-button cart-header-btn" title="Koszyk">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="headerCartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="index.html"><i class="fas fa-home"></i> Start</a>
+                <span class="breadcrumb-separator">></span>
+                <a href="cart.html">Koszyk</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">Finalizacja zamówienia</span>
+            </nav>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-credit-card"></i> Finalizacja zamówienia</h1>
+                <p>Uzupełnij dane i dokonaj płatności</p>
+            </div>
+
+            <div class="checkout-section">
+                <!-- Checkout Form -->
+                <div class="checkout-form">
+                    <form id="checkoutForm">
+                        <!-- Contact Information -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Dane kontaktowe</h3>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required readonly>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">Imię *</label>
+                                    <input type="text" id="firstName" name="firstName" required readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Nazwisko *</label>
+                                    <input type="text" id="lastName" name="lastName" required readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="companyName">Nazwa firmy</label>
+                                <input type="text" id="companyName" name="companyName" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Address -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-truck"></i> Adres dostawy</h3>
+                            <div class="form-group">
+                                <label for="address">Ulica i numer *</label>
+                                <input type="text" id="address" name="address" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">Miasto *</label>
+                                    <input type="text" id="city" name="city" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="postalCode">Kod pocztowy *</label>
+                                    <input type="text" id="postalCode" name="postalCode" pattern="[0-9]{2}-[0-9]{3}" placeholder="00-000" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="country">Kraj *</label>
+                                <select id="country" name="country" required>
+                                    <option value="PL">Polska</option>
+                                    <option value="DE">Niemcy</option>
+                                    <option value="CZ">Czechy</option>
+                                    <option value="SK">Słowacja</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Order Notes -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-comment"></i> Uwagi do zamówienia</h3>
+                            <div class="form-group">
+                                <label for="orderNotes">Dodatkowe informacje (opcjonalnie)</label>
+                                <textarea id="orderNotes" name="orderNotes" rows="3" placeholder="Np. informacje o dostawie, preferencje czasowe..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+                                <label for="acceptTerms">
+                                    Akceptuję <a href="regulamin.html" target="_blank">Regulamin</a> sklepu *
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="acceptPrivacy" name="acceptPrivacy" required>
+                                <label for="acceptPrivacy">
+                                    Zapoznałem się z <a href="polityka-prywatnosci.html" target="_blank">Polityką prywatności</a> i wyrażam zgodę na przetwarzanie moich danych osobowych *
+                                </label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="acceptMarketing" name="acceptMarketing">
+                                <label for="acceptMarketing">
+                                    Wyrażam zgodę na otrzymywanie informacji handlowych drogą elektroniczną (opcjonalnie)
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Payment -->
+                        <div class="form-section payment-section">
+                            <h3><i class="fas fa-credit-card"></i> Płatność</h3>
+                            <div id="payment-element">
+                                <!-- Stripe Elements will be mounted here -->
+                            </div>
+                            <div id="payment-errors" class="error-message"></div>
+                            <button type="submit" id="submit-payment" class="btn btn-primary">
+                                <i class="fas fa-lock"></i>
+                                <span id="submit-text">Zapłać i złóż zamówienie</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h3><i class="fas fa-receipt"></i> Podsumowanie zamówienia</h3>
+                    
+                    <div id="orderItems">
+                        <!-- Order items will be loaded here -->
+                    </div>
+
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>Produkty:</span>
+                            <span id="subtotalAmount">0,00 PLN</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Dostawa:</span>
+                            <span id="shippingAmount">0,00 PLN</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>VAT (23%):</span>
+                            <span id="vatAmount">0,00 PLN</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Razem do zapłaty:</span>
+                            <span id="totalAmount">0,00 PLN</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Przetwarzanie płatności...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to profesjonalna hurtownia części samochodowych z ponad 15-letnim doświadczeniem. Obsługujemy warsztaty, serwisy i klientów indywidualnych w całej Polsce.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przemysłowa 15, 70-800 Szczecin</a></li>
+                    <li><a href="tel:+48911234567"><i class="fas fa-phone-alt"></i> +48 91 123 45 67</a></li>
+                    <li><a href="mailto:biuro@cartechstore.pl"><i class="fas fa-envelope"></i> biuro@cartechstore.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 17:00, Sob: 9:00 - 14:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 CARTECHSTORE SP. Z O.O. Wszelkie prawa zastrzeżone. NIP: 123-456-78-90</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let stripe;
+        let elements;
+        let paymentElement;
+        let clientSecret;
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        
+        // Pobierz klucz publiczny Stripe z backendu
+        async function getStripePublicKey() {
+            try {
+                const res = await fetch('http://localhost:3005/api/stripe/config');
+                if (!res.ok) throw new Error('Błąd pobierania klucza Stripe');
+                const data = await res.json();
+                return data.publishableKey;
+            } catch (e) {
+                alert('Błąd inicjalizacji płatności: nie można pobrać klucza Stripe.');
+                throw e;
+            }
+        }
+
+        // Initialize checkout
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if user is logged in - sprawdzaj różne klucze tokenów
+            const token = localStorage.getItem('authToken') || 
+                         localStorage.getItem('token') || 
+                         localStorage.getItem('userToken') ||
+                         sessionStorage.getItem('authToken') ||
+                         sessionStorage.getItem('token');
+            if (!token) {
+                alert('Musisz być zalogowany, aby złożyć zamówienie');
+                window.location.href = 'login.html';
+                return;
+            }
+            if (cart.length === 0) {
+                alert('Twój koszyk jest pusty');
+                window.location.href = 'cart.html';
+                return;
+            }
+            await loadUserData();
+            loadOrderSummary();
+            // Pobierz klucz Stripe i zainicjalizuj Stripe
+            const stripeKey = await getStripePublicKey();
+            stripe = Stripe(stripeKey);
+            await initializePayment();
+        });
+
+        // Load user data
+        async function loadUserData() {
+            const token = localStorage.getItem('authToken') || 
+                         localStorage.getItem('token') || 
+                         localStorage.getItem('userToken') ||
+                         sessionStorage.getItem('authToken') ||
+                         sessionStorage.getItem('token');
+            
+            try {
+                const response = await fetch('http://localhost:3005/api/auth/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    document.getElementById('email').value = user.email || '';
+                    document.getElementById('firstName').value = user.firstName || '';
+                    document.getElementById('lastName').value = user.lastName || '';
+                    document.getElementById('companyName').value = user.companyName || '';
+                    document.getElementById('address').value = user.address || '';
+                    document.getElementById('city').value = user.city || '';
+                    document.getElementById('postalCode').value = user.postalCode || '';
+                    document.getElementById('country').value = user.country || 'PL';
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // Load order summary
+        function loadOrderSummary() {
+            const orderItems = document.getElementById('orderItems');
+            
+            orderItems.innerHTML = cart.map(item => `
+                <div class="order-item">
+                    <div class="item-details">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-meta">Nr kat.: ${item.number} • Ilość: ${item.quantity}</div>
+                    </div>
+                    <div class="item-price">${formatPrice(item.price * item.quantity)}</div>
+                </div>
+            `).join('');
+
+            updateSummary();
+        }
+
+        // Update summary
+        function updateSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal >= 200 ? 0 : 15.99; // Free shipping over 200 PLN
+            const vat = subtotal * 0.23; // Polish VAT rate
+            const total = subtotal + shipping + vat;
+
+            document.getElementById('subtotalAmount').textContent = formatPrice(subtotal);
+            document.getElementById('shippingAmount').textContent = shipping === 0 ? 'Darmowa dostawa' : formatPrice(shipping);
+            document.getElementById('vatAmount').textContent = formatPrice(vat);
+            document.getElementById('totalAmount').textContent = formatPrice(total);
+
+            return total;
+        }
+
+        // Initialize payment with Stripe - Enhanced with multiple payment methods
+        async function initializePayment() {
+            const total = updateSummary();
+            const country = document.getElementById('country')?.value || 'PL';
+            const token = localStorage.getItem('authToken') || 
+                         localStorage.getItem('token') || 
+                         localStorage.getItem('userToken') ||
+                         sessionStorage.getItem('authToken') ||
+                         sessionStorage.getItem('token');
+
+            console.log('Initializing payment:', { total, country, hasToken: !!token });
+
+            try {
+                showLoading();
+                
+                // Get available payment methods for the country
+                const methodsResponse = await fetch(`http://localhost:3005/api/payments/payment-methods?country=${country}`);
+                const methodsData = await methodsResponse.json();
+                console.log('Available payment methods:', methodsData);
+                
+                const response = await fetch('http://localhost:3005/api/payments/create-intent', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        amount: total,
+                        currency: methodsData.currency || 'pln',
+                        paymentMethods: methodsData.paymentMethods
+                    })
+                });
+
+                console.log('Payment intent response status:', response.status);
+                const data = await response.json();
+                console.log('Payment intent data:', data);
+                
+                if (data.clientSecret) {
+                    clientSecret = data.clientSecret;
+                    
+                    elements = stripe.elements({
+                        clientSecret: clientSecret,
+                        appearance: {
+                            theme: 'stripe',
+                            variables: {
+                                colorPrimary: '#2563eb',
+                                colorBackground: '#ffffff',
+                                colorText: '#1e293b',
+                                fontFamily: 'Inter, sans-serif',
+                                borderRadius: '12px'
+                            }
+                        },
+                        locale: 'pl' // Polish locale
+                    });
+
+                    paymentElement = elements.create('payment', {
+                        layout: 'accordion',
+                        paymentMethodOrder: ['card', 'blik', 'p24', 'sepa_debit']
+                    });
+                    paymentElement.mount('#payment-element');
+                    
+                    console.log('Payment element mounted successfully with methods:', data.paymentMethods);
+                } else {
+                    throw new Error(data.message || 'Błąd inicjalizacji płatności');
+                }
+            } catch (error) {
+                console.error('Error initializing payment:', error);
+                showToast('Błąd inicjalizacji płatności: ' + error.message, 'error');
+                
+                // Fallback - pokaż komunikat o błędzie
+                document.getElementById('payment-element').innerHTML = `
+                    <div style="padding: 2rem; text-align: center; background: #fee2e2; border-radius: 8px; color: #dc2626;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p><strong>Błąd inicjalizacji płatności</strong></p>
+                        <p>Dostępne metody płatności: karta, BLIK, Przelewy24</p>
+                        <p>Spróbuj odświeżyć stronę lub skontaktuj się z obsługą.</p>
+                        <button onclick="window.location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            Odśwież stronę
+                        </button>
+                    </div>
+                `;
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('checkoutForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Check if terms are accepted
+            if (!document.getElementById('acceptTerms').checked) {
+                showToast('Musisz zaakceptować regulamin', 'error');
+                return;
+            }
+
+            if (!document.getElementById('acceptPrivacy').checked) {
+                showToast('Musisz zaakceptować politykę prywatności', 'error');
+                return;
+            }
+
+            if (!stripe || !elements) {
+                showToast('Płatność nie została zainicjalizowana', 'error');
+                return;
+            }
+
+            showLoading();
+            document.getElementById('submit-payment').disabled = true;
+            document.getElementById('submit-text').textContent = 'Przetwarzanie...';
+
+            try {
+                const {error} = await stripe.confirmPayment({
+                    elements,
+                    confirmParams: {
+                        return_url: `${window.location.origin}/pages/order-success.html`,
+                        payment_method_data: {
+                            billing_details: {
+                                name: `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`,
+                                email: document.getElementById('email').value,
+                                address: {
+                                    line1: document.getElementById('address').value,
+                                    city: document.getElementById('city').value,
+                                    postal_code: document.getElementById('postalCode').value,
+                                    country: document.getElementById('country').value
+                                }
+                            }
+                        }
+                    }
+                });
+
+                if (error) {
+                    console.error('Payment error:', error);
+                    
+                    if (error.type === 'card_error' || error.type === 'validation_error') {
+                        showPaymentError(error.message);
+                    } else {
+                        showPaymentError('Wystąpił nieoczekiwany błąd. Spróbuj ponownie.');
+                    }
+                } else {
+                    // Payment succeeded, create order
+                    await createOrder();
+                }
+            } catch (error) {
+                console.error('Unexpected error:', error);
+                showPaymentError('Wystąpił nieoczekiwany błąd. Spróbuj ponownie.');
+            } finally {
+                hideLoading();
+                document.getElementById('submit-payment').disabled = false;
+                document.getElementById('submit-text').textContent = 'Zapłać i złóż zamówienie';
+            }
+        });
+
+        // Create order in database
+        async function createOrder() {
+            const token = localStorage.getItem('authToken');
+            const orderData = {
+                items: cart.map(item => ({
+                    productId: item.id,
+                    sku: item.number,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                })),
+                shippingAddress: {
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    postalCode: document.getElementById('postalCode').value,
+                    country: document.getElementById('country').value
+                },
+                notes: document.getElementById('orderNotes').value,
+                acceptedTerms: document.getElementById('acceptTerms').checked,
+                acceptedPrivacy: document.getElementById('acceptPrivacy').checked,
+                acceptedMarketing: document.getElementById('acceptMarketing').checked,
+                paymentIntentId: clientSecret.split('_secret_')[0] // Extract payment intent ID
+            };
+
+            try {
+                const response = await fetch('http://localhost:3005/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                if (response.ok) {
+                    // Clear cart
+                    localStorage.removeItem('cart');
+                    showToast('Zamówienie zostało złożone pomyślnie!', 'success');
+                    
+                    // Redirect to success page after a delay
+                    setTimeout(() => {
+                        window.location.href = 'order-success.html';
+                    }, 2000);
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Błąd podczas tworzenia zamówienia');
+                }
+            } catch (error) {
+                console.error('Error creating order:', error);
+                showToast('Płatność zakończona sukcesem, ale wystąpił problem z zamówieniem. Skontaktuj się z obsługą.', 'error');
+            }
+        }
+
+        // Utility functions
+        function formatPrice(price) {
+            return new Intl.NumberFormat('pl-PL', {
+                style: 'currency',
+                currency: 'PLN'
+            }).format(price);
+        }
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'block';
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 5000);
+        }
+
+        function showPaymentError(message) {
+            const errorElement = document.getElementById('payment-errors');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            
+            setTimeout(() => {
+                errorElement.style.display = 'none';
+            }, 5000);
+        }
+
+        // Update header cart count
+        function updateHeaderCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const headerCartCount = document.getElementById('headerCartCount');
+            if (headerCartCount) {
+                headerCartCount.textContent = count;
+                headerCartCount.style.display = count > 0 ? 'block' : 'none';
+            }
+        }
+
+        updateHeaderCartCount();
+
+        // Przekierowanie admina z checkoutu
+        (function() {
+            const token = localStorage.getItem('authToken') || localStorage.getItem('token') || sessionStorage.getItem('authToken') || sessionStorage.getItem('token');
+            if (token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    if (payload.role === 'admin') {
+                        window.location.href = 'index.html';
+                    }
+                } catch (e) {}
+            }
+        })();
+    </script>
 </body>
 </html> 

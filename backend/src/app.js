@@ -5,19 +5,21 @@ const morgan = require('morgan');
 const path = require('path');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
-const { errorHandler } = require('./middleware/errorHandler');
+const errorHandler = require('./middleware/errorHandler');
 const { rateLimiter } = require('./middleware/rateLimiter');
-const logger = require('./utils/logger');
 require('dotenv').config();
 
-const sequelize = require('./config/database');
+const { sequelize } = require('./models');
 const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/users');
+const adminAuthRoutes = require('./routes/adminAuth');
+const adminRoutes = require('./routes/admin');
+const { router: userRoutes, pendingRouter } = require('./routes/users');
 const productRoutes = require('./routes/products');
 const categoryRoutes = require('./routes/categories');
 const orderRoutes = require('./routes/orders');
 const cartRoutes = require('./routes/cart');
 const inquiryRoutes = require('./routes/inquiries');
+const paymentRoutes = require('./routes/payments');
 
 const app = express();
 
@@ -27,7 +29,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
-app.use(rateLimiter);
+
+// Apply rate limiting only in non-test environments
+if (process.env.NODE_ENV !== 'test') {
+    app.use(rateLimiter);
+}
 
 // Session configuration
 app.use(session({
@@ -46,26 +52,23 @@ app.use(session({
 }));
 
 // Routes
+console.log('Przed podpięciem adminAuthRoutes');
 app.use('/api/auth', authRoutes);
+app.use('/api/admin-auth', adminAuthRoutes);
+app.use('/api/admin', adminRoutes);
+console.log('Po podpięciu adminAuthRoutes');
 app.use('/api/users', userRoutes);
+app.use('/api/users/pending', pendingRouter);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Error handling
 app.use(errorHandler);
 
-// Database sync
-if (process.env.NODE_ENV === 'development') {
-    sequelize.sync()
-        .then(() => {
-            console.log('Baza danych została zsynchronizowana');
-        })
-        .catch(err => {
-            console.error('Błąd synchronizacji bazy danych:', err);
-        });
-}
+// sequelize.sync() // NIE UŻYWAĆ sync przy migracjach
 
 module.exports = app;

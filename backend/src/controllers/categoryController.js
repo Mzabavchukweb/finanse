@@ -6,7 +6,7 @@ exports.getPublicCategories = async (req, res) => {
     try {
         const categories = await Category.findAll({
             where: { isActive: true },
-            attributes: ['id', 'name', 'description', 'slug']
+            attributes: ['id', 'name', 'description']
         });
         res.json(categories);
     } catch (error) {
@@ -30,26 +30,22 @@ exports.getAllCategories = async (req, res) => {
 
 exports.createCategory = async (req, res) => {
     try {
-        const { name, description, slug, isActive } = req.body;
+        const { name, description, isActive } = req.body;
 
         // Validate required fields
         if (!name) {
             return res.status(400).json({ message: 'Name is required' });
         }
-        if (!slug) {
-            return res.status(400).json({ message: 'Slug is required' });
-        }
 
-        // Check if category with same slug exists
-        const existingCategory = await Category.findOne({ where: { slug } });
+        // Check if category with same name exists
+        const existingCategory = await Category.findOne({ where: { name } });
         if (existingCategory) {
-            return res.status(400).json({ message: 'Category with this slug already exists' });
+            return res.status(400).json({ message: 'Category with this name already exists' });
         }
 
         const category = await Category.create({
             name,
             description,
-            slug,
             isActive: isActive !== undefined ? isActive : true
         });
 
@@ -68,18 +64,18 @@ exports.createCategory = async (req, res) => {
 
 exports.updateCategory = async (req, res) => {
     try {
-        const { name, description, slug, isActive } = req.body;
+        const { name, description, isActive } = req.body;
         const category = await Category.findByPk(req.params.id);
 
         if (!category) {
             return res.status(404).json({ message: 'Category not found' });
         }
 
-        // If slug is being changed, check if it's already taken
-        if (slug && slug !== category.slug) {
-            const existingCategory = await Category.findOne({ where: { slug } });
+        // If name is being changed, check if it's already taken
+        if (name && name !== category.name) {
+            const existingCategory = await Category.findOne({ where: { name } });
             if (existingCategory) {
-                return res.status(400).json({ message: 'Category with this slug already exists' });
+                return res.status(400).json({ message: 'Category with this name already exists' });
             }
         }
 
@@ -87,14 +83,10 @@ exports.updateCategory = async (req, res) => {
         if (name === '') {
             return res.status(400).json({ message: 'Name cannot be empty' });
         }
-        if (slug === '') {
-            return res.status(400).json({ message: 'Slug cannot be empty' });
-        }
 
         await category.update({
             name: name || category.name,
             description: description !== undefined ? description : category.description,
-            slug: slug || category.slug,
             isActive: isActive !== undefined ? isActive : category.isActive
         });
 
@@ -118,13 +110,12 @@ exports.deleteCategory = async (req, res) => {
             return res.status(404).json({ message: 'Category not found' });
         }
 
-        // Check if category has any products
-        const productCount = await category.countProducts();
-        if (productCount > 0) {
-            return res.status(400).json({
-                message: 'Cannot delete category with associated products'
-            });
-        }
+        // Ustaw categoryId na null dla wszystkich produktów z tą kategorią
+        const { Product } = require('../models');
+        await Product.update(
+            { categoryId: null },
+            { where: { categoryId: category.id } }
+        );
 
         await category.destroy();
         res.json({ message: 'Category deleted successfully' });

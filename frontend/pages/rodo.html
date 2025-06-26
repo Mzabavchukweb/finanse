@@ -3,12 +3,467 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RODO - Cartechstore - Informacje o przetwarzaniu danych osobowych">
+    <meta name="keywords" content="RODO, dane osobowe, prawa, cartechstore">
+    <meta name="robots" content="index, follow">
     <title>RODO - Cartechstore</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/cookies-banner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        /* Copy all styles from polityka-prywatnosci.html for consistency */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .top-bar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .top-links a:hover {
+            opacity: 1;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-action-button {
+            background: var(--background-color);
+            border: none;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: var(--text-color);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .header-action-button:hover {
+            transform: translateY(-4px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .main-nav {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-list a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .breadcrumbs ol {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-dark);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+
+        .content-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .content-section h3 {
+            color: var(--text-color);
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.25rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .content-section ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(37, 99, 235, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .rights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .right-card {
+            background: var(--background-color);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .right-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .right-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .company-info {
+            background: var(--background-color);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 2rem 0;
+        }
+
+        .company-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer styles */
+        .footer {
+            background: var(--white);
+            color: var(--text-color);
+            padding: 6rem 0 2rem;
+            position: relative;
+            border-top: 5px solid var(--primary-color);
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-section p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .copyright {
+            max-width: 1280px;
+            margin: 3rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+            }
+            .top-bar {
+                display: none !important;
+            }
+            .main-nav {
+                display: none;
+            }
+            .rights-grid {
+                grid-template-columns: 1fr;
+            }
+            .copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-bar-content">
             <div class="contact-info">
@@ -22,6 +477,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Header -->
     <header class="header">
         <div class="header-container">
             <a href="index.html" class="logo">Cartechstore</a>
@@ -35,6 +492,8 @@
             </div>
         </div>
     </header>
+
+    <!-- Navigation -->
     <nav class="main-nav">
         <div class="nav-container">
             <ul class="nav-list">
@@ -49,6 +508,8 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Main Content -->
     <main class="main-content">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <ol>
@@ -57,29 +518,207 @@
                 <li><span>RODO</span></li>
             </ol>
         </nav>
+        
         <div class="container">
-            <h1>RODO</h1>
-            <p>Informacje dotyczące ochrony danych osobowych (RODO) w Cartechstore.</p>
+            <div class="page-header">
+                <h1><i class="fas fa-user-shield"></i> RODO - Twoje prawa</h1>
+                <p>Informacje o Twoich prawach w zakresie ochrony danych osobowych</p>
+            </div>
+
+            <div class="company-info">
+                <h4>Administrator danych osobowych:</h4>
+                <p><strong>JB AUTOTECH JAKUB BRONOWICKI</strong><br>
+                ul. Stanisława Dubois 12/19, 71-610 Szczecin<br>
+                NIP: 8513326685<br>
+                E-mail: kontakt@autopartsb2b.pl<br>
+                Telefon: +48 123 456 789</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Czym jest RODO?</h2>
+                <p><strong>RODO (Rozporządzenie o Ochronie Danych Osobowych)</strong> to rozporządzenie Parlamentu Europejskiego i Rady (UE) 2016/679, które weszło w życie 25 maja 2018 roku.</p>
+                
+                <div class="highlight-box">
+                    <strong>Główny cel RODO:</strong> Zapewnienie obywatelom UE większej kontroli nad ich danymi osobowymi oraz ujednolicenie przepisów o ochronie danych w całej Unii Europejskiej.
+                </div>
+
+                <h3>Dane osobowe to:</h3>
+                <ul>
+                    <li>Wszelkie informacje o zidentyfikowanej lub możliwej do zidentyfikowania osobie fizycznej</li>
+                    <li>Przykłady: imię, nazwisko, adres e-mail, numer telefonu, adres IP, dane lokalizacyjne</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Twoje prawa zgodnie z RODO</h2>
+                <p>Jako osoba, której dane osobowe przetwarzamy, przysługują Ci następujące prawa:</p>
+                
+                <div class="rights-grid">
+                    <div class="right-card">
+                        <h4><i class="fas fa-eye"></i> Prawo dostępu</h4>
+                        <p>Masz prawo uzyskać informację o tym, czy i jakie Twoje dane osobowe przetwarzamy, w jakim celu oraz przez jaki okres.</p>
+                    </div>
+
+                    <div class="right-card">
+                        <h4><i class="fas fa-edit"></i> Prawo do sprostowania</h4>
+                        <p>Możesz żądać poprawienia nieprawidłowych lub uzupełnienia niekompletnych danych osobowych.</p>
+                    </div>
+
+                    <div class="right-card">
+                        <h4><i class="fas fa-trash"></i> Prawo do usunięcia</h4>
+                        <p>Możesz żądać usunięcia swoich danych osobowych („prawo do bycia zapomnianym") w określonych przypadkach.</p>
+                    </div>
+
+                    <div class="right-card">
+                        <h4><i class="fas fa-pause"></i> Prawo do ograniczenia</h4>
+                        <p>Możesz żądać ograniczenia przetwarzania swoich danych osobowych w określonych sytuacjach.</p>
+                    </div>
+
+                    <div class="right-card">
+                        <h4><i class="fas fa-download"></i> Prawo do przenoszenia</h4>
+                        <p>Możesz otrzymać swoje dane w formacie umożliwiającym przeniesienie do innego administratora.</p>
+                    </div>
+
+                    <div class="right-card">
+                        <h4><i class="fas fa-ban"></i> Prawo sprzeciwu</h4>
+                        <p>Możesz wnieść sprzeciw wobec przetwarzania swoich danych osobowych z przyczyn związanych z Twoją szczególną sytuacją.</p>
+                    </div>
+
+                    <div class="right-card">
+                        <h4><i class="fas fa-undo"></i> Prawo cofnięcia zgody</h4>
+                        <p>Możesz w każdej chwili cofnąć zgodę na przetwarzanie danych osobowych, jeśli podstawą przetwarzania jest zgoda.</p>
+                    </div>
+
+                    <div class="right-card">
+                        <h4><i class="fas fa-gavel"></i> Prawo do skargi</h4>
+                        <p>Możesz złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych, jeśli uważasz, że przetwarzanie Twoich danych narusza RODO.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Jak skorzystać ze swoich praw?</h2>
+                
+                <h3>Składanie wniosków</h3>
+                <p>Aby skorzystać ze swoich praw, skontaktuj się z nami:</p>
+                <ul>
+                    <li><strong>E-mail:</strong> kontakt@autopartsb2b.pl</li>
+                    <li><strong>Telefon:</strong> +48 123 456 789</li>
+                    <li><strong>Adres korespondencyjny:</strong> ul. Stanisława Dubois 12/19, 71-610 Szczecin</li>
+                </ul>
+
+                <h3>Termin odpowiedzi</h3>
+                <p>Odpowiedzi na Twoje wnioski udzielamy bez zbędnej zwłoki, nie później niż w ciągu <strong>miesiąca</strong> od otrzymania wniosku.</p>
+
+                <h3>Weryfikacja tożsamości</h3>
+                <p>W celu zapewnienia bezpieczeństwa Twoich danych możemy poprosić o potwierdzenie tożsamości przed realizacją wniosku.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Podstawy prawne przetwarzania</h2>
+                <p>Twoje dane osobowe przetwarzamy na podstawie:</p>
+                
+                <h3>Art. 6 ust. 1 lit. a RODO - Zgoda</h3>
+                <ul>
+                    <li>Newsletter</li>
+                    <li>Marketing bezpośredni</li>
+                    <li>Pliki cookies marketingowe</li>
+                </ul>
+
+                <h3>Art. 6 ust. 1 lit. b RODO - Wykonanie umowy</h3>
+                <ul>
+                    <li>Obsługa zamówień</li>
+                    <li>Prowadzenie konta użytkownika</li>
+                    <li>Kontakt w sprawach handlowych</li>
+                </ul>
+
+                <h3>Art. 6 ust. 1 lit. c RODO - Obowiązek prawny</h3>
+                <ul>
+                    <li>Prowadzenie dokumentacji księgowej</li>
+                    <li>Wystawianie faktur</li>
+                </ul>
+
+                <h3>Art. 6 ust. 1 lit. f RODO - Uzasadniony interes</h3>
+                <ul>
+                    <li>Bezpieczeństwo IT</li>
+                    <li>Analityka witryny</li>
+                    <li>Dochodzenie roszczeń</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Okres przechowywania danych</h2>
+                <p>Twoje dane osobowe przechowujemy przez okres niezbędny do realizacji celów przetwarzania:</p>
+                
+                <ul>
+                    <li><strong>Konto użytkownika:</strong> Do momentu usunięcia konta</li>
+                    <li><strong>Zamówienia:</strong> 5 lat od wykonania umowy (cel księgowy)</li>
+                    <li><strong>Newsletter:</strong> Do cofnięcia zgody</li>
+                    <li><strong>Kontakt:</strong> 3 lata od ostatniego kontaktu</li>
+                    <li><strong>Pliki cookies:</strong> Zgodnie z ustawieniami przeglądarki</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Bezpieczeństwo danych</h2>
+                <p>Stosujemy odpowiednie środki techniczne i organizacyjne, aby chronić Twoje dane przed:</p>
+                <ul>
+                    <li>Nieautoryzowanym dostępem</li>
+                    <li>Przypadkową utratą</li>
+                    <li>Zniszczeniem</li>
+                    <li>Nieautoryzowaną modyfikacją</li>
+                    <li>Nieautoryzowanym ujawnieniem</li>
+                </ul>
+                
+                <div class="highlight-box">
+                    <strong>Bezpieczeństwo to priorytet!</strong> Regularnie aktualizujemy nasze systemy bezpieczeństwa i szkolimy personel w zakresie ochrony danych osobowych.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Urząd Ochrony Danych Osobowych</h2>
+                <p>Jeśli uważasz, że przetwarzanie Twoich danych osobowych narusza przepisy RODO, masz prawo złożyć skargę do:</p>
+                
+                <div class="company-info">
+                    <h4>Prezes Urzędu Ochrony Danych Osobowych</h4>
+                    <p>ul. Stawki 2<br>
+                    00-193 Warszawa<br>
+                    Telefon: +48 22 531 03 00<br>
+                    E-mail: kancelaria@uodo.gov.pl<br>
+                    Strona internetowa: www.uodo.gov.pl</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Dodatkowe informacje</h2>
+                
+                <h3>Profilowanie</h3>
+                <p>Nie podejmujemy zautomatyzowanych decyzji, w tym profilowania, które wywierałyby skutki prawne wobec Ciebie lub w podobny sposób znacząco na Ciebie wpływały.</p>
+
+                <h3>Przekazywanie danych do państw trzecich</h3>
+                <p>Twoje dane osobowe mogą być przekazywane do państw spoza Europejskiego Obszaru Gospodarczego tylko w przypadkach przewidzianych prawem i z zachowaniem odpowiednich zabezpieczeń.</p>
+
+                <h3>Aktualizacje</h3>
+                <p>Niniejsze informacje mogą być aktualizowane. O istotnych zmianach poinformujemy Cię na stronie internetowej lub drogą mailową.</p>
+                
+                <p><strong>Data ostatniej aktualizacji:</strong> 29 maja 2024</p>
+            </div>
         </div>
     </main>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-section">
                 <h3>O nas</h3>
                 <p>Cartechstore to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek.</p>
-                <div class="footer-social">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                </div>
             </div>
             <div class="footer-section">
                 <h3>Kontakt</h3>
                 <ul>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przykładowa 123, 00-000 Warszawa</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Stanisława Dubois 12/19, 71-610 Szczecin</a></li>
                     <li><a href="tel:+48123456789"><i class="fas fa-phone-alt"></i> +48 123 456 789</a></li>
-                    <li><a href="mailto:kontakt@autoparts.pl"><i class="fas fa-envelope"></i> kontakt@autoparts.pl</a></li>
+                    <li><a href="mailto:kontakt@autopartsb2b.pl"><i class="fas fa-envelope"></i> kontakt@autopartsb2b.pl</a></li>
                     <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 16:00</a></li>
                 </ul>
             </div>
@@ -103,16 +742,18 @@
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2024 Cartechstore. Wszelkie prawa zastrzeżone.</p>
+            <p>&copy; 2024 JB AUTOTECH JAKUB BRONOWICKI. Wszelkie prawa zastrzeżone.</p>
             <div class="footer-links">
                 <a href="polityka-prywatnosci.html">Polityka prywatności</a>
                 <a href="regulamin.html">Regulamin</a>
                 <a href="mapa-strony.html">Mapa strony</a>
                 <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
             </div>
         </div>
     </footer>
-    <script src="js/visibility.js"></script>
-    <script src="js/slider.js"></script>
+
+    <script src="/js/visibility.js"></script>
+    <script src="/js/cookies-banner.js"></script>
 </body>
 </html> 

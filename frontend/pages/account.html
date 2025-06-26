@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel klienta - Cartechstore</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -259,6 +259,11 @@
             color: #065F46;
         }
 
+        .status-cancelled {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
         .view-order {
             color: var(--primary-color);
             text-decoration: none;
@@ -268,6 +273,21 @@
 
         .view-order:hover {
             color: var(--primary-dark);
+        }
+
+        /* Orders filters styling */
+        .orders-filters {
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+
+        .orders-table-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
         }
 
         @media (max-width: 1024px) {
@@ -323,9 +343,128 @@
         .orders-table tr { transition: box-shadow 0.3s, transform 0.3s; }
         .orders-table tr:hover { box-shadow: 0 4px 16px #2563eb22; transform: scale(1.01); }
         html { scroll-behavior: smooth; }
+        
+        /* Header SVG styles */
+        .header-action-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(37, 99, 235, 0.05);
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .header-action-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .header-action-button svg {
+            transition: all 0.2s ease;
+        }
+        
+        .cart-count, .wishlist-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ef4444;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
     </style>
 </head>
 <body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 91 123 45 67</span>
+                <span>📧 biuro@cartechstore.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 17:00</span>
+            </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <a href="account.html" class="header-action-button" title="Konto">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="wishlist.html" class="header-action-button wishlist-header-btn" title="Lista życzeń">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="wishlist-count" id="headerWishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="header-action-button cart-header-btn" title="Koszyk">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="headerCartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="index.html"><i class="fas fa-home"></i> Start</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">Panel klienta</span>
+            </nav>
+        </div>
+    </div>
+
     <div class="account-page fade-in">
         <div class="account-container">
             <!-- Sidebar -->
@@ -340,11 +479,11 @@
                 </div>
 
                 <nav class="account-menu">
-                    <a href="index.html" class="menu-item">
+                    <a href="/pages/index.html" class="menu-item">
                         <i class="fas fa-home"></i>
                         Strona główna
                     </a>
-                    <a href="catalog.html" class="menu-item">
+                    <a href="/pages/catalog.html" class="menu-item">
                         <i class="fas fa-th-large"></i>
                         Katalog
                     </a>
@@ -368,7 +507,7 @@
                 <div class="content-header">
                     <h1 class="content-title" id="welcomeTitle">Panel główny</h1>
                     <div class="content-actions">
-                        <a href="catalog.html" class="action-btn btn-primary">
+                        <a href="/pages/catalog.html" class="action-btn btn-primary">
                             <i class="fas fa-plus"></i>
                             Nowe zamówienie
                         </a>
@@ -400,102 +539,56 @@
             </div>
         </div>
     </div>
-    <script src="js/scripts.js"></script>
-    <script src="js/account.js"></script>
-    <script src="js/helpers.js"></script>
-    <script>
-    // Animowany licznik statystyk
-    function animateCount(el, to) {
-        let start = 0;
-        const duration = 900;
-        const step = Math.ceil(to / 30);
-        function update() {
-            start += step;
-            if (start >= to) { el.textContent = to; return; }
-            el.textContent = start;
-            requestAnimationFrame(update);
-        }
-        update();
-    }
-    document.addEventListener('DOMContentLoaded', async function() {
-        // Pobierz dane użytkownika z localStorage/tokenu
-            const token = localStorage.getItem('token');
-        let user = null;
-        try {
-            const res = await fetch('/api/auth/me', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            if (res.ok) {
-                user = await res.json();
-                document.getElementById('userFullName').textContent = user.firstName || user.companyName || user.email;
-                document.getElementById('userCompany').textContent = user.companyName || '';
-                document.getElementById('userEmail').textContent = user.email || '';
-                document.getElementById('welcomeTitle').textContent = `Witaj, ${user.firstName || user.companyName || user.email}!`;
-            }
-        } catch (e) {}
-        // Wyloguj się
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                window.location.href = '/login.html';
-            });
-        }
-        // Pobierz zamówienia użytkownika
-        let orders = [];
-        try {
-            const res = await fetch('/api/orders/my', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            });
-            if (res.ok) {
-                orders = await res.json();
-            }
-        } catch (e) {}
-        // Statystyki
-        const statsGrid = document.getElementById('statsGrid');
-        const activeCount = orders.filter(o => o.status === 'processing').length;
-        const completedCount = orders.filter(o => o.status === 'completed').length;
-        statsGrid.innerHTML = `
-            <div class="stat-card">
-                <i class="fas fa-shopping-cart stat-icon"></i>
-                <div class="stat-value" id="activeCount">0</div>
-                <div class="stat-label">Aktywne zamówienia</div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to profesjonalna hurtownia części samochodowych z ponad 15-letnim doświadczeniem. Obsługujemy warsztaty, serwisy i klientów indywidualnych w całej Polsce.</p>
             </div>
-            <div class="stat-card">
-                <i class="fas fa-truck stat-icon"></i>
-                <div class="stat-value" id="completedCount">0</div>
-                <div class="stat-label">Zrealizowane zamówienia</div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przemysłowa 15, 70-800 Szczecin</a></li>
+                    <li><a href="tel:+48911234567"><i class="fas fa-phone-alt"></i> +48 91 123 45 67</a></li>
+                    <li><a href="mailto:biuro@cartechstore.pl"><i class="fas fa-envelope"></i> biuro@cartechstore.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 17:00, Sob: 9:00 - 14:00</a></li>
+                </ul>
             </div>
-        `;
-        animateCount(document.getElementById('activeCount'), activeCount);
-        animateCount(document.getElementById('completedCount'), completedCount);
-        // Zamówienia
-        const ordersTableBody = document.getElementById('ordersTableBody');
-        const noOrdersMsg = document.getElementById('noOrdersMsg');
-        if (!orders || orders.length === 0) {
-            noOrdersMsg.style.display = 'block';
-            ordersTableBody.style.display = 'none';
-        } else {
-            noOrdersMsg.style.display = 'none';
-            ordersTableBody.style.display = '';
-            ordersTableBody.innerHTML = orders.slice(0,5).map(order => `
-                <tr>
-                    <td>#${order.number}</td>
-                    <td>${order.date}</td>
-                    <td>${order.value} zł</td>
-                    <td>
-                        <span class="order-status ${order.status === 'completed' ? 'status-completed' : 'status-processing'}">
-                            <i class="fas ${order.status === 'completed' ? 'fa-check' : 'fa-clock'}"></i>
-                            ${order.status === 'completed' ? 'Zrealizowane' : 'W trakcie realizacji'}
-                        </span>
-                    </td>
-                    <td><a href="order.html?id=${order.id}" class="view-order">Zobacz</a></td>
-                </tr>
-            `).join('');
-        }
-        });
-    </script>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 CARTECHSTORE SP. Z O.O. Wszelkie prawa zastrzeżone. NIP: 123-456-78-90</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="../js/scripts.js"></script>
+    <script src="../js/account.js"></script>
+    <script src="../js/helpers.js"></script>
 </body>
 </html> 

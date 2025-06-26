@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weryfikacja email - Cartechstore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --success-color: #10B981;
+            --error-color: #EF4444;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-lg: 0.75rem;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .verification-container {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .loading-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            animation: spin 1s linear infinite;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: var(--success-color);
+            margin-bottom: 2rem;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            color: var(--error-color);
+            margin-bottom: 2rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .verification-container h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .verification-container p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .status-message.success {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+
+        .status-message.error {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background: #D1D5DB;
+        }
+
+        @media (max-width: 640px) {
+            .verification-container {
+                padding: 2rem;
+            }
+            .verification-container h1 {
+                font-size: 1.5rem;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <!-- Loading state -->
+        <div id="loadingState">
+            <div class="loading-icon">
+                <i class="fas fa-spinner"></i>
+            </div>
+            <h1>Weryfikacja email...</h1>
+            <p>Proszę czekać, trwa weryfikacja Twojego adresu email.</p>
+        </div>
+
+        <!-- Success state -->
+        <div id="successState" style="display: none;">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h1>Email zweryfikowany!</h1>
+            <div class="status-message success">
+                <p><strong>Gratulacje!</strong> Twój adres email został pomyślnie zweryfikowany.</p>
+            </div>
+            <p>Twoje konto oczekuje teraz na akceptację przez administratora. Otrzymasz powiadomienie email, gdy konto zostanie aktywowane.</p>
+            <div class="action-buttons">
+                <a href="login.html" class="btn btn-primary">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Przejdź do logowania
+                </a>
+                <a href="../index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    Strona główna
+                </a>
+            </div>
+        </div>
+
+        <!-- Error state -->
+        <div id="errorState" style="display: none;">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h1>Błąd weryfikacji</h1>
+            <div class="status-message error" id="errorMessage">
+                <p>Wystąpił błąd podczas weryfikacji emaila.</p>
+            </div>
+            <div class="action-buttons">
+                <button onclick="resendVerification()" class="btn btn-primary">
+                    <i class="fas fa-envelope"></i>
+                    Wyślij ponownie
+                </button>
+                <a href="../index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    Strona główna
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get token from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        // Verify email on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (!token) {
+                showError('Brak tokenu weryfikacyjnego w linku.');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3005/api/auth/verify-email?token=${encodeURIComponent(token)}`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess(data.message);
+                } else {
+                    showError(data.message || 'Wystąpił błąd podczas weryfikacji.');
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                showError('Wystąpił błąd połączenia. Spróbuj ponownie później.');
+            }
+        });
+
+        function showSuccess(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('errorState').style.display = 'none';
+            document.getElementById('successState').style.display = 'block';
+        }
+
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('successState').style.display = 'none';
+            document.getElementById('errorMessage').querySelector('p').textContent = message;
+            document.getElementById('errorState').style.display = 'block';
+        }
+
+        async function resendVerification() {
+            const email = prompt('Podaj swój adres email:');
+            if (!email) return;
+
+            try {
+                const response = await fetch('http://localhost:3005/api/auth/resend-verification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Nowy link weryfikacyjny został wysłany na Twój email.');
+                } else {
+                    alert(data.message || 'Wystąpił błąd podczas wysyłania emaila.');
+                }
+            } catch (error) {
+                console.error('Resend error:', error);
+                alert('Wystąpił błąd. Spróbuj ponownie później.');
+            }
+        }
+    </script>
+</body>
+</html> 

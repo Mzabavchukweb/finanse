@@ -25,7 +25,7 @@ const auth = async (req, res, next) => {
                 return res.status(401).json({ message: 'Nie jesteś zalogowany. Zaloguj się, aby uzyskać dostęp.' });
             }
 
-            if (!user.isActive) {
+            if (user.isActive === false && user.role !== 'admin') {
                 return res.status(401).json({ message: 'Twoje konto jest nieaktywne. Skontaktuj się z administratorem.' });
             }
 

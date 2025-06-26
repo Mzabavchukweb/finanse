@@ -4,8 +4,8 @@
 
 - Node.js >= 16.0.0
 - npm >= 8.0.0
-- PostgreSQL >= 13
-- Redis (opcjonalnie, dla cache)
+- SQLite3 (domyślnie) lub PostgreSQL >= 13 (opcjonalnie dla produkcji)
+- Redis (opcjonalnie, dla cache i sesji)
 
 ## Zmienne środowiskowe
 
@@ -17,12 +17,17 @@ NODE_ENV=production
 PORT=3000
 FRONTEND_URL=https://twoja-domena.pl
 
-# Baza danych
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=cartechstore
-DB_USER=twoj_user
-DB_PASSWORD=twoje_haslo
+# Baza danych - wybierz jedną opcję:
+# Opcja 1: SQLite (prostsze, domyślne):
+DB_DIALECT=sqlite
+
+# Opcja 2: PostgreSQL (zalecane dla produkcji):
+# DB_DIALECT=postgresql
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_NAME=cartechstore
+# DB_USER=twoj_user
+# DB_PASSWORD=twoje_haslo
 
 # JWT
 JWT_SECRET=twoj_tajny_klucz
@@ -70,11 +75,31 @@ SESSION_SECRET=twoj_tajny_klucz_sesji
    ```
 
 2. Konfiguracja bazy danych:
+
+   **Opcja A: SQLite (domyślna, prostsza):**
    ```bash
+   # Baza danych zostanie utworzona automatycznie przy pierwszym uruchomieniu
+   # Nie wymaga dodatkowej konfiguracji
+   ```
+
+   **Opcja B: PostgreSQL (zalecana dla produkcji):**
+   ```bash
+   # Instalacja PostgreSQL
+   sudo apt install -y postgresql postgresql-contrib
+   
+   # Konfiguracja bazy danych
    sudo -u postgres psql
    CREATE DATABASE cartechstore;
    CREATE USER twoj_user WITH ENCRYPTED PASSWORD 'twoje_haslo';
    GRANT ALL PRIVILEGES ON DATABASE cartechstore TO twoj_user;
+   
+   # W pliku .env ustaw:
+   # DB_DIALECT=postgresql
+   # DB_HOST=localhost
+   # DB_PORT=5432
+   # DB_NAME=cartechstore
+   # DB_USER=twoj_user
+   # DB_PASSWORD=twoje_haslo
    ```
 
 3. Wdrożenie aplikacji:
@@ -135,6 +160,17 @@ SESSION_SECRET=twoj_tajny_klucz_sesji
    ```
 
 2. Backup bazy danych:
+
+   **SQLite:**
+   ```bash
+   # Tworzenie backupu
+   cp database.sqlite backup_$(date +%Y%m%d).sqlite
+   
+   # Przywracanie z backupu
+   cp backup.sqlite database.sqlite
+   ```
+
+   **PostgreSQL:**
    ```bash
    # Tworzenie backupu
    pg_dump -U twoj_user cartechstore > backup_$(date +%Y%m%d).sql

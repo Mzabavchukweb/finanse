@@ -1,15 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const categoryController = require('../controllers/categoryController');
-const authMiddleware = require('../middleware/auth');
+const { getAllCategories, createCategory, updateCategory, deleteCategory, getPublicCategories } = require('../controllers/categoryController');
+const { protect, requireAdmin } = require('../middleware/auth');
 
-// Publiczne pobieranie kategorii
-router.get('/public', categoryController.getPublicCategories);
+// Public routes
+router.get('/public', getPublicCategories);
 
-// Admin CRUD
-router.get('/', authMiddleware.protect, authMiddleware.restrictTo('admin'), categoryController.getAllCategories);
-router.post('/', authMiddleware.protect, authMiddleware.restrictTo('admin'), categoryController.createCategory);
-router.put('/:id', authMiddleware.protect, authMiddleware.restrictTo('admin'), categoryController.updateCategory);
-router.delete('/:id', authMiddleware.protect, authMiddleware.restrictTo('admin'), categoryController.deleteCategory);
+// Admin routes - require authentication and admin role
+router.use(protect); // All routes below require authentication
+router.use(requireAdmin); // All routes below require admin role
+
+// Get all categories (admin)
+router.get('/', getAllCategories);
+
+// Create new category (admin)
+router.post('/', createCategory);
+
+// Update category (admin)
+router.put('/:id', updateCategory);
+
+// Delete category (admin)
+router.delete('/:id', deleteCategory);
 
 module.exports = router;

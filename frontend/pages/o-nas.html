@@ -3,12 +3,579 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="O nas - Cartechstore - Poznaj naszą firmę">
+    <meta name="keywords" content="o nas, cartechstore, części samochodowe, historia firmy">
+    <meta name="robots" content="index, follow">
     <title>O nas - Cartechstore</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/cookies-banner.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.5;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .top-bar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .top-links a:hover {
+            opacity: 1;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .header.hide {
+            transform: translateY(-100%);
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-action-button {
+            background: var(--background-color);
+            border: none;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: var(--text-color);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .header-action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 1;
+        }
+
+        .header-action-button i {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .header-action-button:hover {
+            transform: translateY(-4px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .header-action-button:hover::before {
+            opacity: 1;
+        }
+
+        .header-action-button:hover i {
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        /* Navigation */
+        .main-nav {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-list a::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .nav-list a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .nav-list a:hover::before {
+            width: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .breadcrumbs ol {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-dark);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+
+        .about-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 3rem;
+        }
+
+        .about-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .about-section p {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--white);
+            color: var(--text-color);
+            padding: 6rem 0 2rem;
+            position: relative;
+            border-top: 5px solid var(--primary-color);
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--primary-light));
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-section a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: width 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            font-weight: 500;
+            transform: translateX(5px);
+        }
+
+        .footer-section a:hover::before {
+            width: 100%;
+        }
+
+        .footer-section p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer .newsletter-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            background: var(--white);
+            border-radius: var(--radius);
+            color: var(--text-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer .newsletter-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
+
+        .footer .newsletter-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            border-radius: var(--radius);
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer .newsletter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+        }
+
+        .copyright {
+            max-width: 1280px;
+            margin: 3rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+            }
+            .logo {
+                order: 1;
+                font-size: 1.2rem;
+                margin-bottom: 0.3rem;
+            }
+            .search-bar {
+                order: 2;
+                width: 100%;
+                max-width: none;
+                margin-bottom: 0.2rem;
+            }
+            .header-actions {
+                display: none;
+            }
+            .main-nav {
+                display: none;
+            }
+            .top-bar {
+                display: none !important;
+            }
+            .copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-bar-content">
             <div class="contact-info">
@@ -22,6 +589,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Header -->
     <header class="header">
         <div class="header-container">
             <a href="index.html" class="logo">Cartechstore</a>
@@ -35,6 +604,8 @@
             </div>
         </div>
     </header>
+
+    <!-- Navigation -->
     <nav class="main-nav">
         <div class="nav-container">
             <ul class="nav-list">
@@ -49,6 +620,8 @@
             </ul>
         </div>
     </nav>
+
+    <!-- Main Content -->
     <main class="main-content">
         <nav class="breadcrumbs" aria-label="Breadcrumb">
             <ol>
@@ -57,29 +630,70 @@
                 <li><span>O nas</span></li>
             </ol>
         </nav>
+        
         <div class="container">
-            <h1>O nas</h1>
-            <p>Cartechstore to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek. Naszą misją jest profesjonalna obsługa i szybka realizacja zamówień.</p>
+            <div class="page-header">
+                <h1><i class="fas fa-building"></i> O nas</h1>
+                <p>Poznaj historię i wartości Cartechstore</p>
+            </div>
+
+            <div class="about-section">
+                <h2>Nasza historia</h2>
+                <p>Cartechstore to firma z wieloletnim doświadczeniem w branży motoryzacyjnej. Od ponad 15 lat dostarczamy najwyższej jakości części samochodowe dla warsztatów, serwisów i klientów indywidualnych w całej Polsce.</p>
+                
+                <p>Nasza misja to zapewnienie naszym klientom dostępu do oryginalnych części samochodowych w konkurencyjnych cenach, z szybką dostawą i profesjonalną obsługą. Współpracujemy z najlepszymi producentami części samochodowych na świecie.</p>
+                
+                <h2>Nasze wartości</h2>
+                <p><strong>Jakość:</strong> Oferujemy wyłącznie oryginalne części od sprawdzonych producentów.</p>
+                <p><strong>Niezawodność:</strong> Terminowe dostawy i profesjonalna obsługa to nasze priorytety.</p>
+                <p><strong>Doświadczenie:</strong> Nasz zespół to eksperci z wieloletnim doświadczeniem w branży motoryzacyjnej.</p>
+                <p><strong>Innowacyjność:</strong> Stale rozwijamy nasze usługi i dostosowujemy je do potrzeb klientów.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Lat doświadczenia</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50,000+</div>
+                    <div class="stat-label">Zadowolonych klientów</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100,000+</div>
+                    <div class="stat-label">Części w ofercie</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24h</div>
+                    <div class="stat-label">Szybka dostawa</div>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Dlaczego warto nas wybrać?</h2>
+                <p>✅ <strong>Szeroki asortyment</strong> - ponad 100,000 części samochodowych</p>
+                <p>✅ <strong>Konkurencyjne ceny</strong> - najlepsze ceny na rynku</p>
+                <p>✅ <strong>Szybka dostawa</strong> - wysyłka w 24h</p>
+                <p>✅ <strong>Profesjonalne doradztwo</strong> - pomożemy w wyborze odpowiednich części</p>
+                <p>✅ <strong>Gwarancja jakości</strong> - wszystkie części objęte są gwarancją</p>
+                <p>✅ <strong>Obsługa B2B</strong> - specjalne warunki dla firm</p>
+            </div>
         </div>
     </main>
+
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-section">
                 <h3>O nas</h3>
                 <p>Cartechstore to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek.</p>
-                <div class="footer-social">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                </div>
             </div>
             <div class="footer-section">
                 <h3>Kontakt</h3>
                 <ul>
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przykładowa 123, 00-000 Warszawa</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Stanisława Dubois 12/19, 71-610 Szczecin</a></li>
                     <li><a href="tel:+48123456789"><i class="fas fa-phone-alt"></i> +48 123 456 789</a></li>
-                    <li><a href="mailto:kontakt@autoparts.pl"><i class="fas fa-envelope"></i> kontakt@autoparts.pl</a></li>
+                    <li><a href="mailto:kontakt@autopartsb2b.pl"><i class="fas fa-envelope"></i> kontakt@autopartsb2b.pl</a></li>
                     <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 16:00</a></li>
                 </ul>
             </div>
@@ -103,16 +717,18 @@
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2024 Cartechstore. Wszelkie prawa zastrzeżone.</p>
+            <p>&copy; 2024 JB AUTOTECH JAKUB BRONOWICKI. Wszelkie prawa zastrzeżone.</p>
             <div class="footer-links">
                 <a href="polityka-prywatnosci.html">Polityka prywatności</a>
                 <a href="regulamin.html">Regulamin</a>
                 <a href="mapa-strony.html">Mapa strony</a>
                 <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
             </div>
         </div>
     </footer>
-    <script src="js/visibility.js"></script>
-    <script src="js/slider.js"></script>
+
+    <script src="/js/visibility.js"></script>
+    <script src="/js/cookies-banner.js"></script>
 </body>
 </html> 

@@ -1,4 +1,6 @@
 require('dotenv').config();
+const path = require('path');
+const dbPath = path.resolve(__dirname, '../database.sqlite');
 
 module.exports = {
     // Konfiguracja bazy danych
@@ -20,7 +22,7 @@ module.exports = {
 
     // Konfiguracja frontendu
     frontend: {
-        url: process.env.FRONTEND_URL || 'http://localhost:5500'
+        url: process.env.FRONTEND_URL || 'http://localhost:3005'
     },
 
     // Konfiguracja API REGON
@@ -31,17 +33,17 @@ module.exports = {
 
     development: {
         dialect: 'sqlite',
-        storage: './database.sqlite',
+        storage: dbPath,
         logging: console.log
     },
     test: {
         dialect: 'sqlite',
-        storage: ':memory:',
+        storage: dbPath,
         logging: false
     },
     production: {
         dialect: 'sqlite',
-        storage: './database.sqlite',
+        storage: dbPath,
         logging: false
     }
 };

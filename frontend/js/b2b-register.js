@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkCompanyExists = async (companyName, nip) => {
         if (!companyName || !nip) return { exists: false };
         try {
-            const response = await fetch('/api/auth/check-company', {
+            const response = await fetch('http://localhost:3005/api/auth/check-company', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ companyName, nip })
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 console.log('Attempting registration fetch...'); // Debug log
-                const response = await fetch('/api/auth/register', {
+                const response = await fetch('http://localhost:3005/api/auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)

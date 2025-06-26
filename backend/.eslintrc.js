@@ -5,26 +5,19 @@ module.exports = {
         jest: true
     },
     extends: [
-        'eslint:recommended',
-        'plugin:security/recommended',
-        'plugin:node/recommended'
+        'eslint:recommended'
     ],
     parserOptions: {
         ecmaVersion: 12,
         sourceType: 'module'
     },
     plugins: [
-        'security',
-        'node'
+        'security'
     ],
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
         'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
-        'node/no-unsupported-features/es-syntax': [
-            'error',
-            { ignores: ['modules'] }
-        ],
         'security/detect-object-injection': 'warn',
         'security/detect-non-literal-regexp': 'warn',
         'security/detect-unsafe-regex': 'warn',
@@ -83,8 +76,8 @@ module.exports = {
                 jest: true
             },
             rules: {
-                'node/no-unpublished-require': 'off',
-                'node/no-missing-require': 'off'
+                'max-lines-per-function': 'off',
+                'complexity': 'off'
             }
         }
     ]

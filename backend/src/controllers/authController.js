@@ -2,13 +2,13 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const mongoose = require('mongoose');
 const crypto = require('crypto');
 const { PendingUser } = require('../models');
 const UserLog = require('../models/UserLog');
 const { AppError } = require('../utils/errorHandler');
 const { sendEmail } = require('../utils/email');
 const { Op } = require('sequelize');
+const emailService = require('../services/emailService');
 
 // Konfiguracja JWT
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -218,6 +218,21 @@ const login = async (req, res) => {
             });
         }
 
+        // Send welcome email on first successful login (only if user just got activated)
+        try {
+            if (user.lastLoginAt === null) {
+                await emailService.sendWelcomeEmail(user);
+                console.log('✅ Welcome email sent to:', user.email);
+            }
+        } catch (emailError) {
+            console.error('❌ Failed to send welcome email:', emailError);
+            // Don't fail login if welcome email fails
+        }
+
+        // Update last login time
+        user.lastLoginAt = new Date();
+        await user.save();
+
         const token = jwt.sign(
             { id: user.id, email: user.email, role: user.role },
             process.env.JWT_SECRET,
@@ -264,31 +279,55 @@ const getProfile = async (req, res) => {
 // Sprawdzanie czy firma już istnieje
 const checkCompany = async (req, res) => {
     try {
-        const { companyName, nip } = req.body;
-
-        if (!companyName || !nip) {
-            return res.status(400).json({
-                message: 'Nazwa firmy i NIP są wymagane'
-            });
-        }
-
-        const companyExists = await User.findOne({
-            $or: [
-                { companyName: { $regex: new RegExp(companyName, 'i') } },
-                { nip }
-            ]
-        });
-
         res.json({
-            exists: !!companyExists,
-            message: companyExists ? 'Firma o podanej nazwie lub NIP już istnieje' : 'Firma jest dostępna do rejestracji'
+            exists: false,
+            message: 'Firma jest dostępna do rejestracji'
         });
     } catch (error) {
         console.error('Błąd podczas sprawdzania firmy:', error);
         res.status(500).json({
-            message: 'Wystąpił błąd podczas sprawdzania firmy',
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+            message: 'Wystąpił błąd podczas sprawdzania firmy'
         });
+    }
+};
+
+// Admin function to approve users and send welcome email
+const approveUser = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (user.status === 'active') {
+            return res.status(400).json({ message: 'User is already active' });
+        }
+
+        // Activate user
+        user.status = 'active';
+        await user.save();
+
+        // Send welcome email
+        try {
+            await emailService.sendWelcomeEmail(user);
+            console.log('✅ Welcome email sent to approved user:', user.email);
+        } catch (emailError) {
+            console.error('❌ Failed to send welcome email to approved user:', emailError);
+        }
+
+        res.json({ 
+            message: 'User approved successfully',
+            user: {
+                id: user.id,
+                email: user.email,
+                status: user.status
+            }
+        });
+    } catch (error) {
+        console.error('Error approving user:', error);
+        res.status(500).json({ message: 'Error approving user' });
     }
 };
 
@@ -297,5 +336,6 @@ module.exports = {
     login,
     getProfile,
     verifyEmail,
-    checkCompany
+    checkCompany,
+    approveUser
 };

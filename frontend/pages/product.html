@@ -548,7 +548,7 @@
 <body>
   <div class="container">
     <nav class="breadcrumbs">
-      <a href="/">Strona główna</a>
+                      <a href="../index.html">Strona główna</a>
       <span class="sep">/</span>
       <a href="catalog.html">Katalog części</a>
       <span class="sep">/</span>
@@ -603,7 +603,7 @@
     </div>
   </div>
   <style>@keyframes spin{100%{transform:rotate(360deg);}}</style>
-  <script src="js/helpers.js"></script>
+      <script src="../js/helpers.js"></script>
   <script>
   function isUserLoggedIn() {
     return !!(localStorage.getItem('token') || sessionStorage.getItem('token'));
@@ -676,12 +676,12 @@
             <div class="product-category">${getCategoryName(product.category)}</div>
             <div class="product-title">${product.name}</div>
             <div class="product-number">Nr kat.: ${product.number}</div>
-            <div class="product-price">${loggedIn ? (product.price.toLocaleString('pl-PL', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' zł') : '<span class=\'login-required\'>Zaloguj się, aby zobaczyć cenę</span>'}</div>
+            <div class="product-price">${window.loggedIn ? (product.price.toLocaleString('pl-PL', {minimumFractionDigits:2, maximumFractionDigits:2}) + ' zł') : '<span class=\'login-required\'>Zaloguj się, aby zobaczyć cenę</span>'}</div>
             <div class="product-stock ${stockStatus}"><span class="stock-icon"></span> ${stockText}</div>
             <div class="product-desc">${product.desc || 'Brak opisu.'}</div>
             <div class="product-desc"><b>Dostępność w magazynach:</b><br>${warehouses}</div>
             ${params}
-            ${loggedIn ? `<div class="qty-input-wrap">
+            ${window.loggedIn ? `<div class="qty-input-wrap">
               <button class="qty-btn" id="qtyDown">-</button>
               <input type="number" min="1" value="1" class="qty-input" id="qtyInput">
               <button class="qty-btn" id="qtyUp">+</button>
@@ -923,7 +923,7 @@
       document.getElementById('miniCartPanel').classList.remove('active');
     });
     document.querySelector('.mini-cart-order-btn').addEventListener('click', () => {
-      window.location.href = '/cart.html';
+      window.location.href = 'cart.html';
     });
     document.getElementById('cartBox').addEventListener('click', function() {
       document.getElementById('miniCartPanel').classList.add('active');

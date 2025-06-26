@@ -1,3 +1,5 @@
+window.loggedIn = !!localStorage.getItem('authToken');
+
 document.addEventListener('DOMContentLoaded', function() {
     // Check login status and update visibility
     updateVisibility();

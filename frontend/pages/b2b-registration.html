@@ -6,6 +6,7 @@
     <title>Rejestracja B2B - Cartechstore</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/cookies-banner.css">
     <meta name="csrf-token" content="">
     <script src="https://www.google.com/recaptcha/api.js?render=6LdNpkErAAAAAPNNR3H_ynCi3PTRNPWtp67j9Svg"></script>
     <style>
@@ -231,19 +232,49 @@
                 padding: 0.5rem 0.5rem;
             }
         }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 0.2rem;
+            accent-color: var(--primary-color);
+            width: auto;
+        }
+        
+        .checkbox-group label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-bottom: 0;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        
+        .checkbox-group a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .checkbox-group a:hover {
+            color: var(--primary-dark);
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-container">
-            <a href="/" class="logo">Cartechstore</a>
+            <a href="../index.html" class="logo">Cartechstore</a>
         </div>
     </header>
     <main class="main-content">
         <div class="register-container">
             <nav class="breadcrumbs" aria-label="Breadcrumb">
                 <ol>
-                    <li><a href="/" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
+                    <li><a href="../index.html" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
                     <li><span>&gt;</span></li>
                     <li><span>Rejestracja B2B</span></li>
                 </ol>
@@ -310,19 +341,50 @@
                     <input type="password" id="confirmPassword" name="confirmPassword" required minlength="8" autocomplete="new-password" placeholder="Potwierdź hasło">
                     <div class="error" id="confirmPasswordError">Hasła nie są identyczne</div>
                 </div>
+                
+                <!-- Checkboxy zgodności prawnej -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="acceptTerms" name="acceptTerms" required>
+                        <label for="acceptTerms">
+                            Akceptuję <a href="regulamin.html" target="_blank" style="color: var(--primary-color); text-decoration: underline;">Regulamin</a> sklepu *
+                        </label>
+                    </div>
+                    <div class="error" id="acceptTermsError">Musisz zaakceptować regulamin</div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="acceptPrivacy" name="acceptPrivacy" required>
+                        <label for="acceptPrivacy">
+                            Zapoznałem się z <a href="polityka-prywatnosci.html" target="_blank" style="color: var(--primary-color); text-decoration: underline;">Polityką prywatności</a> i wyrażam zgodę na przetwarzanie moich danych osobowych *
+                        </label>
+                    </div>
+                    <div class="error" id="acceptPrivacyError">Musisz zaakceptować politykę prywatności</div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="acceptMarketing" name="acceptMarketing">
+                        <label for="acceptMarketing">
+                            Wyrażam zgodę na otrzymywanie informacji handlowych drogą elektroniczną (opcjonalnie)
+                        </label>
+                    </div>
+                </div>
+                
                 <button type="submit" class="register-button" id="registerBtn">
                     Zarejestruj się
                     <i class="fas fa-arrow-right"></i>
-            </button>
-        </form>
+                </button>
+            </form>
             <div class="register-footer">
-                <p>Masz już konto? <a href="/login.html">Zaloguj się</a></p>
+                <p>Masz już konto? <a href="login.html">Zaloguj się</a></p>
             </div>
         </div>
     </main>
     <script>
         // Pobierz token CSRF i ustaw w meta tagu
-        fetch('/api/auth/csrf-token', { credentials: 'include' })
+        fetch('http://localhost:3005/api/auth/csrf-token', { credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 document.querySelector('meta[name="csrf-token"]').setAttribute('content', data.csrfToken);
@@ -330,8 +392,12 @@
 
         async function handleRegister(event) {
             event.preventDefault();
+            
+            // Clear previous errors
             document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
             document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+            
+            // Get form data
             const companyName = document.getElementById('companyName').value.trim();
             const nip = document.getElementById('nip').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -343,66 +409,150 @@
             const city = document.getElementById('city').value.trim();
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Client-side validation
             let isValid = true;
-            if (!companyName) { document.getElementById('companyNameError').style.display = 'block'; document.getElementById('companyName').classList.add('error'); isValid = false; }
-            if (!/^[0-9]{10}$/.test(nip)) { document.getElementById('nipError').style.display = 'block'; document.getElementById('nip').classList.add('error'); isValid = false; }
-            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { document.getElementById('emailError').style.display = 'block'; document.getElementById('email').classList.add('error'); isValid = false; }
-            if (!/^\+?[0-9\s-]{9,}$/.test(phone)) { document.getElementById('phoneError').style.display = 'block'; document.getElementById('phone').classList.add('error'); isValid = false; }
-            if (!firstName) { document.getElementById('firstNameError').style.display = 'block'; document.getElementById('firstName').classList.add('error'); isValid = false; }
-            if (!lastName) { document.getElementById('lastNameError').style.display = 'block'; document.getElementById('lastName').classList.add('error'); isValid = false; }
-            if (!street) { document.getElementById('streetError').style.display = 'block'; document.getElementById('street').classList.add('error'); isValid = false; }
-            if (!/^\d{2}-\d{3}$/.test(postalCode)) { document.getElementById('postalCodeError').style.display = 'block'; document.getElementById('postalCode').classList.add('error'); isValid = false; }
-            if (!city) { document.getElementById('cityError').style.display = 'block'; document.getElementById('city').classList.add('error'); isValid = false; }
-            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) { document.getElementById('passwordError').style.display = 'block'; document.getElementById('password').classList.add('error'); isValid = false; }
-            if (password !== confirmPassword) { document.getElementById('confirmPasswordError').style.display = 'block'; document.getElementById('confirmPassword').classList.add('error'); isValid = false; }
+            
+            if (!companyName) { 
+                document.getElementById('companyNameError').style.display = 'block'; 
+                document.getElementById('companyName').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!/^[0-9]{10}$/.test(nip)) { 
+                document.getElementById('nipError').style.display = 'block'; 
+                document.getElementById('nip').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) { 
+                document.getElementById('emailError').style.display = 'block'; 
+                document.getElementById('email').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!/^\+?[0-9\s-]{9,}$/.test(phone)) { 
+                document.getElementById('phoneError').style.display = 'block'; 
+                document.getElementById('phone').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!firstName) { 
+                document.getElementById('firstNameError').style.display = 'block'; 
+                document.getElementById('firstName').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!lastName) { 
+                document.getElementById('lastNameError').style.display = 'block'; 
+                document.getElementById('lastName').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!street) { 
+                document.getElementById('streetError').style.display = 'block'; 
+                document.getElementById('street').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!/^\d{2}-\d{3}$/.test(postalCode)) { 
+                document.getElementById('postalCodeError').style.display = 'block'; 
+                document.getElementById('postalCode').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!city) { 
+                document.getElementById('cityError').style.display = 'block'; 
+                document.getElementById('city').classList.add('error'); 
+                isValid = false; 
+            }
+            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) { 
+                document.getElementById('passwordError').style.display = 'block'; 
+                document.getElementById('password').classList.add('error'); 
+                isValid = false; 
+            }
+            if (password !== confirmPassword) { 
+                document.getElementById('confirmPasswordError').style.display = 'block'; 
+                document.getElementById('confirmPassword').classList.add('error'); 
+                isValid = false; 
+            }
+            
+            // Walidacja checkboxów
+            if (!document.getElementById('acceptTerms').checked) {
+                document.getElementById('acceptTermsError').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!document.getElementById('acceptPrivacy').checked) {
+                document.getElementById('acceptPrivacyError').style.display = 'block';
+                isValid = false;
+            }
+            
             if (!isValid) {
                 document.getElementById('errorMessage').textContent = 'Popraw błędy w formularzu.';
                 document.getElementById('errorMessage').style.display = 'block';
                 document.getElementById('successMessage').style.display = 'none';
                 return false;
             }
-            document.getElementById('registerBtn').disabled = true;
-            document.getElementById('registerBtn').innerHTML = 'Rejestracja... <i class="fas fa-spinner fa-spin"></i>';
+            
+            // Disable submit button
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.disabled = true;
+            registerBtn.innerHTML = 'Rejestracja... <i class="fas fa-spinner fa-spin"></i>';
+            
             try {
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-                // --- reCAPTCHA ---
-                const recaptchaToken = await grecaptcha.execute('6LdNpkErAAAAAPNNR3H_ynCi3PTRNPWtp67j9Svg', {action: 'register'});
-                // ---
-                const response = await fetch('/api/auth/register', {
+                const response = await fetch('http://localhost:3005/api/auth/register', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': csrfToken
+                        'Content-Type': 'application/json'
                     },
                     credentials: 'include',
                     body: JSON.stringify({
-                        companyName, nip, email, phone, password, firstName, lastName, companyCountry: 'PL', address: { street, postalCode, city },
-                        recaptchaToken
+                        companyName, 
+                        nip, 
+                        email, 
+                        phone, 
+                        password, 
+                        firstName, 
+                        lastName, 
+                        companyCountry: 'PL', 
+                        address: { street, postalCode, city },
+                        acceptTerms: document.getElementById('acceptTerms').checked,
+                        acceptPrivacy: document.getElementById('acceptPrivacy').checked,
+                        acceptMarketing: document.getElementById('acceptMarketing').checked
                     })
                 });
+                
                 const data = await response.json();
-                document.getElementById('registerBtn').disabled = false;
-                document.getElementById('registerBtn').innerHTML = 'Zarejestruj się <i class="fas fa-arrow-right"></i>';
+                
                 if (data.success) {
-                    document.getElementById('successMessage').textContent = 'Rejestracja przebiegła pomyślnie! Sprawdź email i kliknij w link aktywacyjny.';
+                    document.getElementById('successMessage').textContent = data.message;
                     document.getElementById('successMessage').style.display = 'block';
                     document.getElementById('errorMessage').style.display = 'none';
                     document.getElementById('registrationForm').reset();
-                    setTimeout(() => { window.location.href = '/login.html?registered=1'; }, 2000);
+                    
+                    // Redirect after 3 seconds
+                    setTimeout(() => { 
+                        window.location.href = 'verification-pending.html'; 
+                    }, 3000);
                 } else {
+                    // Handle validation errors
+                    if (data.errors && Array.isArray(data.errors)) {
+                        data.errors.forEach(error => {
+                            console.log('Validation error:', error);
+                        });
+                    }
+                    
                     document.getElementById('errorMessage').textContent = data.message || 'Wystąpił błąd podczas rejestracji';
                     document.getElementById('errorMessage').style.display = 'block';
                     document.getElementById('successMessage').style.display = 'none';
                 }
             } catch (error) {
-                document.getElementById('registerBtn').disabled = false;
-                document.getElementById('registerBtn').innerHTML = 'Zarejestruj się <i class="fas fa-arrow-right"></i>';
+                console.error('Registration error:', error);
                 document.getElementById('errorMessage').textContent = 'Wystąpił błąd podczas rejestracji. Spróbuj ponownie później.';
                 document.getElementById('errorMessage').style.display = 'block';
                 document.getElementById('successMessage').style.display = 'none';
+            } finally {
+                // Re-enable submit button
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = 'Zarejestruj się <i class="fas fa-arrow-right"></i>';
             }
+            
             return false;
         }
     </script>
+    <script src="../js/cookies-banner.js"></script>
 </body>
 </html> 

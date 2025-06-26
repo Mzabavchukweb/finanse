@@ -42,4 +42,4 @@ module.exports = {
         'eol-last': 'error',
         'max-lines-per-function': 'off'
     }
-}; 
+};
