@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zamówienie złożone pomyślnie - Cartechstore</title>
+    
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <link rel="stylesheet" href="/css/styles.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --success-color: #10b981;
+            --success-light: #d1fae5;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --text-color: #1e293b;
+            --text-light: #64748b;
+            --border-color: #e2e8f0;
+            --background-color: #f8fafc;
+            --radius: 12px;
+            --shadow: 0 4px 16px rgba(37, 99, 235, 0.08);
+            --shadow-lg: 0 8px 32px rgba(37, 99, 235, 0.12);
+        }
+
+        .main-content {
+            padding: 4rem 0;
+            min-height: 70vh;
+            background: var(--background-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .success-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--success-color), var(--primary-color));
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--success-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+            animation: successPulse 2s infinite;
+        }
+
+        .success-icon i {
+            font-size: 3rem;
+            color: var(--success-color);
+        }
+
+        @keyframes successPulse {
+            0% { box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); }
+            50% { box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5); }
+            100% { box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3); }
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+
+        .success-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .order-details {
+            background: var(--gray-50);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .order-details h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .action-card {
+            background: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .action-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .action-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+        }
+
+        .action-card h4 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .action-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .email-notification {
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .email-notification i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .email-notification p {
+            margin: 0;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 2rem 1rem;
+            }
+
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Header SVG styles */
+        .header-action-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(37, 99, 235, 0.05);
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .header-action-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .header-action-button svg {
+            transition: all 0.2s ease;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ef4444;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 91 123 45 67</span>
+                <span>📧 biuro@cartechstore.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 17:00</span>
+            </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <a href="account.html" class="header-action-button" title="Konto">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="cart.html" class="header-action-button cart-header-btn" title="Koszyk">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="headerCartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="index.html"><i class="fas fa-home"></i> Start</a>
+                <span class="breadcrumb-separator">></span>
+                <a href="cart.html">Koszyk</a>
+                <span class="breadcrumb-separator">></span>
+                <a href="checkout.html">Finalizacja</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">Sukces</span>
+            </nav>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="success-container fade-in">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                
+                <h1 class="success-title">Zamówienie złożone!</h1>
+                <p class="success-subtitle">Dziękujemy za zakup. Twoje zamówienie zostało przyjęte do realizacji.</p>
+
+                <div class="order-details">
+                    <h3><i class="fas fa-receipt"></i> Szczegóły zamówienia</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Numer zamówienia:</span>
+                        <span class="detail-value" id="orderNumber">Ładowanie...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Data złożenia:</span>
+                        <span class="detail-value" id="orderDate">Ładowanie...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status płatności:</span>
+                        <span class="detail-value" style="color: var(--success-color);">
+                            <i class="fas fa-check-circle"></i> Opłacone
+                        </span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Kwota:</span>
+                        <span class="detail-value" id="orderTotal">Ładowanie...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Metoda płatności:</span>
+                        <span class="detail-value">
+                            <i class="fab fa-stripe"></i> Stripe
+                        </span>
+                    </div>
+                </div>
+
+                <div class="email-notification">
+                    <i class="fas fa-envelope"></i>
+                    <p>Potwierdzenie zamówienia zostało wysłane na Twój adres e-mail. Sprawdź także folder spam.</p>
+                </div>
+
+                <div class="actions-grid">
+                    <a href="account.html#orders" class="action-card">
+                        <i class="fas fa-list"></i>
+                        <h4>Moje zamówienia</h4>
+                        <p>Sprawdź status i historię swoich zamówień</p>
+                    </a>
+                    
+                    <a href="catalog.html" class="action-card">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>Kontynuuj zakupy</h4>
+                        <p>Przeglądaj nasz katalog części samochodowych</p>
+                    </a>
+                    
+                    <a href="kontakt.html" class="action-card">
+                        <i class="fas fa-phone"></i>
+                        <h4>Skontaktuj się z nami</h4>
+                        <p>Masz pytania? Napisz lub zadzwoń do nas</p>
+                    </a>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <a href="index.html" class="btn btn-primary">
+                        <i class="fas fa-home"></i>
+                        Powrót na stronę główną
+                    </a>
+                    <a href="account.html" class="btn btn-secondary">
+                        <i class="fas fa-user"></i>
+                        Panel klienta
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to profesjonalna hurtownia części samochodowych z ponad 15-letnim doświadczeniem na rynku.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przemysłowa 15, 70-800 Szczecin</a></li>
+                    <li><a href="tel:+48911234567"><i class="fas fa-phone-alt"></i> +48 91 123 45 67</a></li>
+                    <li><a href="mailto:biuro@cartechstore.pl"><i class="fas fa-envelope"></i> biuro@cartechstore.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 17:00, Sob: 9:00 - 14:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 CARTECHSTORE SP. Z O.O. Wszelkie prawa zastrzeżone. NIP: 123-456-78-90</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get URL parameters to check payment status
+            const urlParams = new URLSearchParams(window.location.search);
+            const paymentIntent = urlParams.get('payment_intent');
+            const paymentIntentClientSecret = urlParams.get('payment_intent_client_secret');
+            const redirectStatus = urlParams.get('redirect_status');
+
+            // Format current date
+            const now = new Date();
+            const orderDate = now.toLocaleDateString('pl-PL', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Display order details
+            document.getElementById('orderDate').textContent = orderDate;
+            
+            // Generate order number (in real app this would come from backend)
+            const orderNumber = 'ORD-' + now.getFullYear() + '-' + String(now.getTime()).slice(-6);
+            document.getElementById('orderNumber').textContent = orderNumber;
+            
+            // Get total from localStorage (backup)
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal >= 200 ? 0 : 15.99; // Free shipping over 200 PLN
+            const vat = subtotal * 0.23;
+            const total = subtotal + shipping + vat;
+            
+            document.getElementById('orderTotal').textContent = formatPrice(total);
+
+            // Clear cart since order is completed
+            localStorage.removeItem('cart');
+            updateHeaderCartCount();
+
+            // Auto-redirect to account after 30 seconds (optional)
+            setTimeout(() => {
+                const redirect = confirm('Czy chcesz przejść do panelu klienta aby sprawdzić swoje zamówienia?');
+                if (redirect) {
+                    window.location.href = 'account.html#orders';
+                }
+            }, 30000);
+        });
+
+        // Utility functions
+        function formatPrice(price) {
+            return new Intl.NumberFormat('pl-PL', {
+                style: 'currency',
+                currency: 'PLN'
+            }).format(price);
+        }
+
+        function updateHeaderCartCount() {
+            const headerCartCount = document.getElementById('headerCartCount');
+            if (headerCartCount) {
+                headerCartCount.textContent = '0';
+                headerCartCount.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html> 

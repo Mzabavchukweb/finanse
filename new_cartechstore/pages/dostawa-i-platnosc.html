@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dostawa i płatność - Cartechstore - Informacje o dostawie i opcjach płatności">
+    <meta name="keywords" content="dostawa, płatność, przesyłka, kurier, cartechstore">
+    <meta name="robots" content="index, follow">
+    <title>Dostawa i płatność - Cartechstore</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/cookies-banner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --info-color: #3B82F6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        /* Copy consistent header/footer styles */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .top-bar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .top-links a:hover {
+            opacity: 1;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-action-button {
+            background: var(--background-color);
+            border: none;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: var(--text-color);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .header-action-button:hover {
+            transform: translateY(-4px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .main-nav {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-list a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .breadcrumbs ol {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-dark);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+
+        .content-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .content-section h3 {
+            color: var(--text-color);
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.25rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .content-section ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .option-card {
+            background: var(--background-color);
+            border: 2px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .option-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .option-card h4 {
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.125rem;
+        }
+
+        .option-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-tag {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .price-tag.free {
+            background: var(--success-color);
+        }
+
+        .highlight-box {
+            background: rgba(37, 99, 235, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin: 1rem 0;
+        }
+
+        .info-box.warning {
+            background: rgba(245, 158, 11, 0.05);
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .info-box.success {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .info-box h4 {
+            color: var(--info-color);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box.warning h4 {
+            color: var(--warning-color);
+        }
+
+        .info-box.success h4 {
+            color: var(--success-color);
+        }
+
+        .time-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .time-table th {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .time-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .time-table tr:hover {
+            background: rgba(37, 99, 235, 0.02);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .payment-method {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-color);
+        }
+
+        .payment-method img {
+            width: 60px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+        }
+
+        .payment-method span {
+            font-size: 0.875rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        /* Footer styles */
+        .footer {
+            background: var(--white);
+            color: var(--text-color);
+            padding: 6rem 0 2rem;
+            position: relative;
+            border-top: 5px solid var(--primary-color);
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-section p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .copyright {
+            max-width: 1280px;
+            margin: 3rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+            }
+            .top-bar {
+                display: none !important;
+            }
+            .main-nav {
+                display: none;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 123 456 789</span>
+                <span>📧 kontakt@autopartsb2b.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 16:00</span>
+            </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <button class="header-action-button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
+                <li><span>&gt;</span></li>
+                <li><span>Dostawa i płatność</span></li>
+            </ol>
+        </nav>
+        
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-truck"></i> Dostawa i płatność</h1>
+                <p>Wszystko co musisz wiedzieć o dostawie i płatności za zamówienia</p>
+            </div>
+
+            <div class="highlight-box">
+                <h3><i class="fas fa-gift"></i> Bezpłatna dostawa</h3>
+                <p>Oferujemy <strong>bezpłatną dostawę</strong> dla zamówień powyżej <strong>200 zł</strong>. Dla mniejszych zamówień koszt dostawy wynosi od 12 zł w zależności od wybranej opcji.</p>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-truck"></i> Opcje dostawy</h2>
+                <p>Oferujemy różne opcje dostawy dostosowane do Twoich potrzeb:</p>
+                
+                <div class="options-grid">
+                    <div class="option-card">
+                        <i class="fas fa-shipping-fast"></i>
+                        <h4>Kurier DPD</h4>
+                        <p>Dostawa w ciągu 1-2 dni roboczych. Możliwość wyboru terminu dostawy.</p>
+                        <div class="price-tag">12 zł</div>
+                    </div>
+
+                    <div class="option-card">
+                        <i class="fas fa-store"></i>
+                        <h4>Paczkomat InPost</h4>
+                        <p>Wygodny odbiór 24/7 z ponad 20,000 paczkomatów w całej Polsce.</p>
+                        <div class="price-tag">14 zł</div>
+                    </div>
+
+                    <div class="option-card">
+                        <i class="fas fa-home"></i>
+                        <h4>Kurier InPost</h4>
+                        <p>Dostawa pod wskazany adres w ciągu 1-2 dni roboczych.</p>
+                        <div class="price-tag">16 zł</div>
+                    </div>
+
+                    <div class="option-card">
+                        <i class="fas fa-mail-bulk"></i>
+                        <h4>Poczta Polska</h4>
+                        <p>Ekonomiczna opcja dostawy dla mniejszych przesyłek.</p>
+                        <div class="price-tag">12 zł</div>
+                    </div>
+
+                    <div class="option-card">
+                        <i class="fas fa-handshake"></i>
+                        <h4>Odbiór osobisty</h4>
+                        <p>Odbierz zamówienie bezpośrednio z naszego magazynu w Szczecinie.</p>
+                        <div class="price-tag free">Gratis</div>
+                    </div>
+
+                    <div class="option-card">
+                        <i class="fas fa-truck-loading"></i>
+                        <h4>Dostawa paletowa</h4>
+                        <p>Dla dużych zamówień B2B. Transport specjalistyczny.</p>
+                        <div class="price-tag">Od 80 zł</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-clock"></i> Czas realizacji</h2>
+                
+                <table class="time-table">
+                    <thead>
+                        <tr>
+                            <th>Typ produktu</th>
+                            <th>Czas przygotowania</th>
+                            <th>Czas dostawy</th>
+                            <th>Łączny czas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Produkty dostępne</strong></td>
+                            <td>24 godziny</td>
+                            <td>1-2 dni robocze</td>
+                            <td>2-3 dni robocze</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Produkty na zamówienie</strong></td>
+                            <td>3-5 dni roboczych</td>
+                            <td>1-2 dni robocze</td>
+                            <td>4-7 dni roboczych</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Części specjalistyczne</strong></td>
+                            <td>5-14 dni roboczych</td>
+                            <td>1-2 dni robocze</td>
+                            <td>6-16 dni roboczych</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Import z UE</strong></td>
+                            <td>7-21 dni roboczych</td>
+                            <td>1-2 dni robocze</td>
+                            <td>8-23 dni roboczych</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box success">
+                    <h4><i class="fas fa-info-circle"></i> Informacja</h4>
+                    <p>Status zamówienia możesz śledzić w czasie rzeczywistym w swoim panelu użytkownika lub za pomocą otrzymanego numeru przesyłki.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-credit-card"></i> Metody płatności</h2>
+                <p>Akceptujemy różne formy płatności dla Twojej wygody:</p>
+
+                <h3>Płatności online</h3>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <i class="fab fa-cc-visa" style="font-size: 2rem; color: #1A1F71;"></i>
+                        <span>Visa</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fab fa-cc-mastercard" style="font-size: 2rem; color: #EB001B;"></i>
+                        <span>Mastercard</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fas fa-mobile-alt" style="font-size: 2rem; color: #FF6B00;"></i>
+                        <span>BLIK</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fas fa-university" style="font-size: 2rem; color: #2563EB;"></i>
+                        <span>Przelewy24</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fab fa-paypal" style="font-size: 2rem; color: #0070BA;"></i>
+                        <span>PayPal</span>
+                    </div>
+                    <div class="payment-method">
+                        <i class="fas fa-qrcode" style="font-size: 2rem; color: #00D924;"></i>
+                        <span>Płatność QR</span>
+                    </div>
+                </div>
+
+                <h3>Inne metody płatności</h3>
+                <ul>
+                    <li><strong>Przelew tradycyjny</strong> - Dane do przelewu otrzymasz w potwierdzeniu zamówienia</li>
+                    <li><strong>Płatność przy odbiorze</strong> - Dostępna dla przesyłek kurierskich (dodatkowa opłata 5 zł)</li>
+                    <li><strong>Raty 0%</strong> - Dla zamówień powyżej 500 zł (sprawdź warunki)</li>
+                    <li><strong>Leasing</strong> - Dla klientów B2B (współpraca z Santander Leasing)</li>
+                </ul>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-shield-alt"></i> Bezpieczeństwo płatności</h4>
+                    <p>Wszystkie płatności online są zabezpieczone certyfikatem SSL oraz 3D Secure. Dane kart płatniczych nie są przechowywane na naszych serwerach.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-calculator"></i> Koszty dostawy</h2>
+                
+                <h3>Standardowa dostawa krajowa</h3>
+                <ul>
+                    <li><strong>Paczkomat InPost:</strong> 14 zł (GRATIS od 200 zł)</li>
+                    <li><strong>Kurier InPost:</strong> 16 zł (GRATIS od 200 zł)</li>
+                    <li><strong>Kurier DPD:</strong> 12 zł (GRATIS od 200 zł)</li>
+                    <li><strong>Poczta Polska:</strong> 12 zł (GRATIS od 200 zł)</li>
+                    <li><strong>Odbiór osobisty:</strong> GRATIS</li>
+                </ul>
+
+                <h3>Dostawa na pobranie</h3>
+                <ul>
+                    <li>Standardowa opłata za pobranie: <strong>+5 zł</strong></li>
+                    <li>Dostępna tylko dla dostawy kurierskiej</li>
+                    <li>Maksymalna wartość zamówienia na pobranie: 2000 zł</li>
+                </ul>
+
+                <h3>Dostawa zagraniczna (UE)</h3>
+                <ul>
+                    <li><strong>Niemcy, Czechy, Słowacja:</strong> od 25 zł</li>
+                    <li><strong>Pozostałe kraje UE:</strong> od 35 zł</li>
+                    <li>Czas dostawy: 3-7 dni roboczych</li>
+                    <li>Minimalna wartość zamówienia: 100 zł</li>
+                </ul>
+
+                <div class="info-box warning">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Ważne</h4>
+                    <p>Koszty dostawy są automatycznie przeliczane w koszyku na podstawie wagi, wymiarów i wartości zamówienia.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-map-marked-alt"></i> Obszar dostawy</h2>
+                
+                <h3>Dostawa krajowa</h3>
+                <p>Dostarczamy na terenie całej Polski, w tym:</p>
+                <ul>
+                    <li>Wszystkie miasta wojewódzkie</li>
+                    <li>Małe miejscowości i wsie</li>
+                    <li>Paczkomaty InPost - ponad 20,000 lokalizacji</li>
+                    <li>Punkty odbioru Poczty Polskiej</li>
+                </ul>
+
+                <h3>Dostawa międzynarodowa</h3>
+                <p>Obecnie oferujemy dostawę do krajów Unii Europejskiej:</p>
+                <ul>
+                    <li>Niemcy</li>
+                    <li>Czechy</li>
+                    <li>Słowacja</li>
+                    <li>Austria</li>
+                    <li>Węgry</li>
+                    <li>Litwa, Łotwa, Estonia</li>
+                    <li>Inne kraje UE - na zapytanie</li>
+                </ul>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-question-circle"></i> Nie ma Twojego kraju?</h4>
+                    <p>Skontaktuj się z nami - sprawdzimy możliwość wysyłki do wybranego kraju.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-calendar-alt"></i> Harmonogram wysyłek</h2>
+                
+                <table class="time-table">
+                    <thead>
+                        <tr>
+                            <th>Złożenie zamówienia</th>
+                            <th>Opłacenie</th>
+                            <th>Wysyłka</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Poniedziałek - Piątek do 14:00</td>
+                            <td>Do 16:00 tego samego dnia</td>
+                            <td>Następny dzień roboczy</td>
+                        </tr>
+                        <tr>
+                            <td>Poniedziałek - Piątek po 14:00</td>
+                            <td>Do 12:00 następnego dnia</td>
+                            <td>Drugi dzień roboczy</td>
+                        </tr>
+                        <tr>
+                            <td>Sobota - Niedziela</td>
+                            <td>Do poniedziałku 12:00</td>
+                            <td>Wtorek</td>
+                        </tr>
+                        <tr>
+                            <td>Dni świąteczne</td>
+                            <td>Pierwszy dzień roboczy</td>
+                            <td>Drugi dzień roboczy</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="info-box success">
+                    <h4><i class="fas fa-rocket"></i> Ekspresowa realizacja</h4>
+                    <p>Dla zamówień pilnych oferujemy ekspresową realizację w ciągu 24h. Sprawdź dostępność w koszyku lub skontaktuj się z nami.</p>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2><i class="fas fa-phone"></i> Kontakt w sprawie dostawy</h2>
+                <p>Masz pytania dotyczące dostawy? Skontaktuj się z nami:</p>
+                
+                <div class="options-grid">
+                    <div class="option-card">
+                        <i class="fas fa-phone"></i>
+                        <h4>Telefon</h4>
+                        <p>+48 123 456 789</p>
+                        <span style="font-size: 0.875rem; color: var(--text-light);">Pon-Pt: 8:00-16:00</span>
+                    </div>
+
+                    <div class="option-card">
+                        <i class="fas fa-envelope"></i>
+                        <h4>E-mail</h4>
+                        <p>zamowienia@autopartsb2b.pl</p>
+                        <span style="font-size: 0.875rem; color: var(--text-light);">Odpowiedź do 24h</span>
+                    </div>
+
+                    <div class="option-card">
+                        <i class="fas fa-comments"></i>
+                        <h4>Czat online</h4>
+                        <p>Czat dostępny na stronie</p>
+                        <span style="font-size: 0.875rem; color: var(--text-light);">Pon-Pt: 8:00-16:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Stanisława Dubois 12/19, 71-610 Szczecin</a></li>
+                    <li><a href="tel:+48123456789"><i class="fas fa-phone-alt"></i> +48 123 456 789</a></li>
+                    <li><a href="mailto:kontakt@autopartsb2b.pl"><i class="fas fa-envelope"></i> kontakt@autopartsb2b.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 16:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 JB AUTOTECH JAKUB BRONOWICKI. Wszelkie prawa zastrzeżone.</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/visibility.js"></script>
+    <script src="/js/cookies-banner.js"></script>
+</body>
+</html> 

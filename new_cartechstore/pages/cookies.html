@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Polityka cookies - Cartechstore - Informacje o plikach cookies">
+    <meta name="keywords" content="cookies, pliki cookies, polityka cookies, cartechstore">
+    <meta name="robots" content="index, follow">
+    <title>Polityka cookies - Cartechstore</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/cookies-banner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        /* Copy consistent styles */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .top-bar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .top-links a:hover {
+            opacity: 1;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-action-button {
+            background: var(--background-color);
+            border: none;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: var(--text-color);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .header-action-button:hover {
+            transform: translateY(-4px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .main-nav {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-list a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .breadcrumbs ol {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-dark);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+
+        .content-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .content-section h3 {
+            color: var(--text-color);
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.25rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .content-section ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(37, 99, 235, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .cookies-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cookies-table th {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .cookies-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        .cookies-table tr:hover {
+            background: rgba(37, 99, 235, 0.02);
+        }
+
+        .cookie-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .cookie-type.necessary {
+            background: #10B981;
+            color: var(--white);
+        }
+
+        .cookie-type.functional {
+            background: var(--secondary-color);
+            color: var(--white);
+        }
+
+        .cookie-type.analytics {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .cookie-type.marketing {
+            background: #EF4444;
+            color: var(--white);
+        }
+
+        .company-info {
+            background: var(--background-color);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 2rem 0;
+        }
+
+        .company-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer styles */
+        .footer {
+            background: var(--white);
+            color: var(--text-color);
+            padding: 6rem 0 2rem;
+            position: relative;
+            border-top: 5px solid var(--primary-color);
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-section p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .copyright {
+            max-width: 1280px;
+            margin: 3rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+            }
+            .top-bar {
+                display: none !important;
+            }
+            .main-nav {
+                display: none;
+            }
+            .cookies-table {
+                font-size: 0.875rem;
+            }
+            .cookies-table th,
+            .cookies-table td {
+                padding: 0.75rem;
+            }
+            .copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 123 456 789</span>
+                <span>📧 kontakt@autopartsb2b.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 16:00</span>
+            </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <button class="header-action-button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
+                <li><span>&gt;</span></li>
+                <li><span>Polityka cookies</span></li>
+            </ol>
+        </nav>
+        
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-cookie-bite"></i> Polityka cookies</h1>
+                <p>Informacje o wykorzystywanych plikach cookies</p>
+            </div>
+
+            <div class="company-info">
+                <h4>Administrator strony internetowej:</h4>
+                <p><strong>JB AUTOTECH JAKUB BRONOWICKI</strong><br>
+                ul. Stanisława Dubois 12/19, 71-610 Szczecin<br>
+                NIP: 8513326685<br>
+                E-mail: kontakt@autopartsb2b.pl</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Czym są pliki cookies?</h2>
+                <p><strong>Pliki cookies</strong> (ciasteczka) to małe pliki tekstowe zapisywane na Twoim urządzeniu (komputerze, tablecie, smartfonie) podczas przeglądania stron internetowych.</p>
+                
+                <div class="highlight-box">
+                    <strong>Ważne!</strong> Pliki cookies nie zawierają danych osobowych i nie mogą uszkodzić Twojego urządzenia. Pozwalają nam lepiej dostosować stronę do Twoich potrzeb.
+                </div>
+
+                <h3>Do czego służą pliki cookies?</h3>
+                <ul>
+                    <li>Zapamiętywania Twoich preferencji i ustawień</li>
+                    <li>Umożliwienia logowania się na konto</li>
+                    <li>Analizy ruchu na stronie i optymalizacji jej działania</li>
+                    <li>Wyświetlania spersonalizowanych treści i reklam</li>
+                    <li>Zapewnienia bezpieczeństwa i ochrony przed atakami</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Rodzaje plików cookies</h2>
+                <p>W naszym serwisie wykorzystujemy różne rodzaje plików cookies:</p>
+                
+                <h3>Według czasu przechowywania:</h3>
+                <ul>
+                    <li><strong>Sesyjne</strong> - usuwane po zamknięciu przeglądarki</li>
+                    <li><strong>Stałe</strong> - pozostają na urządzeniu przez określony czas</li>
+                </ul>
+
+                <h3>Według pochodzenia:</h3>
+                <ul>
+                    <li><strong>Własne</strong> - ustawiane przez naszą stronę</li>
+                    <li><strong>Osób trzecich</strong> - pochodzące od partnerów (np. Google Analytics)</li>
+                </ul>
+
+                <h3>Według funkcji:</h3>
+                <ul>
+                    <li><strong>Niezbędne</strong> - wymagane do działania strony</li>
+                    <li><strong>Funkcjonalne</strong> - poprawiające komfort użytkowania</li>
+                    <li><strong>Analityczne</strong> - pomagające w analizie ruchu</li>
+                    <li><strong>Marketingowe</strong> - służące personalizacji reklam</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Pliki cookies używane w naszym serwisie</h2>
+                
+                <table class="cookies-table">
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Typ</th>
+                            <th>Cel</th>
+                            <th>Czas przechowywania</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <strong>PHPSESSID</strong>
+                                <div class="cookie-type necessary">Niezbędne</div>
+                            </td>
+                            <td>Sesyjne</td>
+                            <td>Identyfikacja sesji użytkownika, umożliwienie logowania</td>
+                            <td>Do zamknięcia przeglądarki</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>cart_items</strong>
+                                <div class="cookie-type functional">Funkcjonalne</div>
+                            </td>
+                            <td>Stałe</td>
+                            <td>Zapamiętanie zawartości koszyka</td>
+                            <td>30 dni</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>user_preferences</strong>
+                                <div class="cookie-type functional">Funkcjonalne</div>
+                            </td>
+                            <td>Stałe</td>
+                            <td>Zapamiętanie preferencji użytkownika (język, waluta)</td>
+                            <td>1 rok</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>_ga</strong>
+                                <div class="cookie-type analytics">Analityczne</div>
+                            </td>
+                            <td>Stałe</td>
+                            <td>Google Analytics - analiza ruchu na stronie</td>
+                            <td>2 lata</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>_gid</strong>
+                                <div class="cookie-type analytics">Analityczne</div>
+                            </td>
+                            <td>Stałe</td>
+                            <td>Google Analytics - rozróżnianie użytkowników</td>
+                            <td>24 godziny</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>_fbp</strong>
+                                <div class="cookie-type marketing">Marketingowe</div>
+                            </td>
+                            <td>Stałe</td>
+                            <td>Facebook Pixel - śledzenie konwersji</td>
+                            <td>3 miesiące</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>cookies_consent</strong>
+                                <div class="cookie-type necessary">Niezbędne</div>
+                            </td>
+                            <td>Stałe</td>
+                            <td>Zapamiętanie zgody na pliki cookies</td>
+                            <td>1 rok</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-section">
+                <h2>Zarządzanie plikami cookies</h2>
+                
+                <h3>Ustawienia przeglądarki</h3>
+                <p>Możesz kontrolować pliki cookies poprzez ustawienia swojej przeglądarki:</p>
+                
+                <ul>
+                    <li><strong>Chrome:</strong> Ustawienia > Prywatność i bezpieczeństwo > Pliki cookie i inne dane witryn</li>
+                    <li><strong>Firefox:</strong> Opcje > Prywatność i bezpieczeństwo > Pliki cookie i dane stron</li>
+                    <li><strong>Safari:</strong> Preferencje > Prywatność > Pliki cookie i dane witryn</li>
+                    <li><strong>Edge:</strong> Ustawienia > Pliki cookie i uprawnienia witryny</li>
+                </ul>
+
+                <h3>Nasze narzędzie zarządzania</h3>
+                <p>Na naszej stronie możesz również skorzystać z banera cookies, który pozwala na:</p>
+                <ul>
+                    <li>Akceptację wszystkich plików cookies</li>
+                    <li>Odrzucenie opcjonalnych plików cookies</li>
+                    <li>Dostosowanie ustawień dla różnych kategorii</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Uwaga:</strong> Wyłączenie niektórych plików cookies może wpłynąć na funkcjonalność strony.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Pliki cookies osób trzecich</h2>
+                <p>Nasza strona może zawierać usługi dostarczane przez osoby trzecie, które również używają plików cookies:</p>
+
+                <h3>Google Analytics</h3>
+                <ul>
+                    <li>Analiza ruchu na stronie</li>
+                    <li>Statystyki odwiedzin</li>
+                    <li>Optymalizacja treści</li>
+                    <li>Polityka prywatności: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+                </ul>
+
+                <h3>Google reCAPTCHA</h3>
+                <ul>
+                    <li>Ochrona przed spamem</li>
+                    <li>Weryfikacja, czy użytkownik to nie robot</li>
+                    <li>Polityka prywatności: <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+                </ul>
+
+                <h3>Systemy płatności</h3>
+                <ul>
+                    <li>Bezpieczne przetwarzanie płatności</li>
+                    <li>Zapobieganie oszustwom</li>
+                    <li>Patrz polityki prywatności dostawców płatności</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Twoje prawa</h2>
+                <p>W związku z plikami cookies przysługują Ci następujące prawa:</p>
+
+                <ul>
+                    <li><strong>Prawo do informacji</strong> - o wykorzystywanych plikach cookies</li>
+                    <li><strong>Prawo wyboru</strong> - możesz zaakceptować lub odrzucić opcjonalne cookies</li>
+                    <li><strong>Prawo dostępu</strong> - do informacji przechowywanych w plikach cookies</li>
+                    <li><strong>Prawo do usunięcia</strong> - możesz w każdej chwili usunąć pliki cookies</li>
+                </ul>
+
+                <h3>Wycofanie zgody</h3>
+                <p>Możesz w każdej chwili wycofać zgodę na używanie plików cookies poprzez:</p>
+                <ul>
+                    <li>Zmianę ustawień w przeglądarce</li>
+                    <li>Usunięcie zapisanych plików cookies</li>
+                    <li>Kontakt z nami na adres: kontakt@autopartsb2b.pl</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Bezpieczeństwo</h2>
+                <p>Dbamy o bezpieczeństwo danych przechowywanych w plikach cookies:</p>
+
+                <ul>
+                    <li>Szyfrowanie wrażliwych danych</li>
+                    <li>Regularne przeglądy bezpieczeństwa</li>
+                    <li>Ograniczony dostęp do danych</li>
+                    <li>Zgodność z przepisami RODO</li>
+                </ul>
+
+                <div class="highlight-box">
+                    <strong>Gwarancja bezpieczeństwa:</strong> Nie przechowujemy w plikach cookies danych wrażliwych takich jak hasła czy dane kart płatniczych.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>Zmiany w polityce cookies</h2>
+                <p>Zastrzegamy sobie prawo do wprowadzania zmian w niniejszej Polityce cookies. O istotnych zmianach poinformujemy poprzez:</p>
+
+                <ul>
+                    <li>Publikację nowej wersji polityki na stronie</li>
+                    <li>Powiadomienie e-mail (jeśli mamy Twój adres)</li>
+                    <li>Banner informacyjny na stronie</li>
+                </ul>
+
+                <p><strong>Data ostatniej aktualizacji:</strong> 29 maja 2024</p>
+            </div>
+
+            <div class="content-section">
+                <h2>Kontakt</h2>
+                <p>W przypadku pytań dotyczących plików cookies skontaktuj się z nami:</p>
+                
+                <div class="company-info">
+                    <p><strong>JB AUTOTECH JAKUB BRONOWICKI</strong><br>
+                    ul. Stanisława Dubois 12/19<br>
+                    71-610 Szczecin<br>
+                    E-mail: kontakt@autopartsb2b.pl<br>
+                    Telefon: +48 123 456 789<br>
+                    NIP: 8513326685</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Stanisława Dubois 12/19, 71-610 Szczecin</a></li>
+                    <li><a href="tel:+48123456789"><i class="fas fa-phone-alt"></i> +48 123 456 789</a></li>
+                    <li><a href="mailto:kontakt@autopartsb2b.pl"><i class="fas fa-envelope"></i> kontakt@autopartsb2b.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 16:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 JB AUTOTECH JAKUB BRONOWICKI. Wszelkie prawa zastrzeżone.</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/visibility.js"></script>
+    <script src="/js/cookies-banner.js"></script>
+</body>
+</html> 

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Regulamin - Cartechstore - Warunki korzystania ze sklepu">
+    <meta name="keywords" content="regulamin, warunki, sklep internetowy, cartechstore">
+    <meta name="robots" content="index, follow">
+    <title>Regulamin - Cartechstore</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/cookies-banner.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563EB;
+            --primary-dark: #1E40AF;
+            --primary-light: #60A5FA;
+            --secondary-color: #F59E0B;
+            --text-color: #1F2937;
+            --text-light: #6B7280;
+            --background-color: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #E5E7EB;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius: 0.5rem;
+            --radius-lg: 0.75rem;
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            line-height: 1.6;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        .top-bar-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .top-links a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+        }
+
+        .top-links a:hover {
+            opacity: 1;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-action-button {
+            background: var(--background-color);
+            border: none;
+            padding: 0.75rem;
+            cursor: pointer;
+            color: var(--text-color);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .header-action-button:hover {
+            transform: translateY(-4px) rotate(5deg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Navigation */
+        .main-nav {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-list a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .breadcrumbs {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .breadcrumbs ol {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .breadcrumbs a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--primary-dark);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+        }
+
+        .content-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .content-section h3 {
+            color: var(--text-color);
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.25rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .content-section ul, .content-section ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(37, 99, 235, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .company-info {
+            background: var(--background-color);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            margin: 2rem 0;
+        }
+
+        .company-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer styles remain the same as polityka-prywatnosci.html */
+        .footer {
+            background: var(--white);
+            color: var(--text-color);
+            padding: 6rem 0 2rem;
+            position: relative;
+            border-top: 5px solid var(--primary-color);
+            box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 3px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-section p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .copyright {
+            max-width: 1280px;
+            margin: 3rem auto 0;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+                padding: 0.5rem 0.75rem;
+            }
+            .top-bar {
+                display: none !important;
+            }
+            .main-nav {
+                display: none;
+            }
+            .copyright {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            .footer-links {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 123 456 789</span>
+                <span>📧 kontakt@autopartsb2b.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 16:00</span>
+            </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <button class="header-action-button">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="index.html" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
+                <li><span>&gt;</span></li>
+                <li><span>Regulamin</span></li>
+            </ol>
+        </nav>
+        
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-file-contract"></i> Regulamin sklepu internetowego</h1>
+                <p>Warunki korzystania z naszych usług</p>
+            </div>
+
+            <div class="company-info">
+                <h4>Sprzedawca:</h4>
+                <p><strong>JB AUTOTECH JAKUB BRONOWICKI</strong><br>
+                ul. Stanisława Dubois 12/19, 71-610 Szczecin<br>
+                NIP: 8513326685<br>
+                E-mail: kontakt@autopartsb2b.pl<br>
+                Telefon: +48 123 456 789</p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 1. Postanowienia ogólne</h2>
+                
+                <h3>1.1. Definicje</h3>
+                <p>Ilekroć w niniejszym Regulaminie używane są poniższe pojęcia, należy je rozumieć następująco:</p>
+                <ol>
+                    <li><strong>Sprzedawca</strong> – JB AUTOTECH JAKUB BRONOWICKI prowadzący działalność gospodarczą pod adresem: ul. Stanisława Dubois 12/19, 71-610 Szczecin, NIP: 8513326685;</li>
+                    <li><strong>Klient</strong> – osoba fizyczna, osoba prawna albo jednostka organizacyjna nieposiadająca osobowości prawnej, która nabywa towary oferowane w Sklepie;</li>
+                    <li><strong>Konsument</strong> – osoba fizyczna dokonująca czynności prawnej niezwiązanej bezpośrednio z jej działalnością gospodarczą lub zawodową;</li>
+                    <li><strong>Sklep</strong> – sklep internetowy prowadzony przez Sprzedawcę pod adresem cartechstore.com;</li>
+                    <li><strong>Umowa sprzedaży</strong> – umowa sprzedaży towaru zawarta między Sprzedawcą a Klientem za pośrednictwem Sklepu.</li>
+                </ol>
+
+                <h3>1.2. Kontakt ze Sprzedawcą</h3>
+                <p>Klient może kontaktować się ze Sprzedawcą:</p>
+                <ul>
+                    <li>E-mail: kontakt@autopartsb2b.pl</li>
+                    <li>Telefon: +48 123 456 789 (pon-pt, 8:00-16:00)</li>
+                    <li>Adres korespondencyjny: ul. Stanisława Dubois 12/19, 71-610 Szczecin</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 2. Zasady korzystania ze Sklepu</h2>
+                
+                <h3>2.1. Warunki techniczne</h3>
+                <p>Do korzystania ze Sklepu internetowego niezbędne jest:</p>
+                <ul>
+                    <li>Urządzenie z dostępem do internetu;</li>
+                    <li>Przeglądarka internetowa obsługująca JavaScript i pliki cookies;</li>
+                    <li>Aktywne konto poczty elektronicznej.</li>
+                </ul>
+
+                <h3>2.2. Zakładanie konta</h3>
+                <p>Klient może dokonywać zakupów jako gość lub po założeniu konta w Sklepie. Założenie konta jest bezpłatne i wymaga podania prawdziwych danych osobowych.</p>
+
+                <h3>2.3. Zabronione działania</h3>
+                <p>Klientowi nie wolno:</p>
+                <ul>
+                    <li>Podawać nieprawdziwych danych;</li>
+                    <li>Naruszać funkcjonowania Sklepu;</li>
+                    <li>Używać treści chronionej prawem autorskim bez zgody;</li>
+                    <li>Wysyłać treści niezgodnych z prawem lub dobrymi obyczajami.</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 3. Produkty i ceny</h2>
+                
+                <h3>3.1. Informacje o produktach</h3>
+                <p>Informacje o produktach przedstawione w Sklepie stanowią zaproszenie do zawarcia umowy w rozumieniu art. 71 Kodeksu cywilnego.</p>
+
+                <h3>3.2. Ceny</h3>
+                <ul>
+                    <li>Ceny podane w Sklepie są cenami brutto (zawierają podatek VAT);</li>
+                    <li>Ceny nie zawierają kosztów dostawy;</li>
+                    <li>Sprzedawca zastrzega sobie prawo do zmiany cen produktów;</li>
+                    <li>Zmiana ceny nie dotyczy zamówień już złożonych.</li>
+                </ul>
+
+                <h3>3.3. Dostępność produktów</h3>
+                <p>Informacje o dostępności produktów są aktualizowane na bieżąco. W przypadku braku dostępności Sprzedawca niezwłocznie poinformuje o tym Klienta.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 4. Składanie zamówień</h2>
+                
+                <h3>4.1. Proces składania zamówienia</h3>
+                <p>W celu złożenia zamówienia należy:</p>
+                <ol>
+                    <li>Wybrać produkty i dodać je do koszyka;</li>
+                    <li>Przejść do koszyka i sprawdzić zawartość;</li>
+                    <li>Wybrać sposób dostawy i płatności;</li>
+                    <li>Wypełnić formularz z danymi;</li>
+                    <li>Zaakceptować Regulamin;</li>
+                    <li>Kliknąć "Złóż zamówienie".</li>
+                </ol>
+
+                <h3>4.2. Potwierdzenie zamówienia</h3>
+                <p>Po złożeniu zamówienia Klient otrzyma potwierdzenie na podany adres e-mail z:</p>
+                <ul>
+                    <li>Numerem zamówienia;</li>
+                    <li>Listą zamówionych produktów;</li>
+                    <li>Ceną łączną;</li>
+                    <li>Wybranym sposobem dostawy i płatności.</li>
+                </ul>
+
+                <h3>4.3. Anulowanie zamówienia</h3>
+                <p>Klient może anulować zamówienie przed jego wysyłką, kontaktując się ze Sprzedawcą.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 5. Płatności</h2>
+                
+                <h3>5.1. Dostępne formy płatności</h3>
+                <ul>
+                    <li>Płatność kartą płatniczą online;</li>
+                    <li>Szybkie przelewy internetowe;</li>
+                    <li>Przelew tradycyjny na konto bankowe;</li>
+                    <li>Płatność przy odbiorze (za pobraniem).</li>
+                </ul>
+
+                <h3>5.2. Termin płatności</h3>
+                <p>Termin płatności wynosi 7 dni kalendarzowych od daty zawarcia umowy sprzedaży, z wyjątkiem płatności przy odbiorze.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 6. Dostawa</h2>
+                
+                <h3>6.1. Sposoby dostawy</h3>
+                <ul>
+                    <li>Kurier – dostawa pod wskazany adres;</li>
+                    <li>Paczkomaty – dostawa do wybranego paczkomatu;</li>
+                    <li>Punkt odbioru – odbiór w punkcie partnerskim;</li>
+                    <li>Odbiór osobisty – w siedzibie Sprzedawcy (po wcześniejszym umówieniu).</li>
+                </ul>
+
+                <h3>6.2. Czas realizacji</h3>
+                <p>Czas realizacji zamówienia wynosi od 1 do 3 dni roboczych od momentu otrzymania płatności.</p>
+
+                <h3>6.3. Koszty dostawy</h3>
+                <p>Koszt dostawy jest ustalany indywidualnie w zależności od wybranej formy dostawy i jest przedstawiony przed finalizacją zamówienia.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 7. Prawo odstąpienia od umowy</h2>
+                
+                <div class="highlight-box">
+                    <strong>Dla Konsumentów:</strong> Masz prawo odstąpić od umowy w terminie 14 dni bez podania przyczyny.
+                </div>
+
+                <h3>7.1. Termin na odstąpienie</h3>
+                <p>Konsument może odstąpić od umowy w terminie 14 dni kalendarzowych od dnia:</p>
+                <ul>
+                    <li>Objęcia produktu w posiadanie przez Konsumenta lub wskazaną przez niego osobę;</li>
+                    <li>Objęcia w posiadanie ostatniego z produktów w przypadku zamówienia składającego się z wielu produktów.</li>
+                </ul>
+
+                <h3>7.2. Sposób odstąpienia</h3>
+                <p>Aby odstąpić od umowy, Konsument musi poinformować Sprzedawcę o swojej decyzji poprzez:</p>
+                <ul>
+                    <li>Wysłanie oświadczenia na adres: kontakt@autopartsb2b.pl;</li>
+                    <li>Wypełnienie formularza odstąpienia od umowy.</li>
+                </ul>
+
+                <h3>7.3. Zwrot produktu</h3>
+                <p>Produkt należy odesłać na adres Sprzedawcy w terminie 14 dni od dnia odstąpienia od umowy. Koszt zwrotu ponosi Konsument.</p>
+
+                <h3>7.4. Zwrot płatności</h3>
+                <p>Sprzedawca zwróci wszystkie otrzymane płatności w terminie 14 dni od dnia otrzymania oświadczenia o odstąpieniu.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 8. Reklamacje</h2>
+                
+                <h3>8.1. Podstawa reklamacji</h3>
+                <p>Sprzedawca odpowiada względem Klienta za niezgodność towaru z umową istniejącą w chwili jego wydania.</p>
+
+                <h3>8.2. Sposób zgłoszenia reklamacji</h3>
+                <p>Reklamację można zgłosić:</p>
+                <ul>
+                    <li>E-mailem na adres: kontakt@autopartsb2b.pl;</li>
+                    <li>Listownie na adres: ul. Stanisława Dubois 12/19, 71-610 Szczecin;</li>
+                    <li>Telefonicznie: +48 123 456 789.</li>
+                </ul>
+
+                <h3>8.3. Rozpatrzenie reklamacji</h3>
+                <p>Sprzedawca rozpatrzy reklamację w terminie 14 dni kalendarzowych od dnia jej otrzymania i udzieli odpowiedzi na adres e-mail Klienta.</p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 9. Ochrona danych osobowych</h2>
+                <p>Szczegółowe informacje o przetwarzaniu danych osobowych znajdują się w <a href="polityka-prywatnosci.html">Polityce prywatności</a>.</p>
+                
+                <div class="highlight-box">
+                    <strong>Administrator danych:</strong> JB AUTOTECH JAKUB BRONOWICKI<br>
+                    E-mail: kontakt@autopartsb2b.pl
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 10. Postanowienia końcowe</h2>
+                
+                <h3>10.1. Prawo właściwe</h3>
+                <p>Prawem właściwym dla wszystkich stosunków prawnych wynikających z niniejszego Regulaminu jest prawo polskie.</p>
+
+                <h3>10.2. Rozstrzyganie sporów</h3>
+                <p>Ewentualne spory będą rozstrzygane przez sąd właściwy miejscowo dla siedziby Sprzedawcy, z zastrzeżeniem bezwzględnie obowiązujących przepisów prawa.</p>
+
+                <h3>10.3. Zmiany Regulaminu</h3>
+                <p>Sprzedawca zastrzega sobie prawo do wprowadzania zmian w Regulaminie. O zmianach Klienci zostaną poinformowani poprzez publikację nowego Regulaminu w Sklepie.</p>
+
+                <h3>10.4. Klauzula salwatoryjna</h3>
+                <p>W przypadku uznania któregokolwiek postanowienia Regulaminu za nieważne, pozostałe postanowienia zachowują ważność.</p>
+
+                <p><strong>Niniejszy Regulamin obowiązuje od dnia 29 maja 2024 roku.</strong></p>
+            </div>
+
+            <div class="content-section">
+                <h2>§ 11. Formularz odstąpienia od umowy</h2>
+                
+                <div class="company-info">
+                    <h4>FORMULARZ ODSTĄPIENIA OD UMOWY</h4>
+                    <p>(formularz ten należy wypełnić i odesłać tylko w przypadku chęci odstąpienia od umowy)</p>
+                    
+                    <p>Adresat:<br>
+                    <strong>JB AUTOTECH JAKUB BRONOWICKI</strong><br>
+                    ul. Stanisława Dubois 12/19<br>
+                    71-610 Szczecin<br>
+                    kontakt@autopartsb2b.pl</p>
+                    
+                    <p>Ja/My(*) niniejszym informuję/informujemy(*) o moim/naszym(*) odstąpieniu od umowy sprzedaży następujących rzeczy(*)/o świadczenie następującej usługi(*):</p>
+                    
+                    <p>................................................................................................................</p>
+                    
+                    <p>Data zawarcia umowy(*)/odbioru(*):</p>
+                    <p>................................................................................................................</p>
+                    
+                    <p>Imię i nazwisko konsumenta(-ów):</p>
+                    <p>................................................................................................................</p>
+                    
+                    <p>Adres konsumenta(-ów):</p>
+                    <p>................................................................................................................</p>
+                    
+                    <p>Podpis konsumenta(-ów): ............................ Data: ..........................</p>
+                    
+                    <p><small>(*) Niepotrzebne skreślić</small></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to firma z wieloletnim doświadczeniem oferująca najwyższej jakości części samochodowe dla wszystkich popularnych marek.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Stanisława Dubois 12/19, 71-610 Szczecin</a></li>
+                    <li><a href="tel:+48123456789"><i class="fas fa-phone-alt"></i> +48 123 456 789</a></li>
+                    <li><a href="mailto:kontakt@autopartsb2b.pl"><i class="fas fa-envelope"></i> kontakt@autopartsb2b.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 16:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 JB AUTOTECH JAKUB BRONOWICKI. Wszelkie prawa zastrzeżone.</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/visibility.js"></script>
+    <script src="/js/cookies-banner.js"></script>
+</body>
+</html> 

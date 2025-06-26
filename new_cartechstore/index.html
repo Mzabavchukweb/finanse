@@ -29,7 +29,7 @@
     <link rel="canonical" href="https://cartechstore.com">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="frontend/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -99,8 +99,8 @@
     </style>
     
     <!-- Non-critical CSS -->
-    <link rel="stylesheet" href="frontend/css/styles.css">
-    <link rel="stylesheet" href="frontend/css/cookies-banner.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cookies-banner.css">
     
     <title>Cartechstore - Profesjonalna Hurtownia Części Samochodowych | Najlepsze Ceny</title>
 </head>
@@ -114,8 +114,8 @@
                 <span>🕒 Pon-Pt: 8:00 - 17:00</span>
             </div>
             <div class="top-links">
-                <a href="frontend/pages/kontakt.html">Kontakt</a>
-                <a href="frontend/pages/o-nas.html">O nas</a>
+                <a href="pages/kontakt.html">Kontakt</a>
+                <a href="pages/o-nas.html">O nas</a>
             </div>
         </div>
     </div>
@@ -131,27 +131,27 @@
                 <!-- User greeting section -->
                 <div id="userGreeting" class="user-greeting" style="display:none;">
                     <span class="greeting-text">Witaj, <span id="userName"></span>!</span>
-                    <a href="frontend/pages/admin.html" class="user-icon-link" title="Panel użytkownika">
-                        <img src="frontend/assets/icons/user-icon.svg" alt="Panel" class="user-icon">
+                    <a href="pages/admin.html" class="user-icon-link" title="Panel użytkownika">
+                        <img src="assets/icons/user-icon.svg" alt="Panel" class="user-icon">
                     </a>
                     <button class="logout-btn" id="logoutButton">Wyloguj</button>
                 </div>
                 
                 <!-- Default buttons for non-logged users -->
                 <div id="defaultActions" class="header-actions">
-                    <a href="frontend/pages/login.html" class="header-action-button" title="Zaloguj się">
+                    <a href="pages/login.html" class="header-action-button" title="Zaloguj się">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                     </a>
-                    <a href="frontend/pages/wishlist.html" class="header-action-button wishlist-header-btn" title="Lista życzeń">
+                    <a href="pages/wishlist.html" class="header-action-button wishlist-header-btn" title="Lista życzeń">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                         <span class="wishlist-count" id="headerWishlistCount">0</span>
                     </a>
-                    <a href="frontend/pages/cart.html" class="header-action-button cart-header-btn" title="Koszyk">
+                    <a href="pages/cart.html" class="header-action-button cart-header-btn" title="Koszyk">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="9" cy="21" r="1"></circle>
                             <circle cx="20" cy="21" r="1"></circle>
@@ -168,14 +168,14 @@
     <nav class="main-nav">
         <div class="nav-container">
             <ul class="nav-list">
-                <li><a href="frontend/pages/catalog.html#hamulce">Hamulce</a></li>
-                <li><a href="frontend/pages/catalog.html#filtry">Filtry</a></li>
-                <li><a href="frontend/pages/catalog.html#oleje">Oleje</a></li>
-                <li><a href="frontend/pages/catalog.html#zawieszenie">Zawieszenie</a></li>
-                <li><a href="frontend/pages/catalog.html#silnik">Silnik</a></li>
-                <li><a href="frontend/pages/catalog.html#wydech">Układ wydechowy</a></li>
-                <li><a href="frontend/pages/catalog.html#elektryka">Elektryka</a></li>
-                <li><a href="frontend/pages/catalog.html#klimatyzacja">Klimatyzacja</a></li>
+                <li><a href="pages/catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="pages/catalog.html#filtry">Filtry</a></li>
+                <li><a href="pages/catalog.html#oleje">Oleje</a></li>
+                <li><a href="pages/catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="pages/catalog.html#silnik">Silnik</a></li>
+                <li><a href="pages/catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="pages/catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="pages/catalog.html#klimatyzacja">Klimatyzacja</a></li>
             </ul>
             <button class="mobile-menu-btn" aria-label="Menu">
                 <span></span>
@@ -200,28 +200,28 @@
             <p>Profesjonalna hurtownia części samochodowych dla warsztatów i serwisów</p>
             
             <div class="hero-cta-container">
-                <a href="frontend/pages/catalog.html" class="cta-button btn-primary" id="catalogBtn">
+                <a href="pages/catalog.html" class="cta-button btn-primary" id="catalogBtn">
                     <i class="fas fa-search" aria-hidden="true"></i>
                     Przeglądaj katalog
                 </a>
-                <a href="frontend/pages/b2b-registration.html" class="cta-button btn-primary">
+                <a href="pages/b2b-registration.html" class="cta-button btn-primary">
                     <i class="fas fa-building" aria-hidden="true"></i> 
                     Rejestracja B2B
                 </a>
-                <a href="frontend/pages/register-customer.html" class="cta-button btn-secondary">
+                <a href="pages/register-customer.html" class="cta-button btn-secondary">
                     <i class="fas fa-user" aria-hidden="true"></i> 
                     Rejestracja klienta
                 </a>
-                <a href="frontend/pages/login.html" class="cta-button btn-primary cta-login-big">
+                <a href="pages/login.html" class="cta-button btn-primary cta-login-big">
                     <i class="fas fa-user-check" aria-hidden="true"></i>
                     Zaloguj się jako klient detaliczny
                 </a>
-                <a href="frontend/pages/account.html" class="cta-button btn-primary hidden" id="accountBtn">
+                <a href="pages/account.html" class="cta-button btn-primary hidden" id="accountBtn">
                     <i class="fas fa-user-circle" aria-hidden="true"></i>
                     Moje konto
                 </a>
                 <div class="cta-login-link-container">
-                    <a href="frontend/pages/login.html" class="cta-login-link">
+                    <a href="pages/login.html" class="cta-login-link">
                         Masz już konto? Zaloguj się
                     </a>
                 </div>
@@ -266,7 +266,7 @@
                     </div>
                     <h3>Rejestracja konta B2B</h3>
                     <p>Zarejestruj swoje konto firmowe i uzyskaj dostęp do specjalnych cen, ofert oraz dedykowanego opiekuna.</p>
-                    <a href="frontend/pages/b2b-registration.html" class="btn btn-primary btn-lg">
+                    <a href="pages/b2b-registration.html" class="btn btn-primary btn-lg">
                         Zarejestruj się jako partner B2B <i class="fas fa-arrow-right"></i>
                     </a>
                     <p class="b2b-note">Rejestracja jest bezpłatna i nie wiąże się z żadnymi zobowiązaniami</p>
@@ -277,7 +277,7 @@
                     </div>
                     <h3>Rejestracja klienta indywidualnego</h3>
                     <p>Załóż konto klienta detalicznego, aby korzystać z promocji i historii zamówień.</p>
-                    <a href="frontend/pages/register-customer.html" class="btn btn-primary btn-lg" style="background:var(--secondary-color);color:var(--white);margin-top:0.5rem;">
+                    <a href="pages/register-customer.html" class="btn btn-primary btn-lg" style="background:var(--secondary-color);color:var(--white);margin-top:0.5rem;">
                         Zarejestruj się jako klient indywidualny <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
@@ -304,7 +304,7 @@
                 </div>
             </div>
             <div class="b2b-cta">
-                <a href="frontend/pages/b2b-registration.html" class="cta-button">Zarejestruj się jako partner B2B →</a>
+                <a href="pages/b2b-registration.html" class="cta-button">Zarejestruj się jako partner B2B →</a>
                 <p class="cta-note">Rejestracja jest bezpłatna i nie wiąże się z żadnymi zobowiązaniami</p>
             </div>
         </div>
@@ -436,11 +436,11 @@
             <div class="footer-section">
                 <h3>Informacje</h3>
                 <ul>
-                    <li><a href="frontend/pages/catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
-                    <li><a href="frontend/pages/o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
-                    <li><a href="frontend/pages/blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
-                    <li><a href="frontend/pages/dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
-                    <li><a href="frontend/pages/zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                    <li><a href="pages/catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="pages/o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="pages/blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="pages/dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="pages/zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
                 </ul>
             </div>
             <div class="footer-section">
@@ -455,11 +455,11 @@
         <div class="copyright">
             <p>&copy; 2024 CARTECHSTORE SP. Z O.O. Wszelkie prawa zastrzeżone. NIP: 123-456-78-90</p>
             <div class="footer-links">
-                <a href="frontend/pages/polityka-prywatnosci.html">Polityka prywatności</a>
-                <a href="frontend/pages/regulamin.html">Regulamin</a>
-                <a href="frontend/pages/mapa-strony.html">Mapa strony</a>
-                <a href="frontend/pages/rodo.html">RODO</a>
-                <a href="frontend/pages/cookies.html">Cookies</a>
+                <a href="pages/polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="pages/regulamin.html">Regulamin</a>
+                <a href="pages/mapa-strony.html">Mapa strony</a>
+                <a href="pages/rodo.html">RODO</a>
+                <a href="pages/cookies.html">Cookies</a>
             </div>
         </div>
     </footer>
@@ -471,7 +471,7 @@
                 <i class="fas fa-home"></i>
                 <span>Start</span>
             </a></li>
-            <li><a href="frontend/pages/catalog.html" aria-label="Katalog" class="mobile-nav-link" id="nav-categories">
+            <li><a href="pages/catalog.html" aria-label="Katalog" class="mobile-nav-link" id="nav-categories">
                 <i class="fas fa-th-large"></i>
                 <span>Katalog</span>
             </a></li>
@@ -479,12 +479,12 @@
                 <i class="fas fa-search"></i>
                 <span>Szukaj</span>
             </a></li>
-            <li><a href="frontend/pages/cart.html" aria-label="Koszyk" class="mobile-nav-link" id="nav-cart">
+            <li><a href="pages/cart.html" aria-label="Koszyk" class="mobile-nav-link" id="nav-cart">
                 <i class="fas fa-shopping-cart"></i>
                 <span>Koszyk</span>
                 <span class="badge hidden" id="cart-count">0</span>
             </a></li>
-            <li><a href="frontend/pages/login.html" aria-label="Konto" class="mobile-nav-link" id="nav-account">
+            <li><a href="pages/login.html" aria-label="Konto" class="mobile-nav-link" id="nav-account">
                 <i class="fas fa-user"></i>
                 <span>Konto</span>
             </a></li>
@@ -495,10 +495,10 @@
 
     <!-- Cookie Banner będzie dodany dynamicznie przez JavaScript -->
 
-    <script src="frontend/js/visibility.js" defer></script>
-    <script src="frontend/js/slider.js" defer></script>
-    <script src="frontend/js/cookies-banner.js" defer></script>
-    <script src="frontend/js/search-integration.js" defer></script>
-    <script src="frontend/js/index-interactions.js" defer></script>
+    <script src="js/visibility.js" defer></script>
+    <script src="js/slider.js" defer></script>
+    <script src="js/cookies-banner.js" defer></script>
+    <script src="js/search-integration.js" defer></script>
+    <script src="js/index-interactions.js" defer></script>
 </body>
 </html> 

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koszyk - Cartechstore</title>
+    
+    <!-- Cache control -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- Critical CSS inline -->
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',system-ui,-apple-system,sans-serif;color:#1f2937;background:#f8fafc}
+        .header{position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px);background:rgba(255,255,255,0.7)}
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="../css/styles.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/global-breadcrumbs.css">
+    
+    <!-- Preload checkout page for faster navigation -->
+    <link rel="prefetch" href="checkout.html">
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 91 123 45 67</span>
+                <span>📧 biuro@cartechstore.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 17:00</span>
+            </div>
+            <div class="top-links">
+                <a href="kontakt.html">Kontakt</a>
+                <a href="o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <a href="account.html" class="header-action-button" title="Konto">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="wishlist.html" class="header-action-button wishlist-header-btn" title="Lista życzeń">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    <span class="wishlist-count" id="headerWishlistCount">0</span>
+                </a>
+                <a href="cart.html" class="header-action-button cart-header-btn" title="Koszyk">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-count" id="headerCartCount">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="catalog.html#filtry">Filtry</a></li>
+                <li><a href="catalog.html#oleje">Oleje</a></li>
+                <li><a href="catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="catalog.html#silnik">Silnik</a></li>
+                <li><a href="catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+                <ol>
+                    <li><a href="../index.html" aria-label="Strona główna"><i class="fas fa-home"></i></a></li>
+                    <li><span>&gt;</span></li>
+                    <li><span>Koszyk</span></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Cart Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-shopping-cart"></i> Twój koszyk</h1>
+                <p>Przejrzyj wybrane produkty i przejdź do finalizacji zamówienia</p>
+            </div>
+
+            <div class="cart-section">
+                <div class="cart-items-wrapper">
+                    <!-- Empty Cart State -->
+                    <div class="empty-cart" id="emptyCart" style="display: none; text-align:center; padding:3rem 1rem; background:#f8fafc; border-radius:16px; box-shadow:0 4px 24px #2563eb11; margin:2rem auto; max-width:500px;">
+                        <i class="fas fa-shopping-cart" style="font-size:3rem; color:#2563eb;"></i>
+                        <h3 style="margin:1rem 0 0.5rem 0; color:#1e293b;">Twój koszyk jest pusty</h3>
+                        <p style="color:#64748b; margin-bottom:1.5rem;">Dodaj produkty do koszyka, aby je zamówić.</p>
+                        <a href="/pages/catalog.html" class="btn btn-primary" style="padding:1rem 2rem; font-size:1.1rem;">Przeglądaj produkty</a>
+                    </div>
+
+                    <!-- Cart Items -->
+                    <div class="cart-items" id="cartItems">
+                        <div class="cart-header">
+                            <div class="cart-header-item">Produkt</div>
+                            <div class="cart-header-price">Cena</div>
+                            <div class="cart-header-quantity">Ilość</div>
+                            <div class="cart-header-total">Razem</div>
+                            <div class="cart-header-actions">Akcje</div>
+                        </div>
+                        <div class="cart-items-list" id="cartItemsList">
+                            <!-- Cart items will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary" id="cartSummary">
+                    <div class="summary-card">
+                        <h3><i class="fas fa-calculator"></i> Podsumowanie zamówienia</h3>
+                        
+                        <div class="summary-details">
+                            <div class="summary-row">
+                                <span>Produkty (<span id="totalItems">0</span> szt.):</span>
+                                <span id="subtotal">0,00 PLN</span>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span>Dostawa:</span>
+                                <span id="shipping" class="free-shipping">Darmowa</span>
+                            </div>
+                            
+                            <div class="summary-row">
+                                <span>VAT (23%):</span>
+                                <span id="vat">0,00 PLN</span>
+                            </div>
+                            
+                            <div class="summary-row discount-row" id="discountRow" style="display: none;">
+                                <span>Rabat:</span>
+                                <span id="discount" class="discount-amount">-0,00 PLN</span>
+                            </div>
+                            
+                            <div class="summary-divider"></div>
+                            
+                            <div class="summary-row total">
+                                <span>Razem do zapłaty:</span>
+                                <span id="total">0,00 PLN</span>
+                            </div>
+                        </div>
+
+                        <!-- Discount Code -->
+                        <div class="discount-section">
+                            <div class="discount-input-group">
+                                <input type="text" id="discountCode" placeholder="Kod rabatowy" class="discount-input">
+                                <button class="discount-btn">
+                                    <i class="fas fa-tag"></i>
+                                </button>
+                            </div>
+                            <div class="discount-message" id="discountMessage"></div>
+                        </div>
+
+                        <!-- Cart Actions -->
+                        <div class="cart-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-trash"></i> Wyczyść koszyk
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-bookmark"></i> Zapisz na później
+                            </button>
+                            <a href="/pages/checkout.html" class="btn btn-primary" id="checkoutBtn" aria-label="Przejdź do płatności">
+                                <i class="fas fa-credit-card"></i> Przejdź do płatności
+                            </a>
+                        </div>
+
+                        <!-- Recommended Products -->
+                        <div class="recommended-section">
+                            <h4><i class="fas fa-star"></i> Polecane produkty</h4>
+                            <div class="recommended-products" id="recommendedProducts">
+                                <!-- Recommended products will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Continue Shopping -->
+            <div class="continue-shopping-section">
+                <a href="catalog.html" class="continue-shopping-btn">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Kontynuuj zakupy</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to profesjonalna hurtownia części samochodowych z ponad 15-letnim doświadczeniem. Obsługujemy warsztaty, serwisy i klientów indywidualnych w całej Polsce.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przemysłowa 15, 70-800 Szczecin</a></li>
+                    <li><a href="tel:+48911234567"><i class="fas fa-phone-alt"></i> +48 91 123 45 67</a></li>
+                    <li><a href="mailto:biuro@cartechstore.pl"><i class="fas fa-envelope"></i> biuro@cartechstore.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 17:00, Sob: 9:00 - 14:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 CARTECHSTORE SP. Z O.O. Wszelkie prawa zastrzeżone. NIP: 123-456-78-90</p>
+            <div class="footer-links">
+                <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="regulamin.html">Regulamin</a>
+                <a href="mapa-strony.html">Mapa strony</a>
+                <a href="rodo.html">RODO</a>
+                <a href="cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #60a5fa;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --text-color: #1f2937;
+            --text-light: #64748b;
+            --border-color: #e5e7eb;
+            --background-color: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            --radius: 16px;
+            --shadow: 0 10px 30px rgba(37, 99, 235, 0.1);
+            --shadow-lg: 0 20px 40px rgba(37, 99, 235, 0.15);
+        }
+
+        body {
+            background: var(--background-color);
+        }
+
+        .main-content {
+            padding: 3rem 0;
+            min-height: 70vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .page-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 1.2rem;
+        }
+        
+        .cart-section {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 3rem;
+            align-items: start;
+            margin-bottom: 3rem;
+        }
+
+        .cart-items-wrapper {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .cart-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 80px;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 80px;
+            gap: 1rem;
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .cart-item:hover {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item-details h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-details .product-category {
+            font-size: 0.85rem;
+            color: var(--white);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            overflow: hidden;
+            width: fit-content;
+            background: var(--white);
+        }
+
+        .quantity-btn {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        .quantity-input {
+            border: none;
+            text-align: center;
+            width: 80px;
+            padding: 0.8rem 0.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .cart-item-price, .cart-item-total {
+            font-weight: 800;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .cart-item-remove {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-remove:hover {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+        
+        .summary-card {
+            background: linear-gradient(135deg, var(--white), #f8fafc);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            position: sticky;
+            top: 2rem;
+            border: 2px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .summary-card h3 {
+            margin-bottom: 2rem;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .summary-card h3 i {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .summary-row.total {
+            font-weight: 800;
+            font-size: 1.6rem;
+            border-bottom: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary-divider {
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            margin: 1.5rem 0;
+            border-radius: 2px;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            margin: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #1e3a8a);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--text-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .recommended-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .recommended-section h4 {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recommended-products {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .recommended-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .recommended-item:hover {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.02);
+        }
+
+        .recommended-item img {
+            width: 40px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .recommended-item-details {
+            flex: 1;
+        }
+
+        .recommended-item-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .recommended-item-price {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .continue-shopping-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .continue-shopping-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--radius);
+            transition: all 0.2s;
+        }
+
+        .continue-shopping-btn:hover {
+            background: var(--primary-color);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            background: var(--danger-color);
+            color: var(--white);
+            border-radius: 50%;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .cart-header-btn {
+            position: relative;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            display: none;
+            font-weight: 500;
+        }
+
+        .toast.success {
+            background: var(--success-color);
+        }
+
+        .toast.error {
+            background: var(--danger-color);
+        }
+        
+        @media (max-width: 768px) {
+            .cart-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .cart-header {
+                display: none;
+            }
+
+            .cart-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .cart-item-product {
+                grid-column: 1 / -1;
+            }
+
+            .quantity-controls {
+                justify-self: start;
+            }
+
+            .cart-actions {
+                flex-direction: column;
+            }
+
+            .cart-actions .btn {
+                width: 100%;
+            }
+        }
+
+        .header-action-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(37, 99, 235, 0.05);
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .header-action-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .header-action-button svg {
+            transition: all 0.2s ease;
+        }
+        
+        .cart-count, .wishlist-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ef4444;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+    </style>
+
+    <script src="../js/cart.js"></script>
+    <script src="../js/global-header.js"></script>
+    <script src="../js/toast-system.js"></script>
+    <script src="../js/cart-interactions.js"></script>
+    <script>
+        // Przekierowanie admina z koszyka
+        (function() {
+            const token = localStorage.getItem('authToken') || localStorage.getItem('token') || sessionStorage.getItem('authToken') || sessionStorage.getItem('token');
+            if (token) {
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    if (payload.role === 'admin') {
+                        window.location.href = 'index.html';
+                    }
+                } catch (e) {}
+            }
+        })();
+    </script>
+</body>
+</html> 

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edytuj profil - Cartechstore</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .profile-edit-page {
+            padding: 2rem;
+            background: var(--background-color);
+            min-height: 100vh;
+        }
+
+        .profile-edit-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 0 4px #2563eb33;
+        }
+
+        .profile-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-subtitle {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            background: var(--background-color);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-group input:disabled {
+            background: #f1f5f9;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        .form-group .error {
+            color: #DC2626;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .form-group input.error {
+            border-color: #DC2626;
+        }
+
+        .status-message {
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #ECFDF5;
+            color: #065F46;
+            border: 1px solid #A7F3D0;
+        }
+
+        .status-message.error {
+            background: #FEF2F2;
+            color: #991B1B;
+            border: 1px solid #FECACA;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--background-color);
+        }
+
+        .btn-danger {
+            background: #DC2626;
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #B91C1C;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .password-section {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            background: #f8fafc;
+        }
+
+        .danger-zone {
+            border: 1px solid #DC2626;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            background: #FEF2F2;
+        }
+
+        .danger-zone .section-title {
+            color: #DC2626;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .profile-edit-page {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="../index.html" class="logo">Cartechstore</a>
+            <div class="header-actions">
+                <a href="account.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i>
+                    Powrót do panelu
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-container">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="../index.html"><i class="fas fa-home"></i> Start</a>
+                <span class="breadcrumb-separator">></span>
+                <a href="account.html">Panel klienta</a>
+                <span class="breadcrumb-separator">></span>
+                <span class="breadcrumb-current">Edytuj profil</span>
+            </nav>
+        </div>
+    </div>
+
+    <div class="profile-edit-page">
+        <div class="profile-edit-container">
+            <!-- Profile Info -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h1 class="profile-title" id="profileTitle">Edytuj profil</h1>
+                        <p class="profile-subtitle">Zaktualizuj swoje dane osobowe i firmowe</p>
+                    </div>
+                </div>
+
+                <div id="statusMessage" class="status-message"></div>
+
+                <!-- Personal Information -->
+                <form id="profileForm">
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-user"></i>
+                            Dane osobowe
+                        </h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="firstName">Imię *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <div class="error" id="firstNameError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Nazwisko *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <div class="error" id="lastNameError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error" id="emailError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefon</label>
+                                <input type="text" id="phone" name="phone">
+                                <div class="error" id="phoneError"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Company Information -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-building"></i>
+                            Dane firmowe
+                        </h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="companyName">Nazwa firmy</label>
+                                <input type="text" id="companyName" name="companyName">
+                                <div class="error" id="companyNameError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nip">NIP</label>
+                                <input type="text" id="nip" name="nip" disabled>
+                                <small style="color: #64748b; font-size: 0.8rem;">NIP nie może być zmieniony</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Address Information -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Adres
+                        </h2>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="street">Ulica</label>
+                                <input type="text" id="street" name="street">
+                                <div class="error" id="streetError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">Miasto</label>
+                                <input type="text" id="city" name="city">
+                                <div class="error" id="cityError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="postalCode">Kod pocztowy</label>
+                                <input type="text" id="postalCode" name="postalCode" placeholder="XX-XXX">
+                                <div class="error" id="postalCodeError"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='account.html'">
+                            <i class="fas fa-times"></i>
+                            Anuluj
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                            <i class="fas fa-save"></i>
+                            Zapisz zmiany
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Change Password -->
+            <div class="profile-card">
+                <div class="form-section password-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-lock"></i>
+                        Zmiana hasła
+                    </h2>
+                    <div id="passwordStatusMessage" class="status-message"></div>
+                    <form id="passwordForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="currentPassword">Aktualne hasło *</label>
+                                <input type="password" id="currentPassword" name="currentPassword" required>
+                                <div class="error" id="currentPasswordError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">Nowe hasło *</label>
+                                <input type="password" id="newPassword" name="newPassword" required>
+                                <div class="error" id="newPasswordError"></div>
+                                <small style="color: #64748b; font-size: 0.8rem;">
+                                    Min. 8 znaków, wielka i mała litera, cyfra, znak specjalny
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Potwierdź nowe hasło *</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                <div class="error" id="confirmPasswordError"></div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="changePasswordBtn">
+                                <i class="fas fa-key"></i>
+                                Zmień hasło
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="profile-card">
+                <div class="form-section danger-zone">
+                    <h2 class="section-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Strefa zagrożenia
+                    </h2>
+                    <p style="margin-bottom: 1rem; color: #DC2626;">
+                        Usunięcie konta jest nieodwracalne. Wszystkie Twoje dane zostaną trwale usunięte.
+                    </p>
+                    <button type="button" class="btn btn-danger" id="deleteAccountBtn">
+                        <i class="fas fa-trash"></i>
+                        Usuń konto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div id="deleteModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 2rem; border-radius: 8px; max-width: 400px; width: 90%;">
+            <h3 style="margin-bottom: 1rem; color: #DC2626;">Potwierdź usunięcie konta</h3>
+            <p style="margin-bottom: 1.5rem;">To działanie jest nieodwracalne. Wprowadź swoje hasło, aby potwierdzić.</p>
+            <input type="password" id="deletePassword" placeholder="Twoje hasło" style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 4px; margin-bottom: 1rem;">
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Anuluj</button>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteAccount()">Usuń konto</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let userData = {};
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/pages/login.html';
+                return;
+            }
+
+            await loadUserProfile();
+            setupFormHandlers();
+        });
+
+        async function loadUserProfile() {
+            const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+            
+            try {
+                const response = await fetch('http://localhost:3005/api/users/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch profile');
+                }
+
+                const result = await response.json();
+                userData = result.user;
+
+                // Populate form fields
+                document.getElementById('firstName').value = userData.firstName || '';
+                document.getElementById('lastName').value = userData.lastName || '';
+                document.getElementById('email').value = userData.email || '';
+                document.getElementById('phone').value = userData.phone || '';
+                document.getElementById('companyName').value = userData.companyName || '';
+                document.getElementById('nip').value = userData.nip || '';
+                document.getElementById('street').value = userData.street || '';
+                document.getElementById('city').value = userData.city || '';
+                document.getElementById('postalCode').value = userData.postalCode || '';
+
+                document.getElementById('profileTitle').textContent = `Profil: ${userData.firstName} ${userData.lastName}`;
+
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showMessage('statusMessage', 'error', 'Błąd ładowania profilu');
+            }
+        }
+
+        function setupFormHandlers() {
+            // Profile form handler
+            document.getElementById('profileForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await updateProfile();
+            });
+
+            // Password form handler
+            document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await changePassword();
+            });
+
+            // Delete account handler
+            document.getElementById('deleteAccountBtn').addEventListener('click', () => {
+                document.getElementById('deleteModal').style.display = 'block';
+            });
+        }
+
+        async function updateProfile() {
+            clearErrors();
+            
+            const formData = {
+                firstName: document.getElementById('firstName').value.trim(),
+                lastName: document.getElementById('lastName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                companyName: document.getElementById('companyName').value.trim(),
+                street: document.getElementById('street').value.trim(),
+                city: document.getElementById('city').value.trim(),
+                postalCode: document.getElementById('postalCode').value.trim()
+            };
+
+            // Basic validation
+            let isValid = true;
+            if (!formData.firstName) {
+                showFieldError('firstName', 'Imię jest wymagane');
+                isValid = false;
+            }
+            if (!formData.lastName) {
+                showFieldError('lastName', 'Nazwisko jest wymagane');
+                isValid = false;
+            }
+            if (!formData.email || !isValidEmail(formData.email)) {
+                showFieldError('email', 'Nieprawidłowy adres email');
+                isValid = false;
+            }
+            if (formData.postalCode && !/^\d{2}-\d{3}$/.test(formData.postalCode)) {
+                showFieldError('postalCode', 'Kod pocztowy musi być w formacie XX-XXX');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showMessage('statusMessage', 'error', 'Popraw błędy w formularzu');
+                return;
+            }
+
+            const saveBtn = document.getElementById('saveProfileBtn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Zapisywanie...';
+
+            try {
+                const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+                const response = await fetch('http://localhost:3005/api/users/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage('statusMessage', 'success', 'Profil został zaktualizowany');
+                    userData = result.user;
+                } else {
+                    if (result.errors) {
+                        result.errors.forEach(error => {
+                            const field = error.param || error.path;
+                            if (field) {
+                                showFieldError(field, error.msg || error.message);
+                            }
+                        });
+                    }
+                    showMessage('statusMessage', 'error', result.message || 'Błąd aktualizacji profilu');
+                }
+
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                showMessage('statusMessage', 'error', 'Wystąpił błąd podczas aktualizacji profilu');
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+            }
+        }
+
+        async function changePassword() {
+            clearPasswordErrors();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validation
+            let isValid = true;
+            if (!currentPassword) {
+                showFieldError('currentPassword', 'Aktualne hasło jest wymagane');
+                isValid = false;
+            }
+            if (!newPassword || !isValidPassword(newPassword)) {
+                showFieldError('newPassword', 'Hasło musi mieć min. 8 znaków, wielką i małą literę, cyfrę oraz znak specjalny');
+                isValid = false;
+            }
+            if (newPassword !== confirmPassword) {
+                showFieldError('confirmPassword', 'Hasła nie są identyczne');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showMessage('passwordStatusMessage', 'error', 'Popraw błędy w formularzu');
+                return;
+            }
+
+            const changeBtn = document.getElementById('changePasswordBtn');
+            const originalText = changeBtn.innerHTML;
+            changeBtn.disabled = true;
+            changeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Zmienianie...';
+
+            try {
+                const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+                const response = await fetch('http://localhost:3005/api/users/change-password', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        currentPassword,
+                        newPassword,
+                        confirmPassword
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage('passwordStatusMessage', 'success', 'Hasło zostało zmienione');
+                    document.getElementById('passwordForm').reset();
+                } else {
+                    showMessage('passwordStatusMessage', 'error', result.message || 'Błąd zmiany hasła');
+                }
+
+            } catch (error) {
+                console.error('Error changing password:', error);
+                showMessage('passwordStatusMessage', 'error', 'Wystąpił błąd podczas zmiany hasła');
+            } finally {
+                changeBtn.disabled = false;
+                changeBtn.innerHTML = originalText;
+            }
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+            document.getElementById('deletePassword').value = '';
+        }
+
+        async function confirmDeleteAccount() {
+            const password = document.getElementById('deletePassword').value;
+            if (!password) {
+                alert('Wprowadź hasło aby potwierdzić usunięcie konta');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+                const response = await fetch('http://localhost:3005/api/users/account', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ password })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Konto zostało usunięte');
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('token');
+                    window.location.href = '/pages/login.html';
+                } else {
+                    alert(result.message || 'Błąd usuwania konta');
+                }
+
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                alert('Wystąpił błąd podczas usuwania konta');
+            }
+
+            closeDeleteModal();
+        }
+
+        // Helper functions
+        function showMessage(elementId, type, message) {
+            const element = document.getElementById(elementId);
+            element.className = `status-message ${type}`;
+            element.textContent = message;
+            element.style.display = 'block';
+            
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+
+        function showFieldError(fieldName, message) {
+            const field = document.getElementById(fieldName);
+            const errorElement = document.getElementById(fieldName + 'Error');
+            
+            if (field) field.classList.add('error');
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+        }
+
+        function clearErrors() {
+            document.querySelectorAll('.error').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('input').forEach(el => el.classList.remove('error'));
+        }
+
+        function clearPasswordErrors() {
+            ['currentPassword', 'newPassword', 'confirmPassword'].forEach(id => {
+                document.getElementById(id).classList.remove('error');
+                document.getElementById(id + 'Error').style.display = 'none';
+            });
+        }
+
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+
+        function isValidPassword(password) {
+            return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+        }
+    </script>
+</body>
+</html> 
