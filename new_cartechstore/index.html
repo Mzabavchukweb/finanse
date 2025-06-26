@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Enhanced SEO Meta Tags -->
+    <meta name="description" content="Cartechstore - Profesjonalna hurtownia części samochodowych. Najlepsze ceny, szybka dostawa 24h, gwarancja jakości. Części do Audi, BMW, Mercedes, Volkswagen i innych marek.">
+    <meta name="keywords" content="części samochodowe, hurtownia części, sklep motoryzacyjny, części Audi, części BMW, części Mercedes, części Volkswagen, filtry samochodowe, oleje silnikowe, hamulce, zawieszenie">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Cartechstore">
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Cartechstore - Profesjonalna Hurtownia Części Samochodowych">
+    <meta property="og:description" content="Najlepsze ceny na części samochodowe. Szybka dostawa 24h, gwarancja jakości. Współpraca B2B.">
+    <meta property="og:image" content="https://cartechstore.com/assets/images/og-image.jpg">
+    <meta property="og:url" content="https://cartechstore.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cartechstore">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cartechstore - Profesjonalna Hurtownia Części Samochodowych">
+    <meta name="twitter:description" content="Najlepsze ceny na części samochodowe. Szybka dostawa 24h, gwarancja jakości.">
+    <meta name="twitter:image" content="https://cartechstore.com/assets/images/twitter-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://cartechstore.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="frontend/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- Cache control -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"></noscript>
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- Critical CSS inline -->
+    <style>
+        /* Critical CSS inline for faster loading */
+        :root{--primary-color:#2563eb;--primary-dark:#1d4ed8;--white:#ffffff;--text-color:#1f2937;--border-color:#e5e7eb}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',system-ui,-apple-system,sans-serif;line-height:1.5;color:var(--text-color);background:#F8FAFC;min-height:100vh}
+        .header{position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px);background:rgba(255,255,255,0.7);box-shadow:0 8px 32px 0 rgba(31,38,135,0.12)}
+        
+        /* Enhanced header styles */
+        .header-action-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(37, 99, 235, 0.05);
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .header-action-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        .header-action-button svg {
+            transition: all 0.2s ease;
+        }
+        
+        .cart-count, .wishlist-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ef4444;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+        }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <link rel="stylesheet" href="frontend/css/styles.css">
+    <link rel="stylesheet" href="frontend/css/cookies-banner.css">
+    
+    <title>Cartechstore - Profesjonalna Hurtownia Części Samochodowych | Najlepsze Ceny</title>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-content">
+            <div class="contact-info">
+                <span>📞 +48 91 123 45 67</span>
+                <span>📧 biuro@cartechstore.pl</span>
+                <span>🕒 Pon-Pt: 8:00 - 17:00</span>
+            </div>
+            <div class="top-links">
+                <a href="frontend/pages/kontakt.html">Kontakt</a>
+                <a href="frontend/pages/o-nas.html">O nas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Cartechstore</a>
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Szukaj części...">
+            </div>
+            <div class="header-actions">
+                <!-- User greeting section -->
+                <div id="userGreeting" class="user-greeting" style="display:none;">
+                    <span class="greeting-text">Witaj, <span id="userName"></span>!</span>
+                    <a href="frontend/pages/admin.html" class="user-icon-link" title="Panel użytkownika">
+                        <img src="frontend/assets/icons/user-icon.svg" alt="Panel" class="user-icon">
+                    </a>
+                    <button class="logout-btn" id="logoutButton">Wyloguj</button>
+                </div>
+                
+                <!-- Default buttons for non-logged users -->
+                <div id="defaultActions" class="header-actions">
+                    <a href="frontend/pages/login.html" class="header-action-button" title="Zaloguj się">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </a>
+                    <a href="frontend/pages/wishlist.html" class="header-action-button wishlist-header-btn" title="Lista życzeń">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                        <span class="wishlist-count" id="headerWishlistCount">0</span>
+                    </a>
+                    <a href="frontend/pages/cart.html" class="header-action-button cart-header-btn" title="Koszyk">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-count" id="headerCartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-list">
+                <li><a href="frontend/pages/catalog.html#hamulce">Hamulce</a></li>
+                <li><a href="frontend/pages/catalog.html#filtry">Filtry</a></li>
+                <li><a href="frontend/pages/catalog.html#oleje">Oleje</a></li>
+                <li><a href="frontend/pages/catalog.html#zawieszenie">Zawieszenie</a></li>
+                <li><a href="frontend/pages/catalog.html#silnik">Silnik</a></li>
+                <li><a href="frontend/pages/catalog.html#wydech">Układ wydechowy</a></li>
+                <li><a href="frontend/pages/catalog.html#elektryka">Elektryka</a></li>
+                <li><a href="frontend/pages/catalog.html#klimatyzacja">Klimatyzacja</a></li>
+            </ul>
+            <button class="mobile-menu-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        <div class="nav-overlay"></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide hero-slide-1" aria-label="Nowoczesny samochód w garażu"></div>
+            <div class="hero-slide hero-slide-2" aria-label="Warsztat samochodowy"></div>
+            <div class="hero-slide hero-slide-3" aria-label="Części samochodowe"></div>
+            <div class="hero-slide hero-slide-4" aria-label="Hurtownia części"></div>
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 id="welcomeMessage">Witaj w Cartechstore</h1>
+            <p>Profesjonalna hurtownia części samochodowych dla warsztatów i serwisów</p>
+            
+            <div class="hero-cta-container">
+                <a href="frontend/pages/catalog.html" class="cta-button btn-primary" id="catalogBtn">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    Przeglądaj katalog
+                </a>
+                <a href="frontend/pages/b2b-registration.html" class="cta-button btn-primary">
+                    <i class="fas fa-building" aria-hidden="true"></i> 
+                    Rejestracja B2B
+                </a>
+                <a href="frontend/pages/register-customer.html" class="cta-button btn-secondary">
+                    <i class="fas fa-user" aria-hidden="true"></i> 
+                    Rejestracja klienta
+                </a>
+                <a href="frontend/pages/login.html" class="cta-button btn-primary cta-login-big">
+                    <i class="fas fa-user-check" aria-hidden="true"></i>
+                    Zaloguj się jako klient detaliczny
+                </a>
+                <a href="frontend/pages/account.html" class="cta-button btn-primary hidden" id="accountBtn">
+                    <i class="fas fa-user-circle" aria-hidden="true"></i>
+                    Moje konto
+                </a>
+                <div class="cta-login-link-container">
+                    <a href="frontend/pages/login.html" class="cta-login-link">
+                        Masz już konto? Zaloguj się
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicle Search -->
+    <section class="vehicle-search">
+        <div class="vehicle-search-container">
+            <h2>Znajdź części do swojego samochodu</h2>
+            <form class="search-form">
+                <select required>
+                    <option value="">Wybierz markę</option>
+                    <option value="audi">Audi</option>
+                    <option value="bmw">BMW</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="volkswagen">Volkswagen</option>
+                </select>
+                <select required>
+                    <option value="">Wybierz model</option>
+                </select>
+                <select required>
+                    <option value="">Rok produkcji</option>
+                </select>
+                <button type="submit">Szukaj części →</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- B2B Registration Section -->
+    <section class="b2b-registration">
+        <div class="b2b-container">
+            <div class="section-header">
+                <h2 class="section-title">Współpraca B2B</h2>
+                <p class="section-description">Zostań naszym partnerem handlowym i zyskaj dostęp do najlepszych cen na rynku</p>
+            </div>
+            <div class="b2b-grid">
+                <div class="b2b-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Rejestracja konta B2B</h3>
+                    <p>Zarejestruj swoje konto firmowe i uzyskaj dostęp do specjalnych cen, ofert oraz dedykowanego opiekuna.</p>
+                    <a href="frontend/pages/b2b-registration.html" class="btn btn-primary btn-lg">
+                        Zarejestruj się jako partner B2B <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <p class="b2b-note">Rejestracja jest bezpłatna i nie wiąże się z żadnymi zobowiązaniami</p>
+                </div>
+                <div class="b2b-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3>Rejestracja klienta indywidualnego</h3>
+                    <p>Załóż konto klienta detalicznego, aby korzystać z promocji i historii zamówień.</p>
+                    <a href="frontend/pages/register-customer.html" class="btn btn-primary btn-lg" style="background:var(--secondary-color);color:var(--white);margin-top:0.5rem;">
+                        Zarejestruj się jako klient indywidualny <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="b2b-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Dostęp do katalogu</h3>
+                    <p>Po weryfikacji otrzymasz dostęp do pełnego katalogu produktów z aktualnymi cenami</p>
+                </div>
+                <div class="b2b-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3>System rabatów</h3>
+                    <p>Im dłuższa współpraca, tym lepsze warunki cenowe i dodatkowe korzyści</p>
+                </div>
+                <div class="b2b-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Szybka dostawa</h3>
+                    <p>Profesjonalna logistyka i terminowa dostawa zamówionych towarów</p>
+                </div>
+            </div>
+            <div class="b2b-cta">
+                <a href="frontend/pages/b2b-registration.html" class="cta-button">Zarejestruj się jako partner B2B →</a>
+                <p class="cta-note">Rejestracja jest bezpłatna i nie wiąże się z żadnymi zobowiązaniami</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="features-container animate-on-scroll">
+            <div class="section-header">
+                <h2 class="section-title">Dlaczego warto wybrać Cartechstore?</h2>
+                <p class="section-description">Oferujemy najwyższej jakości części samochodowe wraz z profesjonalną obsługą</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-tag"></i>
+                    </div>
+                    <h3 class="feature-title">Konkurencyjne ceny</h3>
+                    <p class="feature-description">Najlepsze ceny na rynku dzięki bezpośredniej współpracy z producentami</p>
+                </div>
+                <div class="feature animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3 class="feature-title">Szybka dostawa</h3>
+                    <p class="feature-description">Wysyłka w 24h dla produktów dostępnych w magazynie</p>
+                </div>
+                <div class="feature animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3 class="feature-title">Profesjonalne doradztwo</h3>
+                    <p class="feature-description">Nasz zespół ekspertów pomoże w wyborze odpowiednich części</p>
+                </div>
+                <div class="feature animate-on-scroll">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Gwarancja jakości</h3>
+                    <p class="feature-description">Wszystkie produkty objęte są gwarancją producenta</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews - Enhanced & More Realistic -->
+    <section class="reviews">
+        <div class="reviews-container">
+            <div class="reviews-header">
+                <h2 class="section-title">Opinie naszych klientów</h2>
+                <p class="section-description">Sprawdź, co mówią o nas klienci, którzy zaufali naszemu sklepowi</p>
+            </div>
+            
+            <div class="reviews-stats">
+                <div class="review-stat">
+                    <span class="stat-value" id="averageRating">4.7</span>
+                    <span class="stat-label">Średnia ocena</span>
+                </div>
+                <div class="review-stat">
+                    <span class="stat-value" id="satisfiedCustomers">94%</span>
+                    <span class="stat-label">Zadowolonych klientów</span>
+                </div>
+                <div class="review-stat">
+                    <span class="stat-value" id="totalReviews">2 847</span>
+                    <span class="stat-label">Opinii w naszym sklepie</span>
+                </div>
+            </div>
+            
+            <div class="reviews-slider">
+                <div class="reviews-track">
+                    <!-- Reviews will be dynamically loaded here -->
+                </div>
+            </div>
+            
+            <div class="reviews-cta">
+                <p>Masz już nasze części? Podziel się swoją opinią!</p>
+                <a href="#" class="write-review-btn">
+                    <i class="fas fa-pen"></i>
+                    Napisz opinię
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="newsletter-container">
+            <h2 class="section-title">Bądź na bieżąco</h2>
+            <p class="section-description">Dołącz do tysięcy zadowolonych klientów i nie przegap żadnej promocji ani nowości w naszym asortymencie!</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                <button type="submit" class="newsletter-button">
+                    Zapisz się <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="newsletter-features">
+                <div class="newsletter-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Zero spamu</span>
+                </div>
+                <div class="newsletter-feature">
+                    <i class="fas fa-tag"></i>
+                    <span>Ekskluzywne promocje</span>
+                </div>
+                <div class="newsletter-feature">
+                    <i class="fas fa-unlock"></i>
+                    <span>Łatwa rezygnacja</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Enhanced & Unified -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>O nas</h3>
+                <p>Cartechstore to profesjonalna hurtownia części samochodowych z ponad 15-letnim doświadczeniem. Obsługujemy warsztaty, serwisy i klientów indywidualnych w całej Polsce.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontakt</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ul. Przemysłowa 15, 70-800 Szczecin</a></li>
+                    <li><a href="tel:+48911234567"><i class="fas fa-phone-alt"></i> +48 91 123 45 67</a></li>
+                    <li><a href="mailto:biuro@cartechstore.pl"><i class="fas fa-envelope"></i> biuro@cartechstore.pl</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Pon-Pt: 8:00 - 17:00, Sob: 9:00 - 14:00</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informacje</h3>
+                <ul>
+                    <li><a href="frontend/pages/catalog.html"><i class="fas fa-book"></i> Katalog części</a></li>
+                    <li><a href="frontend/pages/o-nas.html"><i class="fas fa-building"></i> O nas</a></li>
+                    <li><a href="frontend/pages/blog.html"><i class="fas fa-newspaper"></i> Blog motoryzacyjny</a></li>
+                    <li><a href="frontend/pages/dostawa-i-platnosc.html"><i class="fas fa-truck"></i> Dostawa i płatność</a></li>
+                    <li><a href="frontend/pages/zwroty-i-reklamacje.html"><i class="fas fa-exchange-alt"></i> Zwroty i reklamacje</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Zapisz się do newslettera i otrzymuj informacje o promocjach i nowościach.</p>
+                <form>
+                    <input type="email" class="newsletter-input" placeholder="Twój adres e-mail">
+                    <button type="submit" class="newsletter-button">Zapisz się</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 CARTECHSTORE SP. Z O.O. Wszelkie prawa zastrzeżone. NIP: 123-456-78-90</p>
+            <div class="footer-links">
+                <a href="frontend/pages/polityka-prywatnosci.html">Polityka prywatności</a>
+                <a href="frontend/pages/regulamin.html">Regulamin</a>
+                <a href="frontend/pages/mapa-strony.html">Mapa strony</a>
+                <a href="frontend/pages/rodo.html">RODO</a>
+                <a href="frontend/pages/cookies.html">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-bottom-nav">
+        <ul class="mobile-nav-list">
+            <li><a href="index.html" aria-label="Start" class="mobile-nav-link active" id="nav-home">
+                <i class="fas fa-home"></i>
+                <span>Start</span>
+            </a></li>
+            <li><a href="frontend/pages/catalog.html" aria-label="Katalog" class="mobile-nav-link" id="nav-categories">
+                <i class="fas fa-th-large"></i>
+                <span>Katalog</span>
+            </a></li>
+            <li><a href="#" aria-label="Szukaj" class="mobile-nav-link" id="nav-search">
+                <i class="fas fa-search"></i>
+                <span>Szukaj</span>
+            </a></li>
+            <li><a href="frontend/pages/cart.html" aria-label="Koszyk" class="mobile-nav-link" id="nav-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Koszyk</span>
+                <span class="badge hidden" id="cart-count">0</span>
+            </a></li>
+            <li><a href="frontend/pages/login.html" aria-label="Konto" class="mobile-nav-link" id="nav-account">
+                <i class="fas fa-user"></i>
+                <span>Konto</span>
+            </a></li>
+        </ul>
+    </div>
+
+    <div class="scroll-progress"></div>
+
+    <!-- Cookie Banner będzie dodany dynamicznie przez JavaScript -->
+
+    <script src="frontend/js/visibility.js" defer></script>
+    <script src="frontend/js/slider.js" defer></script>
+    <script src="frontend/js/cookies-banner.js" defer></script>
+    <script src="frontend/js/search-integration.js" defer></script>
+    <script src="frontend/js/index-interactions.js" defer></script>
+</body>
+</html> 
