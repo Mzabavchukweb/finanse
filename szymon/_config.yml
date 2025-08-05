@@ -1,0 +1,16 @@
+# GitHub Pages Configuration
+# Wymusza używanie index.html jako strony głównej
+include: [".nojekyll"]
+exclude: ["README.md"]
+
+# Ustawienia dla statycznych stron
+plugins:
+  - jekyll-relative-links
+
+# Konfiguracja dla strony głównej
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default" 
