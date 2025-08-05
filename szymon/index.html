@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Capital Management - kredyt, leasing, kredyt bez bik, czyszczenie bik, kredyt bez dochodu, pożyczka prywatna, spłata chwilówek, konsolidacja chwilówek</title>
+    <meta name="description" content="Elite Capital Management - finansowanie szyte na miarę. Kredyt bez BIK, leasing, czyszczenie bik, kredyt bez dochodu, pożyczka prywatna, spłata chwilówek, konsolidacja chwilówek. Profesjonalne doradztwo finansowe.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Premium Particle Background -->
+    <div class="particles-background" id="particles"></div>
+
+    <header id="header-component"></header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Finansowanie szyte na miarę</h1>
+                    <a href="kontakt.html" class="cta-button">Sprawdź ofertę</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Divider -->
+        <div class="floating-divider"></div>
+
+        <!-- Interactive Credit Calculator -->
+        <section class="calculator-section">
+            <div class="container">
+                <div class="calculator-header">
+                    <h2>Kalkulator Kredytowy</h2>
+                    <p>Sprawdź orientacyjną ratę dla swojego kredytu</p>
+                </div>
+                
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="loan-amount">Kwota kredytu (zł)</label>
+                            <input type="range" id="loan-amount" min="10000" max="1000000" value="100000" step="10000">
+                            <div class="input-value">
+                                <span id="loan-amount-value">100 000</span> zł
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="loan-period">Okres kredytowania (lat)</label>
+                            <input type="range" id="loan-period" min="1" max="30" value="10" step="1">
+                            <div class="input-value">
+                                <span id="loan-period-value">10</span> lat
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="interest-rate">Oprocentowanie (%)</label>
+                            <input type="range" id="interest-rate" min="3" max="25" value="8" step="0.1">
+                            <div class="input-value">
+                                <span id="interest-rate-value">8.0</span>%
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-results">
+                        <div class="result-card">
+                            <div class="result-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="result-content">
+                                <h3>Miesięczna rata</h3>
+                                <div class="result-amount" id="monthly-payment">1 213 zł</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-details">
+                            <div class="detail-item">
+                                <span class="detail-label">Całkowity koszt kredytu:</span>
+                                <span class="detail-value" id="total-cost">145 560 zł</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Kwota odsetek:</span>
+                                <span class="detail-value" id="total-interest">45 560 zł</span>
+                            </div>
+                        </div>
+                        
+                        <div class="calculator-cta">
+                            <a href="kontakt.html" class="cta-button calculator-apply">
+                                <i class="fas fa-paper-plane"></i>
+                                Złóż wniosek
+                            </a>
+                            <p class="calculator-disclaimer">
+                                *Kalkulacja ma charakter orientacyjny. Ostateczne warunki kredytu ustalane są indywidualnie.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Divider -->
+        <div class="floating-divider"></div>
+
+        <!-- Premium Statistics Section -->
+        <section class="stats-section">
+            <div class="section-divider">
+                <div class="section-divider-diamond"></div>
+            </div>
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-number" data-target="15">0</div>
+                        <div class="stat-label">Lat doświadczenia</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number" data-target="2500">0</div>
+                        <div class="stat-label">Zadowolonych klientów</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="stat-number" data-target="5000">0</div>
+                        <div class="stat-label">Zrealizowanych transakcji</div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Divider -->
+        <div class="floating-divider"></div>
+
+        <!-- Services Grid -->
+        <section class="featured-services">
+            <div class="geometric-bg"></div>
+            <div class="container">
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3>Kredyt dla spółki z o.o. bez BIK zarządu</h3>
+                        <p>Masz spółkę z o.o. i potrzebujesz finansowania, ale nie chcesz, by bank analizował historię kredytową zarządu? 💼</p>
+                        <a href="uslugi.html" class="service-link">Więcej</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-car-side"></i>
+                        </div>
+                        <h3>Leasing bez BIK, KRD i BAZ</h3>
+                        <p>Masz wpisy w bazach? Nic nie szkodzi. Pomagamy uzyskać leasing nawet bez weryfikacji w BIK, KRD czy BAZ.</p>
+                        <a href="uslugi.html" class="service-link">Więcej</a>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-globe-europe"></i>
+                        </div>
+                        <h3>Kredyt dla osób pracujących za granicą</h3>
+                        <p>Pracujesz poza Polską i chcesz kredyt? Nie musisz znać się na formalnościach – tłumaczymy wszystkie dokumenty! 💶</p>
+                        <a href="uslugi.html" class="service-link">Więcej</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Divider -->
+        <div class="floating-divider"></div>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="faq-header">
+                    <h2>Najczęściej zadawane pytania</h2>
+                    <p>Odpowiedzi na pytania, które najczęściej otrzymujemy od naszych klientów</p>
+                </div>
+                
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Jak długo trwa rozpatrzenie wniosku?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Wstępna ocena wniosku następuje w ciągu 24 godzin od jego złożenia. Ostateczna decyzja kredytowa może zostać podjęta w ciągu 2-5 dni roboczych, w zależności od rodzaju produktu finansowego i kompletności dokumentacji.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Czy mogę otrzymać kredyt mając wpisy w BIK?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tak, specjalizujemy się w finansowaniu dla osób z historią kredytową. Współpracujemy z instytucjami, które oferują kredyty bez weryfikacji BIK lub z łagodniejszymi kryteriami oceny zdolności kredytowej. Każdy przypadek analizujemy indywidualnie.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Jakie dokumenty są potrzebne do wniosku?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Podstawowe dokumenty to: dowód osobisty, zaświadczenie o dochodach (lub PIT), wyciągi bankowe z ostatnich 3 miesięcy. Dla firm dodatkowo: KRS, NIP, bilans i rachunek zysków i strat. Dokładną listę dokumentów otrzymasz po wstępnej ocenie wniosku.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Czy pobieracie prowizję za pośrednictwo?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Naszą prowizję pokrywa instytucja finansowa, która udziela kredytu. Od klienta nie pobieramy żadnych opłat za doradztwo i pośrednictwo. Płacisz tylko wtedy, gdy otrzymasz finansowanie i jesteś z niego zadowolony.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Jaka jest minimalna i maksymalna kwota kredytu?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Kwoty finansowania zależą od produktu: kredyty osobiste od 10 000 zł do 500 000 zł, kredyty dla firm od 50 000 zł do 5 000 000 zł, a przy finansowaniu z banków spółdzielczych nawet do 170 mln zł. Dokładne limity ustalamy po analizie Twojej sytuacji finansowej.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Czy oferujecie finansowanie dla osób pracujących za granicą?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tak, mamy specjalne produkty dla osób zatrudnionych za granicą. Pomagamy w tłumaczeniu dokumentów i dostosowaniu wniosku do wymogów polskich instytucji finansowych. Współpracujemy z bankami akceptującymi dochody zagraniczne.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Co to jest leasing z cashbackiem?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Leasing z cashbackiem to innowacyjny produkt dla firm, który pozwala na zwrot części wpłaconych środków. Po spełnieniu określonych warunków umowy, część opłaconych rat zostaje zwrócona, co znacząco poprawia płynność finansową firmy.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Czy świadczycie usługi online?</h3>
+                            <div class="faq-toggle">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Tak, cały proces od złożenia wniosku po podpisanie umowy może odbyć się zdalnie. Wykorzystujemy bezpieczne platformy do przesyłania dokumentów i podpisu elektronicznego. Spotkania osobiste organizujemy tylko gdy jest taka potrzeba.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer-component"></footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

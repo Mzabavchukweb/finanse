@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - Elite Capital Management - skontaktuj się z ekspertami finansów</title>
+    <meta name="description" content="Skontaktuj się z Elite Capital Management. Profesjonalne doradztwo finansowe, szybki kontakt i kompleksowa obsługa. Jesteśmy do Państwa dyspozycji.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Premium Particle Background -->
+    <div class="particles-background" id="particles"></div>
+
+    <header id="header-component"></header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="container">
+                <div class="contact-hero-content">
+                    <h1>Skontaktuj się z nami</h1>
+                    <p class="hero-subtitle">Jesteśmy gotowi pomóc w realizacji Państwa celów finansowych</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Divider -->
+        <div class="floating-divider"></div>
+
+        <section class="contact-methods">
+            <div class="container">
+                <h2>Sposoby kontaktu</h2>
+                <div class="contact-grid">
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Telefoniczny</h3>
+                        <p>Bezpośredni kontakt z naszymi ekspertami</p>
+                        <div class="method-details">
+                            <a href="tel:+48600494868" class="contact-link">
+                                <strong>+48 600 494 868</strong>
+                            </a>
+                            <span class="availability">Pon-Pt: 8:00-18:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>E-mail</h3>
+                        <p>Napisz do nas - odpowiadamy w 2h</p>
+                        <div class="method-details">
+                            <a href="mailto:biuro@elitecapitalmanagement.pl" class="contact-link">
+                                <strong>biuro@elitecapitalmanagement.pl</strong>
+                            </a>
+                            <span class="availability">24/7 dostępny</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h3>Spotkanie osobiste</h3>
+                        <p>Umów się na bezpłatną konsultację</p>
+                        <div class="method-details">
+                            <a href="#contact-form" class="contact-link">
+                                <strong>Umów spotkanie</strong>
+                            </a>
+                            <span class="availability">Według umowy</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-method">
+                        <div class="method-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>WhatsApp Business</h3>
+                        <p>Szybki kontakt przez komunikator</p>
+                        <div class="method-details">
+                            <a href="https://wa.me/48600494868" class="contact-link" target="_blank">
+                                <strong>Napisz na WhatsApp</strong>
+                            </a>
+                            <span class="availability">Pon-Pt: 8:00-20:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Divider -->
+        <div class="floating-divider"></div>
+
+        <section class="contact-main" id="contact-form">
+            <div class="container">
+                <div class="contact-content">
+                    <div class="contact-form-section">
+                        <h2>Formularz kontaktowy</h2>
+                        <p class="form-description">Wypełnij formularz, a nasz ekspert skontaktuje się z Tobą w ciągu 2 godzin roboczych</p>
+                        
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="name" name="name" placeholder=" " required>
+                                    <label for="name">Imię i nazwisko *</label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="text" id="company" name="company" placeholder=" ">
+                                    <label for="company">Nazwa firmy</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="email" id="email" name="email" placeholder=" " required>
+                                    <label for="email">Adres e-mail *</label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="tel" id="phone" name="phone" placeholder=" " required>
+                                    <label for="phone">Numer telefonu *</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <select id="product" name="product" required>
+                                    <option value="">Wybierz rodzaj finansowania</option>
+                                    <optgroup label="Kredyty osobiste">
+                                        <option value="kredyt-osobisty">Kredyt gotówkowy</option>
+                                        <option value="kredyt-zagranica">Kredyt dla pracujących za granicą</option>
+                                        <option value="kredyt-erif">Kredyt z wpisem w ERIF</option>
+                                        <option value="pozyczka-prywatna">Pożyczka prywatna pod hipotekę</option>
+                                    </optgroup>
+                                    <optgroup label="Finansowanie firm">
+                                        <option value="kredyt-jdg">Kredyt dla JDG</option>
+                                        <option value="kredyt-spolka">Kredyt dla spółki z o.o.</option>
+                                        <option value="kredyt-bez-bik">Kredyt bez BIK zarządu</option>
+                                        <option value="finansowanie-pozabankowe">Finansowanie pozabankowe</option>
+                                        <option value="banki-spoldzielcze">Banki spółdzielcze</option>
+                                    </optgroup>
+                                    <optgroup label="Leasing i faktoring">
+                                        <option value="leasing-operacyjny">Leasing operacyjny</option>
+                                        <option value="leasing-konsumencki">Leasing konsumencki</option>
+                                        <option value="leasing-bez-bik">Leasing bez BIK/KRD/BAZ</option>
+                                        <option value="leasing-cashback">Leasing z cashbackiem</option>
+                                        <option value="faktoring">Faktoring</option>
+                                    </optgroup>
+                                    <optgroup label="Specjalistyczne">
+                                        <option value="finansowanie-deweloperzy">Finansowanie dla deweloperów</option>
+                                        <option value="finansowanie-rolnicy">Finansowanie dla rolników</option>
+                                        <option value="inne">Inne - opiszę w wiadomości</option>
+                                    </optgroup>
+                                </select>
+                                <label for="product">Rodzaj finansowania *</label>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="number" id="amount" name="amount" placeholder=" " min="10000" max="200000000">
+                                    <label for="amount">Kwota finansowania (zł)</label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <select id="urgency" name="urgency">
+                                        <option value="">Wybierz priorytet</option>
+                                        <option value="niski">Niski - mogę poczekać</option>
+                                        <option value="sredni">Średni - w ciągu miesiąca</option>
+                                        <option value="wysoki">Wysoki - w ciągu tygodnia</option>
+                                        <option value="natychmiastowy">Natychmiastowy - ASAP</option>
+                                    </select>
+                                    <label for="urgency">Priorytet sprawy</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <textarea id="message" name="message" rows="5" placeholder=" "></textarea>
+                                <label for="message">Dodatkowe informacje</label>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="privacy-policy" name="privacy-policy" required>
+                                <label for="privacy-policy" class="checkbox-label">
+                                    Wyrażam zgodę na przetwarzanie moich danych osobowych zgodnie z 
+                                    <a href="polityka-prywatnosci.html" target="_blank">Polityką Prywatności</a> *
+                                </label>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="marketing" name="marketing">
+                                <label for="marketing" class="checkbox-label">
+                                    Wyrażam zgodę na otrzymywanie informacji marketingowych
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="submit-button">
+                                <i class="fas fa-paper-plane"></i>
+                                Wyślij zapytanie
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="company-info-section">
+                        <div class="company-info">
+                            <h3>Elite Capital Management SP. Z O.O.</h3>
+                            
+                            <div class="info-group">
+                                <h4>Dane kontaktowe</h4>
+                                <div class="company-details">
+                                    <p><i class="fas fa-map-marker-alt"></i> Sienna 9, 70-542 Szczecin</p>
+                                    <p><i class="fas fa-phone"></i> <a href="tel:+48600494868">+48 600 494 868</a></p>
+                                    <p><i class="fas fa-envelope"></i> <a href="mailto:biuro@elitecapitalmanagement.pl">biuro@elitecapitalmanagement.pl</a></p>
+                                    <p><i class="fas fa-globe"></i> <a href="https://elitecapitalmanagement.pl">www.elitecapitalmanagement.pl</a></p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <h4>Dane rejestrowe</h4>
+                                <div class="company-numbers">
+                                    <p><strong>NIP:</strong> 7561989101</p>
+                                    <p><strong>REGON:</strong> 385302808</p>
+                                    <p><strong>KRS:</strong> 0000823510</p>
+                                    <p><strong>Kapitał zakładowy:</strong> 100 000 zł</p>
+                                </div>
+                            </div>
+                            
+                            <div class="info-group">
+                                <h4>Godziny pracy</h4>
+                                <div class="working-hours">
+                                    <p><strong>Poniedziałek - Piątek:</strong> 8:00 - 18:00</p>
+                                    <p><strong>Sobota:</strong> 9:00 - 14:00</p>
+                                    <p><strong>Niedziela:</strong> Zamknięte</p>
+                                    <p class="emergency-note">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        W pilnych sprawach dzwonimy także po godzinach
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="map-container">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2378.8858542784244!2d14.553464!3d53.4293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47aa093eddaed87d%3A0x4e96ba8b4d0e1c0!2sSienna%209%2C%2070-542%20Szczecin!5e0!3m2!1spl!2spl!4v1635000000000!5m2!1spl!2spl"
+                                width="100%"
+                                height="300"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Floating Divider -->
+        <div class="floating-divider"></div>
+
+        <section class="contact-cta">
+            <div class="container">
+                <div class="cta-content">
+                    <h2>Nie zwlekaj - skontaktuj się już dziś!</h2>
+                    <p>Każdego dnia, który mijaa bez podjęcia działań finansowych, możesz tracić potencjalne zyski. Nasi eksperci pomogą Ci znaleźć najlepsze rozwiązanie w najkrótszym czasie.</p>
+                    <div class="cta-buttons">
+                        <a href="tel:+48600494868" class="cta-primary">
+                            <i class="fas fa-phone"></i>
+                            Zadzwoń teraz
+                        </a>
+                        <a href="mailto:biuro@elitecapitalmanagement.pl" class="cta-secondary">
+                            <i class="fas fa-envelope"></i>
+                            Napisz e-mail
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer-component"></footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
