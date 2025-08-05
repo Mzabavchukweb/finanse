@@ -2568,17 +2568,20 @@ header {
         rgba(15, 30, 47, 0.3) 50%, 
         var(--dark-navy) 100%);
     position: relative;
+    min-height: 800px;
 }
 
 .legal-document {
     max-width: 900px;
     margin: 0 auto;
-    background: rgba(13, 27, 42, 0.6);
+    background: rgba(13, 27, 42, 0.8);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(212, 175, 55, 0.1);
     border-radius: var(--border-radius-lg);
     padding: var(--space-3xl);
     box-shadow: var(--shadow-card);
+    position: relative;
+    z-index: 2;
 }
 
 .legal-document h2 {
@@ -2602,10 +2605,11 @@ header {
 
 .legal-section p {
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     margin-bottom: var(--space-md);
     font-weight: 300;
     max-width: none;
+    line-height: 1.7;
 }
 
 .legal-section ul {
@@ -2615,10 +2619,11 @@ header {
 
 .legal-section li {
     font-size: 15px;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     margin-bottom: var(--space-sm);
     font-weight: 300;
     line-height: 1.6;
+    padding-left: var(--space-sm);
 }
 
 .legal-section strong {
@@ -2629,11 +2634,12 @@ header {
 .company-box,
 .authority-box,
 .contact-box {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: var(--border-radius-sm);
     padding: var(--space-lg);
     margin: var(--space-lg) 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .company-box p,
@@ -3435,13 +3441,32 @@ header {
 
 /* Footer */
 footer {
-    background-color: #0D1B2A;
-    padding: var(--space-section) 0 var(--space-xl);
-    border-top: 1px solid #22354D;
+    background: linear-gradient(180deg, 
+        var(--dark-navy) 0%, 
+        rgba(13, 27, 42, 0.95) 50%, 
+        #0A1620 100%);
+    padding: calc(var(--space-section) * 1.2) 0 var(--space-xl);
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
     margin-top: var(--space-section);
     opacity: 0;
     transform: translateY(40px);
     transition: all 0.6s ease;
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.01) 0%, transparent 50%);
+    pointer-events: none;
 }
 
 footer.fade-in {
@@ -3451,40 +3476,80 @@ footer.fade-in {
 
 .footer-content {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr 1px 1fr;
     gap: var(--space-2xl);
     margin-bottom: var(--space-2xl);
     align-items: start;
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .footer-separator {
     width: 1px;
     height: 200px;
-    background: #22354D;
+    background: linear-gradient(180deg, 
+        transparent 0%, 
+        rgba(212, 175, 55, 0.2) 20%, 
+        rgba(212, 175, 55, 0.4) 50%, 
+        rgba(212, 175, 55, 0.2) 80%, 
+        transparent 100%);
     justify-self: center;
+    position: relative;
+}
+
+.footer-separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-gold);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
 }
 
 .footer-section h3 {
-    font-size: 24px;
-    font-weight: 300;
-    margin-bottom: 28px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: var(--space-lg);
     letter-spacing: 0.5px;
-    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+    color: var(--primary-gold);
+    text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    position: relative;
+    text-transform: uppercase;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-gold) 0%, transparent 100%);
+    border-radius: 1px;
 }
 
 .footer-section p,
 .footer-section a {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.85);
     text-decoration: none;
-    font-size: 15px;
-    line-height: 1.8;
+    font-size: 13px;
+    line-height: 1.6;
     font-weight: 300;
     transition: all 0.3s ease;
+    margin-bottom: var(--space-xs);
 }
 
 .footer-section a {
     position: relative;
-    padding: 4px 0;
+    padding: 2px 0;
+    display: inline-block;
 }
 
 .footer-section a::after {
@@ -3494,13 +3559,15 @@ footer.fade-in {
     left: 0;
     width: 0;
     height: 1px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.4) 100%);
+    background: linear-gradient(90deg, var(--primary-gold) 0%, rgba(212, 175, 55, 0.6) 100%);
     transition: width 0.3s ease;
+    border-radius: 1px;
 }
 
 .footer-section a:hover {
-    color: #FFFFFF;
-    transform: translateX(4px);
+    color: var(--primary-gold);
+    transform: translateX(6px);
+    text-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
 }
 
 .footer-section a:hover::after {
@@ -3510,18 +3577,37 @@ footer.fade-in {
 .footer-nav {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-sm);
+}
+
+.footer-nav a {
+    padding: var(--space-xs) 0;
+    border-radius: var(--border-radius-sm);
+    transition: all 0.3s ease;
+}
+
+.footer-nav a:hover {
+    background: rgba(212, 175, 55, 0.1);
+    padding-left: var(--space-sm);
+    border-radius: var(--border-radius-sm);
+    color: var(--primary-gold);
 }
 
 .footer-bottom {
     text-align: center;
-    padding-top: 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.5);
+    padding-top: var(--space-xl);
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
     position: relative;
     z-index: 2;
     font-weight: 300;
+    background: rgba(0, 0, 0, 0.2);
+    margin: 0 calc(-1 * var(--space-lg));
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+    border-radius: var(--border-radius-sm);
+    backdrop-filter: blur(10px);
 }
 
 /* Responsive Design */
@@ -3644,6 +3730,10 @@ footer.fade-in {
         grid-template-columns: 1fr;
         gap: 40px;
         text-align: center;
+    }
+    
+    .footer-separator {
+        display: none;
     }
     
     footer {

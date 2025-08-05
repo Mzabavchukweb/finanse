@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeFAQ();
     initializeSmoothSections();
     initializeServicesTabs();
+    initializeCookieConsent();
 });
 
 // Load Header Component
@@ -107,11 +108,19 @@ function loadFooterComponent() {
                         <nav class="footer-nav">
                             <a href="polityka-prywatnosci.html">Polityka prywatności</a>
                             <a href="regulamin.html">Regulamin usług</a>
+                            <a href="#" onclick="showCookieConsent()">Ustawienia cookies</a>
+                            <a href="#" onclick="showGDPRInfo()">Informacje RODO</a>
                         </nav>
                     </div>
                 </div>
                 <div class="footer-bottom">
                     <p>&copy; ${new Date().getFullYear()} Elite Capital Management SP. Z O.O. Wszystkie prawa zastrzeżone.</p>
+                    <p class="gdpr-notice">
+                        <i class="fas fa-shield-alt"></i>
+                        Przetwarzanie danych zgodnie z RODO. 
+                        <a href="polityka-prywatnosci.html">Polityka Prywatności</a> | 
+                        <a href="regulamin.html">Regulamin</a>
+                    </p>
                 </div>
             </div>
         `;
@@ -207,7 +216,7 @@ function initializeContactForm() {
             });
             
             // Simple validation
-            const requiredFields = ['name', 'email', 'phone', 'product'];
+            const requiredFields = ['name', 'email', 'phone', 'product', 'privacy-policy', 'data-sharing'];
             let isValid = true;
             
             requiredFields.forEach(field => {
@@ -700,3 +709,535 @@ function initializeServicesTabs() {
 }
 
 // Custom cursor removed for better UX
+
+// GDPR Compliance Functions
+function showCookieConsent() {
+    const consentHtml = `
+        <div id="cookieConsentModal" class="gdpr-modal">
+            <div class="gdpr-modal-content">
+                <div class="gdpr-modal-header">
+                    <h3>Ustawienia plików cookies</h3>
+                    <button onclick="closeGDPRModal('cookieConsentModal')" class="gdpr-close">&times;</button>
+                </div>
+                <div class="gdpr-modal-body">
+                    <p>Nasza strona internetowa wykorzystuje pliki cookies w celu:</p>
+                    <ul>
+                        <li><strong>Niezbędne cookies:</strong> Zapewnienie prawidłowego funkcjonowania strony</li>
+                        <li><strong>Analityczne cookies:</strong> Analiza ruchu na stronie i poprawa jej funkcjonalności</li>
+                        <li><strong>Marketingowe cookies:</strong> Personalizacja treści reklamowych</li>
+                    </ul>
+                    <div class="cookie-settings">
+                        <div class="cookie-option">
+                            <label>
+                                <input type="checkbox" checked disabled>
+                                <span>Niezbędne cookies (zawsze aktywne)</span>
+                            </label>
+                        </div>
+                        <div class="cookie-option">
+                            <label>
+                                <input type="checkbox" id="analyticsCookies">
+                                <span>Analityczne cookies</span>
+                            </label>
+                        </div>
+                        <div class="cookie-option">
+                            <label>
+                                <input type="checkbox" id="marketingCookies">
+                                <span>Marketingowe cookies</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="gdpr-modal-footer">
+                    <button onclick="saveCookieSettings()" class="gdpr-button">Zapisz ustawienia</button>
+                    <button onclick="acceptAllCookies()" class="gdpr-button gdpr-button-primary">Akceptuj wszystkie</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    if (!document.getElementById('cookieConsentModal')) {
+        document.body.insertAdjacentHTML('beforeend', consentHtml);
+    }
+    document.getElementById('cookieConsentModal').style.display = 'flex';
+}
+
+function showGDPRInfo() {
+    const gdprHtml = `
+        <div id="gdprInfoModal" class="gdpr-modal">
+            <div class="gdpr-modal-content">
+                <div class="gdpr-modal-header">
+                    <h3>Informacje o ochronie danych osobowych (RODO)</h3>
+                    <button onclick="closeGDPRModal('gdprInfoModal')" class="gdpr-close">&times;</button>
+                </div>
+                <div class="gdpr-modal-body">
+                    <h4>Administrator danych:</h4>
+                    <p><strong>Elite Capital Management Sp. z o.o.</strong><br>
+                    Sienna 9, 70-542 Szczecin<br>
+                    NIP: 7561989101 | REGON: 385302808 | KRS: 0000823510</p>
+                    
+                    <h4>Cele przetwarzania danych:</h4>
+                    <ul>
+                        <li>Świadczenie usług pośrednictwa finansowego</li>
+                        <li>Kontakt w sprawie zapytań</li>
+                        <li>Marketing bezpośredni (za zgodą)</li>
+                        <li>Wypełnienie obowiązków prawnych</li>
+                    </ul>
+                    
+                    <h4>Twoje prawa:</h4>
+                    <ul>
+                        <li>Prawo dostępu do danych</li>
+                        <li>Prawo sprostowania danych</li>
+                        <li>Prawo usunięcia danych</li>
+                        <li>Prawo ograniczenia przetwarzania</li>
+                        <li>Prawo przenoszenia danych</li>
+                        <li>Prawo sprzeciwu</li>
+                    </ul>
+                    
+                    <h4>Kontakt w sprawach RODO:</h4>
+                    <p>E-mail: <a href="mailto:rodo@elitecapitalmanagement.pl">rodo@elitecapitalmanagement.pl</a><br>
+                    Telefon: <a href="tel:+48600494868">+48 600 494 868</a></p>
+                    
+                    <p><strong>Szczegółowe informacje znajdziesz w <a href="polityka-prywatnosci.html">Polityce Prywatności</a>.</strong></p>
+                </div>
+                <div class="gdpr-modal-footer">
+                    <button onclick="closeGDPRModal('gdprInfoModal')" class="gdpr-button">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    if (!document.getElementById('gdprInfoModal')) {
+        document.body.insertAdjacentHTML('beforeend', gdprHtml);
+    }
+    document.getElementById('gdprInfoModal').style.display = 'flex';
+}
+
+function closeGDPRModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function saveCookieSettings() {
+    const analytics = document.getElementById('analyticsCookies').checked;
+    const marketing = document.getElementById('marketingCookies').checked;
+    
+    localStorage.setItem('cookieSettings', JSON.stringify({
+        analytics: analytics,
+        marketing: marketing,
+        timestamp: new Date().getTime()
+    }));
+    
+    closeGDPRModal('cookieConsentModal');
+    showNotification('Ustawienia cookies zostały zapisane.');
+}
+
+function acceptAllCookies() {
+    localStorage.setItem('cookieSettings', JSON.stringify({
+        analytics: true,
+        marketing: true,
+        timestamp: new Date().getTime()
+    }));
+    
+    closeGDPRModal('cookieConsentModal');
+    showNotification('Wszystkie cookies zostały zaakceptowane.');
+}
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'gdpr-notification';
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #1e3a8a;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Add GDPR modal styles
+const gdprStyles = document.createElement('style');
+gdprStyles.textContent = `
+    .gdpr-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        backdrop-filter: blur(5px);
+    }
+    
+    .gdpr-modal-content {
+        background: #0D1B2A;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        max-width: 600px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+    
+    .gdpr-modal-header {
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .gdpr-modal-header h3 {
+        margin: 0;
+        color: #E5E7EB;
+        font-size: 1.5rem;
+    }
+    
+    .gdpr-close {
+        background: none;
+        border: none;
+        color: #E5E7EB;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.3s;
+    }
+    
+    .gdpr-close:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .gdpr-modal-body {
+        padding: 20px;
+        color: #E5E7EB;
+    }
+    
+    .gdpr-modal-body h4 {
+        color: #60A5FA;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .gdpr-modal-body ul {
+        margin: 10px 0;
+        padding-left: 20px;
+    }
+    
+    .gdpr-modal-body li {
+        margin: 5px 0;
+    }
+    
+    .cookie-settings {
+        margin: 20px 0;
+    }
+    
+    .cookie-option {
+        margin: 15px 0;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+    }
+    
+    .cookie-option label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .cookie-option input[type="checkbox"] {
+        margin-right: 10px;
+        width: 18px;
+        height: 18px;
+    }
+    
+    .gdpr-modal-footer {
+        padding: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+    
+    .gdpr-button {
+        padding: 10px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: transparent;
+        color: #E5E7EB;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .gdpr-button:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .gdpr-button-primary {
+        background: #60A5FA;
+        border-color: #60A5FA;
+        color: white;
+    }
+    
+    .gdpr-button-primary:hover {
+        background: #3B82F6;
+    }
+    
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    @media (max-width: 768px) {
+        .gdpr-modal-content {
+            width: 95%;
+            margin: 10px;
+        }
+        
+        .gdpr-modal-footer {
+            flex-direction: column;
+        }
+        
+        .gdpr-button {
+            width: 100%;
+        }
+    }
+`;
+document.head.appendChild(gdprStyles);
+
+// Initialize Cookie Consent Banner
+function initializeCookieConsent() {
+    // Check if user has already made a choice
+    const cookieSettings = localStorage.getItem('cookieSettings');
+    if (cookieSettings) return; // User has already made a choice
+    
+    // Show cookie consent banner after 2 seconds
+    setTimeout(() => {
+        showCookieConsentBanner();
+    }, 2000);
+}
+
+function showCookieConsentBanner() {
+    const bannerHtml = `
+        <div id="cookieConsentBanner" class="cookie-banner">
+            <div class="cookie-banner-content">
+                <div class="cookie-banner-text">
+                    <h4>🍪 Używamy plików cookies</h4>
+                    <p>Używamy plików cookies, aby zapewnić najlepsze doświadczenia na naszej stronie. 
+                    Klikając "Akceptuję", zgadzasz się na użycie wszystkich plików cookies zgodnie z naszą 
+                    <a href="polityka-prywatnosci.html" target="_blank">Polityką Prywatności</a>.</p>
+                </div>
+                <div class="cookie-banner-buttons">
+                    <button onclick="acceptAllCookiesBanner()" class="cookie-btn cookie-btn-primary">Akceptuję</button>
+                    <button onclick="showCookieConsent()" class="cookie-btn cookie-btn-secondary">Ustawienia</button>
+                    <button onclick="rejectCookies()" class="cookie-btn cookie-btn-secondary">Odrzuć</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    if (!document.getElementById('cookieConsentBanner')) {
+        document.body.insertAdjacentHTML('beforeend', bannerHtml);
+    }
+}
+
+function acceptAllCookiesBanner() {
+    localStorage.setItem('cookieSettings', JSON.stringify({
+        analytics: true,
+        marketing: true,
+        timestamp: new Date().getTime()
+    }));
+    
+    hideCookieBanner();
+    showNotification('Dziękujemy! Cookies zostały zaakceptowane.');
+}
+
+function rejectCookies() {
+    localStorage.setItem('cookieSettings', JSON.stringify({
+        analytics: false,
+        marketing: false,
+        timestamp: new Date().getTime()
+    }));
+    
+    hideCookieBanner();
+    showNotification('Cookies zostały odrzucone. Niektóre funkcje mogą być ograniczone.');
+}
+
+function hideCookieBanner() {
+    const banner = document.getElementById('cookieConsentBanner');
+    if (banner) {
+        banner.style.animation = 'slideDown 0.5s ease';
+        setTimeout(() => {
+            if (banner.parentNode) {
+                banner.parentNode.removeChild(banner);
+            }
+        }, 500);
+    }
+}
+
+// Add cookie banner styles
+const cookieBannerStyles = document.createElement('style');
+cookieBannerStyles.textContent = `
+    .cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #0D1B2A 0%, #1e3a8a 100%);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 9999;
+        animation: slideUp 0.5s ease;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .cookie-banner-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+    
+    .cookie-banner-text h4 {
+        margin: 0 0 8px 0;
+        color: #E5E7EB;
+        font-size: 1.1rem;
+    }
+    
+    .cookie-banner-text p {
+        margin: 0;
+        color: #D1D5DB;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    .cookie-banner-text a {
+        color: #60A5FA;
+        text-decoration: none;
+    }
+    
+    .cookie-banner-text a:hover {
+        text-decoration: underline;
+    }
+    
+    .cookie-banner-buttons {
+        display: flex;
+        gap: 10px;
+        flex-shrink: 0;
+    }
+    
+    .cookie-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
+    
+    .cookie-btn-primary {
+        background: #60A5FA;
+        color: white;
+    }
+    
+    .cookie-btn-primary:hover {
+        background: #3B82F6;
+        transform: translateY(-1px);
+    }
+    
+    .cookie-btn-secondary {
+        background: transparent;
+        color: #E5E7EB;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .cookie-btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+    
+    @keyframes slideDown {
+        from { transform: translateY(0); }
+        to { transform: translateY(100%); }
+    }
+    
+    @media (max-width: 768px) {
+        .cookie-banner-content {
+            flex-direction: column;
+            text-align: center;
+            padding: 15px;
+        }
+        
+        .cookie-banner-buttons {
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .cookie-btn {
+            width: 100%;
+        }
+    }
+    
+    .gdpr-notice {
+        font-size: 0.8rem;
+        color: #9CA3AF;
+        margin-top: 10px;
+        text-align: center;
+    }
+    
+    .gdpr-notice i {
+        margin-right: 5px;
+        color: #60A5FA;
+    }
+    
+    .gdpr-notice a {
+        color: #60A5FA;
+        text-decoration: none;
+    }
+    
+    .gdpr-notice a:hover {
+        text-decoration: underline;
+    }
+`;
+document.head.appendChild(cookieBannerStyles);
