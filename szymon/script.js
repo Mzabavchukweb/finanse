@@ -44,9 +44,9 @@ function loadHeaderComponent() {
                         <nav>
                             <ul class="nav-menu">
                                 <li><a href="index.html">Home</a></li>
-                                <li><a href="o-nas.html">O nas</a></li>
-                                <li><a href="uslugi.html">Usługi</a></li>
-                                <li><a href="kontakt.html">Kontakt</a></li>
+                                <li><a href="pages/o-nas.html">O nas</a></li>
+                                <li><a href="pages/uslugi.html">Usługi</a></li>
+                                <li><a href="pages/kontakt.html">Kontakt</a></li>
                             </ul>
                         </nav>
                         <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -57,9 +57,9 @@ function loadHeaderComponent() {
                 <div class="mobile-menu" id="mobileMenu">
                     <ul class="mobile-nav-menu">
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="o-nas.html">O nas</a></li>
-                        <li><a href="uslugi.html">Usługi</a></li>
-                        <li><a href="kontakt.html">Kontakt</a></li>
+                        <li><a href="pages/o-nas.html">O nas</a></li>
+                        <li><a href="pages/uslugi.html">Usługi</a></li>
+                        <li><a href="pages/kontakt.html">Kontakt</a></li>
                     </ul>
                     <div class="mobile-contact-info">
                         <a href="tel:+48600494868">+48 600 494 868</a>
@@ -97,17 +97,17 @@ function loadFooterComponent() {
                         <h3>Nawigacja</h3>
                         <nav class="footer-nav">
                             <a href="index.html">Home</a>
-                            <a href="o-nas.html">O nas</a>
-                            <a href="uslugi.html">Usługi</a>
-                            <a href="kontakt.html">Kontakt</a>
+                            <a href="pages/o-nas.html">O nas</a>
+                            <a href="pages/uslugi.html">Usługi</a>
+                            <a href="pages/kontakt.html">Kontakt</a>
                         </nav>
                     </div>
                     <div class="footer-separator"></div>
                     <div class="footer-section">
                         <h3>Dokumenty prawne</h3>
                         <nav class="footer-nav">
-                            <a href="polityka-prywatnosci.html">Polityka prywatności</a>
-                            <a href="regulamin.html">Regulamin usług</a>
+                            <a href="pages/polityka-prywatnosci.html">Polityka prywatności</a>
+                            <a href="pages/regulamin.html">Regulamin usług</a>
                             <a href="#" onclick="showCookieConsent()">Ustawienia cookies</a>
                             <a href="#" onclick="showGDPRInfo()">Informacje RODO</a>
                         </nav>
@@ -118,8 +118,8 @@ function loadFooterComponent() {
                     <p class="gdpr-notice">
                         <i class="fas fa-shield-alt"></i>
                         Przetwarzanie danych zgodnie z RODO. 
-                        <a href="polityka-prywatnosci.html">Polityka Prywatności</a> | 
-                        <a href="regulamin.html">Regulamin</a>
+                        <a href="pages/polityka-prywatnosci.html">Polityka Prywatności</a> | 
+                        <a href="pages/regulamin.html">Regulamin</a>
                     </p>
                 </div>
             </div>
@@ -797,7 +797,7 @@ function showGDPRInfo() {
                     <p>E-mail: <a href="mailto:rodo@elitecapitalmanagement.pl">rodo@elitecapitalmanagement.pl</a><br>
                     Telefon: <a href="tel:+48600494868">+48 600 494 868</a></p>
                     
-                    <p><strong>Szczegółowe informacje znajdziesz w <a href="polityka-prywatnosci.html">Polityce Prywatności</a>.</strong></p>
+                    <p><strong>Szczegółowe informacje znajdziesz w <a href="pages/polityka-prywatnosci.html">Polityce Prywatności</a>.</strong></p>
                 </div>
                 <div class="gdpr-modal-footer">
                     <button onclick="closeGDPRModal('gdprInfoModal')" class="gdpr-button">Zamknij</button>
@@ -1057,7 +1057,7 @@ function showCookieConsentBanner() {
                     <h4>🍪 Używamy plików cookies</h4>
                     <p>Używamy plików cookies, aby zapewnić najlepsze doświadczenia na naszej stronie. 
                     Klikając "Akceptuję", zgadzasz się na użycie wszystkich plików cookies zgodnie z naszą 
-                    <a href="polityka-prywatnosci.html" target="_blank">Polityką Prywatności</a>.</p>
+                    <a href="pages/polityka-prywatnosci.html" target="_blank">Polityką Prywatności</a>.</p>
                 </div>
                 <div class="cookie-banner-buttons">
                     <button onclick="acceptAllCookiesBanner()" class="cookie-btn cookie-btn-primary">Akceptuję</button>
