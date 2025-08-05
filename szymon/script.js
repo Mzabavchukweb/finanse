@@ -21,10 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
 function loadHeaderComponent() {
     const headerElement = document.getElementById('header-component');
     if (headerElement) {
+        // Check if we're in pages directory
+        const isInPages = window.location.pathname.includes('/pages/');
+        const homeLink = isInPages ? '../index.html' : 'index.html';
+        const pagesPrefix = isInPages ? '' : 'pages/';
+        
         headerElement.innerHTML = `
             <div class="container">
                 <div class="header-content">
-                    <a href="index.html" class="logo">
+                                            <a href="${homeLink}" class="logo">
                         <div class="logo-icon">
                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
@@ -43,10 +48,10 @@ function loadHeaderComponent() {
                         </div>
                         <nav>
                             <ul class="nav-menu">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="pages/o-nas.html">O nas</a></li>
-                                <li><a href="pages/uslugi.html">Usługi</a></li>
-                                <li><a href="pages/kontakt.html">Kontakt</a></li>
+                                <li><a href="${homeLink}">Home</a></li>
+                                <li><a href="${pagesPrefix}o-nas.html">O nas</a></li>
+                                <li><a href="${pagesPrefix}uslugi.html">Usługi</a></li>
+                                <li><a href="${pagesPrefix}kontakt.html">Kontakt</a></li>
                             </ul>
                         </nav>
                         <button class="mobile-menu-toggle" id="mobileMenuToggle">
@@ -56,10 +61,10 @@ function loadHeaderComponent() {
                 </div>
                 <div class="mobile-menu" id="mobileMenu">
                     <ul class="mobile-nav-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="pages/o-nas.html">O nas</a></li>
-                        <li><a href="pages/uslugi.html">Usługi</a></li>
-                        <li><a href="pages/kontakt.html">Kontakt</a></li>
+                        <li><a href="${homeLink}">Home</a></li>
+                        <li><a href="${pagesPrefix}o-nas.html">O nas</a></li>
+                        <li><a href="${pagesPrefix}uslugi.html">Usługi</a></li>
+                        <li><a href="${pagesPrefix}kontakt.html">Kontakt</a></li>
                     </ul>
                     <div class="mobile-contact-info">
                         <a href="tel:+48600494868">+48 600 494 868</a>
@@ -75,6 +80,11 @@ function loadHeaderComponent() {
 function loadFooterComponent() {
     const footerElement = document.getElementById('footer-component');
     if (footerElement) {
+        // Check if we're in pages directory
+        const isInPages = window.location.pathname.includes('/pages/');
+        const homeLink = isInPages ? '../index.html' : 'index.html';
+        const pagesPrefix = isInPages ? '' : 'pages/';
+        
         footerElement.innerHTML = `
             <div class="container">
                 <div class="footer-content">
@@ -96,18 +106,18 @@ function loadFooterComponent() {
                     <div class="footer-section">
                         <h3>Nawigacja</h3>
                         <nav class="footer-nav">
-                            <a href="index.html">Home</a>
-                            <a href="pages/o-nas.html">O nas</a>
-                            <a href="pages/uslugi.html">Usługi</a>
-                            <a href="pages/kontakt.html">Kontakt</a>
+                            <a href="${homeLink}">Home</a>
+                            <a href="${pagesPrefix}o-nas.html">O nas</a>
+                            <a href="${pagesPrefix}uslugi.html">Usługi</a>
+                            <a href="${pagesPrefix}kontakt.html">Kontakt</a>
                         </nav>
                     </div>
                     <div class="footer-separator"></div>
                     <div class="footer-section">
                         <h3>Dokumenty prawne</h3>
                         <nav class="footer-nav">
-                            <a href="pages/polityka-prywatnosci.html">Polityka prywatności</a>
-                            <a href="pages/regulamin.html">Regulamin usług</a>
+                            <a href="${pagesPrefix}polityka-prywatnosci.html">Polityka prywatności</a>
+                            <a href="${pagesPrefix}regulamin.html">Regulamin usług</a>
                             <a href="#" onclick="showCookieConsent()">Ustawienia cookies</a>
                             <a href="#" onclick="showGDPRInfo()">Informacje RODO</a>
                         </nav>
@@ -118,8 +128,8 @@ function loadFooterComponent() {
                     <p class="gdpr-notice">
                         <i class="fas fa-shield-alt"></i>
                         Przetwarzanie danych zgodnie z RODO. 
-                        <a href="pages/polityka-prywatnosci.html">Polityka Prywatności</a> | 
-                        <a href="pages/regulamin.html">Regulamin</a>
+                        <a href="${pagesPrefix}polityka-prywatnosci.html">Polityka Prywatności</a> | 
+                        <a href="${pagesPrefix}regulamin.html">Regulamin</a>
                     </p>
                 </div>
             </div>
@@ -797,7 +807,7 @@ function showGDPRInfo() {
                     <p>E-mail: <a href="mailto:rodo@elitecapitalmanagement.pl">rodo@elitecapitalmanagement.pl</a><br>
                     Telefon: <a href="tel:+48600494868">+48 600 494 868</a></p>
                     
-                    <p><strong>Szczegółowe informacje znajdziesz w <a href="pages/polityka-prywatnosci.html">Polityce Prywatności</a>.</strong></p>
+                    <p><strong>Szczegółowe informacje znajdziesz w <a href="${pagesPrefix}polityka-prywatnosci.html">Polityce Prywatności</a>.</strong></p>
                 </div>
                 <div class="gdpr-modal-footer">
                     <button onclick="closeGDPRModal('gdprInfoModal')" class="gdpr-button">Zamknij</button>
@@ -1057,7 +1067,7 @@ function showCookieConsentBanner() {
                     <h4>🍪 Używamy plików cookies</h4>
                     <p>Używamy plików cookies, aby zapewnić najlepsze doświadczenia na naszej stronie. 
                     Klikając "Akceptuję", zgadzasz się na użycie wszystkich plików cookies zgodnie z naszą 
-                    <a href="pages/polityka-prywatnosci.html" target="_blank">Polityką Prywatności</a>.</p>
+                    <a href="${pagesPrefix}polityka-prywatnosci.html" target="_blank">Polityką Prywatności</a>.</p>
                 </div>
                 <div class="cookie-banner-buttons">
                     <button onclick="acceptAllCookiesBanner()" class="cookie-btn cookie-btn-primary">Akceptuję</button>
